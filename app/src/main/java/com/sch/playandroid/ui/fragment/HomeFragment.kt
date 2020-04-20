@@ -1,0 +1,170 @@
+package com.sch.playandroid.ui.fragment
+
+import android.os.Build
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.ImageView
+import androidx.core.widget.NestedScrollView
+import androidx.recyclerview.widget.LinearLayoutManager
+import cn.bingoogolapple.bgabanner.BGABanner
+import com.bumptech.glide.Glide
+import com.sch.lolcosmos.base.BaseFragment
+import com.sch.playandroid.R
+import com.sch.playandroid.adapter.HomeArticleAdapter
+import com.sch.playandroid.constants.Constants
+import com.sch.playandroid.entity.BannerBean
+import com.sch.playandroid.entity.HomeArticleBean
+import com.sch.playandroid.presenter.HomePresenterImpl
+import com.sch.playandroid.ui.activity.WebActivity
+import com.sch.playandroid.contract.HomeContract
+import kotlinx.android.synthetic.main.fragment_home.*
+
+
+class HomeFragment : BaseFragment(), HomeContract.IHomeView {
+    val presenter by lazy { HomePresenterImpl(this) }
+    val adapter by lazy { HomeArticleAdapter() }
+    val articleList by lazy { ArrayList<HomeArticleBean>() }
+    val bannerList by lazy { ArrayList<BannerBean>() }
+
+    private var articleIndex = 0
+
+
+    override fun getLayoutId(): Int {
+        return R.layout.fragment_home
+    }
+
+    override fun init(savedInstanceState: Bundle?) {
+        initListerer()
+        loadData()
+    }
+
+    /**
+     * 加载数据
+     * 初始化，网络出错重新加载，刷新均可使用
+     */
+    private fun loadData() {
+        //banner只加载一次
+        if (bannerList.size == 0) {
+            presenter.getBannerData()
+        }
+        articleList.clear()
+        adapter?.updata(articleList)
+        articleIndex = 0
+        presenter.getArticleData(articleIndex)
+    }
+
+
+    fun initListerer() {
+        //解决NestedScrollView和RecyclerView滑动不流畅问题
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            rlSearch.elevation = 10f
+            llRadius.elevation = 20f
+            rvHomeList.isNestedScrollingEnabled = false
+        }
+        //加载中动画
+        loadingTip.loading()
+        // 设置无网络时重新加载点击事件
+        loadingTip.setReloadListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                loadingTip.loading()
+                loadData()
+            }
+        })
+        rvHomeList.layoutManager = LinearLayoutManager(context)
+        rvHomeList.adapter = adapter
+        adapter.setOnItemClickListener(object : HomeArticleAdapter.OnItemClickListener {
+            override fun onClick(position: Int) {
+                intent(Bundle().apply {
+                    putString(Constants.WEB_URL, articleList[position].link)
+                    putString(Constants.WEB_TITLE, articleList[position].title)
+                }, WebActivity::class.java, false)
+            }
+        })
+        //下拉监听
+        refreshLayout.setOnRefreshListener {
+            loadData()
+        }
+        refreshLayout.setOnLoadMoreListener {
+            articleIndex++
+            presenter.getArticleData(articleIndex)
+        }
+        //NestedScrollView 滑动监听
+        nestedView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
+            val alpha = if (scrollY > 0) {
+                ivSearch.isEnabled = true
+                scrollY.toFloat() / (300).toFloat()
+            } else {
+                ivSearch.isEnabled = false
+                0f
+            }
+            rlSearch.alpha = alpha
+        })
+
+    }
+
+    private fun initBanners() {
+        banner.setAutoPlayAble(true)
+        val views: MutableList<View> = ArrayList()
+        bannerList.forEach { _ ->
+            views.add(
+                LayoutInflater.from(context).inflate(R.layout.banner_layout, null)
+                    .findViewById(R.id.ivBanner)
+            )
+        }
+        banner.setAdapter(object : BGABanner.Adapter<ImageView?, String> {
+            override fun fillBannerItem(
+                banner: BGABanner?,
+                itemView: ImageView?,
+                model: String?,
+                position: Int
+            ) {
+                itemView?.let {
+                    it.scaleType = ImageView.ScaleType.CENTER_CROP
+                    val bannerEntity = bannerList[position]
+                    Glide.with(itemView.context)
+                        .load(bannerEntity.imagePath)
+                        .into(it)
+                }
+            }
+        })
+        banner.setData(views)
+        //点击事件
+        banner.setDelegate(object : BGABanner.Delegate<ImageView, String> {
+            override fun onBannerItemClick(
+                banner: BGABanner?,
+                itemView: ImageView?,
+                model: String?,
+                position: Int
+            ) {
+                intent(Bundle().apply {
+                    putString(Constants.WEB_URL, bannerList[position].url)
+                    putString(Constants.WEB_TITLE, bannerList[position].title)
+                }, WebActivity::class.java, false)
+            }
+
+        })
+    }
+
+
+    override fun showBanner(list: List<BannerBean>) {
+        bannerList.addAll(list)
+        initBanners()
+    }
+
+    override fun onLoadArticleDatas(list: List<HomeArticleBean>) {
+        loadingTip.dismiss()
+        articleList.addAll(list)
+        adapter.updata(articleList)
+        if (articleIndex == 0) {
+            refreshLayout.finishRefresh()
+        } else {
+            refreshLayout.finishLoadMore()
+        }
+    }
+
+    override fun onError(msg: String) {
+        loadingTip.showInternetError()
+    }
+
+}

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ripple_bg"
+    android:paddingLeft="@dimen/padding"
+    android:paddingTop="@dimen/padding"
+    android:paddingRight="@dimen/padding">
+
+    <TextView
+        android:id="@+id/tvTag"
+        style="@style/text_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="置顶 " />
+
+    <TextView
+        android:id="@+id/tvAuthor"
+        style="@style/text_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tvTag"
+        tools:text="鸿洋" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        style="@style/text_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        tools:text="2020-03-08" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/text_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvDate"
+        android:layout_marginTop="10dp"
+        android:maxLines="3"
+        tools:text="分布式协调工具之zookeeper使用篇-Zookeeper系统核心模型" />
+
+
+    <TextView
+        android:id="@+id/tvChapterName"
+        style="@style/text_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTitle"
+        android:layout_marginTop="10dp"
+        tools:text="开发环境" />
+
+    <ImageView
+        android:id="@+id/ivCollect"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/tvChapterName"
+        android:layout_alignParentRight="true"
+        android:padding="5dp"
+        android:src="@mipmap/article_un_collect" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tvChapterName"
+        android:layout_marginTop="@dimen/padding"
+        android:background="@color/division_line" />
+</RelativeLayout>
