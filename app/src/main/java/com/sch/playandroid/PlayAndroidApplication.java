@@ -50,6 +50,7 @@ public class PlayAndroidApplication extends Application {
         super.onCreate();
         x.Ext.init(this);
         baseApplication = this;
+        //test
     }
 
     public static Context getContext() {
