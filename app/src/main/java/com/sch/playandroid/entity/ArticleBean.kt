@@ -1,6 +1,6 @@
 package com.sch.playandroid.entity
 
-data class HomeArticleBean(
+data class ArticleBean(
     var apkLink: String,
     var audit: Int,
     var author: String,
@@ -26,14 +26,14 @@ data class HomeArticleBean(
     var shareUser: String,
     var superChapterId: Int,
     var superChapterName: String,
-    var tags: List<Tag>,
+    var tags: List<ArticleTag>,
     var title: String,
     var type: Int,
     var userId: Int,
     var visible: Int,
     var zan: Int
 )
-data class Tag(
+data class ArticleTag(
     var name: String,
     var url: String
 )

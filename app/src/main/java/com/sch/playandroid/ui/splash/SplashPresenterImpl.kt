@@ -1,7 +1,7 @@
-package com.sch.playandroid.presenter
+package com.sch.playandroid.ui.splash
 
 import android.content.Context
-import com.sch.playandroid.contract.SplashPresenterConstant
+import com.sch.playandroid.ui.splash.SplashPresenterConstant
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.runtime.Permission
 

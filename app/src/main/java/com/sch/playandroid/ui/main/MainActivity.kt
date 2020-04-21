@@ -1,14 +1,14 @@
-package com.sch.playandroid.ui.activity
+package com.sch.playandroid.ui.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.sch.playandroid.R
 import com.sch.playandroid.base.BaseActivity
 import com.sch.playandroid.ui.fragment.MeFragment
-import com.sch.playandroid.ui.fragment.ProjectFragment
+import com.sch.playandroid.ui.main.tab.TabFragment
 import com.sch.playandroid.ui.fragment.SquareFragment
 import com.sch.playandroid.ui.fragment.WXFragment
-import com.sch.playandroid.ui.fragment.HomeFragment
+import com.sch.playandroid.ui.main.home.HomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
@@ -41,7 +41,7 @@ class MainActivity : BaseActivity() {
 
     private fun initFragment() {
         fragments.add(HomeFragment())
-        fragments.add(ProjectFragment())
+        fragments.add(TabFragment())
         fragments.add(SquareFragment())
         fragments.add(WXFragment())
         fragments.add(MeFragment())

@@ -1,7 +1,7 @@
-package com.sch.playandroid.contract
+package com.sch.playandroid.ui.main.home
 
+import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.entity.BannerBean
-import com.sch.playandroid.entity.HomeArticleBean
 
 
 class HomeContract {
@@ -13,7 +13,7 @@ class HomeContract {
 
     interface IHomeView {
         fun showBanner(list: List<BannerBean>)
-        fun onLoadArticleDatas(list: List<HomeArticleBean>)
+        fun onLoadArticleDatas(list: List<ArticleBean>)
         fun onError(msg: String)
     }
 }

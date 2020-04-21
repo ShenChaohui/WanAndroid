@@ -1,4 +1,4 @@
-package com.sch.playandroid.ui.activity
+package com.sch.playandroid.ui.web
 
 import android.annotation.SuppressLint
 import android.os.Bundle

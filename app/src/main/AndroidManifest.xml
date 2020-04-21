@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.sch.playandroid.ui.activity.SplashActivity"
+            android:name="com.sch.playandroid.ui.splash.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,8 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.sch.playandroid.ui.activity.MainActivity" />
-        <activity android:name="com.sch.playandroid.ui.activity.WebActivity" />
+        <activity android:name="com.sch.playandroid.ui.main.MainActivity" />
+        <activity android:name="com.sch.playandroid.ui.web.WebActivity" />
     </application>
 
 </manifest>

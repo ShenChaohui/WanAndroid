@@ -1,9 +1,8 @@
-package com.sch.playandroid.presenter
+package com.sch.playandroid.ui.main.home
 
+import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.entity.BannerBean
-import com.sch.playandroid.entity.HomeArticleBean
 import com.sch.playandroid.util.GsonUtil
-import com.sch.playandroid.contract.HomeContract
 import org.json.JSONObject
 import org.xutils.common.Callback
 import org.xutils.http.RequestParams
@@ -50,7 +49,7 @@ class HomePresenterImpl(var view: HomeContract.IHomeView) :
                 val list =
                     GsonUtil.parseJsonArrayWithGson(
                         obj.getJSONObject("data").getString("datas"),
-                        HomeArticleBean::class.java
+                        ArticleBean::class.java
                     )
                 view?.onLoadArticleDatas(list)
 

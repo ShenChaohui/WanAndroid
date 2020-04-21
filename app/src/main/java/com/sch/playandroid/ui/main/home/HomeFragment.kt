@@ -1,4 +1,4 @@
-package com.sch.playandroid.ui.fragment
+package com.sch.playandroid.ui.main.home
 
 import android.os.Build
 import android.os.Bundle
@@ -11,20 +11,22 @@ import cn.bingoogolapple.bgabanner.BGABanner
 import com.bumptech.glide.Glide
 import com.sch.lolcosmos.base.BaseFragment
 import com.sch.playandroid.R
-import com.sch.playandroid.adapter.HomeArticleAdapter
+import com.sch.playandroid.adapter.ArticleAdapter
 import com.sch.playandroid.constants.Constants
+import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.entity.BannerBean
-import com.sch.playandroid.entity.HomeArticleBean
-import com.sch.playandroid.presenter.HomePresenterImpl
-import com.sch.playandroid.ui.activity.WebActivity
-import com.sch.playandroid.contract.HomeContract
+import com.sch.playandroid.ui.web.WebActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class HomeFragment : BaseFragment(), HomeContract.IHomeView {
-    val presenter by lazy { HomePresenterImpl(this) }
-    val adapter by lazy { HomeArticleAdapter() }
-    val articleList by lazy { ArrayList<HomeArticleBean>() }
+    val presenter by lazy {
+        HomePresenterImpl(
+            this
+        )
+    }
+    val adapter by lazy { ArticleAdapter() }
+    val articleList by lazy { ArrayList<ArticleBean>() }
     val bannerList by lazy { ArrayList<BannerBean>() }
 
     private var articleIndex = 0
@@ -73,7 +75,7 @@ class HomeFragment : BaseFragment(), HomeContract.IHomeView {
         })
         rvHomeList.layoutManager = LinearLayoutManager(context)
         rvHomeList.adapter = adapter
-        adapter.setOnItemClickListener(object : HomeArticleAdapter.OnItemClickListener {
+        adapter.setOnItemClickListener(object : ArticleAdapter.OnItemClickListener {
             override fun onClick(position: Int) {
                 intent(Bundle().apply {
                     putString(Constants.WEB_URL, articleList[position].link)
@@ -152,7 +154,7 @@ class HomeFragment : BaseFragment(), HomeContract.IHomeView {
         initBanners()
     }
 
-    override fun onLoadArticleDatas(list: List<HomeArticleBean>) {
+    override fun onLoadArticleDatas(list: List<ArticleBean>) {
         loadingTip.dismiss()
         articleList.addAll(list)
         adapter.updata(articleList)

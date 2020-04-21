@@ -1,4 +1,4 @@
-package com.sch.playandroid.contract
+package com.sch.playandroid.ui.splash
 
 import android.content.Context
 
