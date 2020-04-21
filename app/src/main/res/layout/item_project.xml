@@ -10,6 +10,7 @@
 
     <ImageView
         android:id="@+id/ivTitle"
+        android:scaleType="center"
         android:layout_width="95dp"
         android:layout_height="95dp" />
 

@@ -23,8 +23,6 @@ class ImageLoad{
          * 默认加载
          */
         fun load(imageView: ImageView,url:String?){
-            val factory =
-                DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
             url.let {
                 Glide.with(imageView.context)
                     .load(url)
@@ -38,14 +36,8 @@ class ImageLoad{
 
         /**
          * 加载圆角图片
-         * 鉴于今天下午的表现，面对赵老师，我一次又一次的食言，
-         * 辜负了您对我的栽培和厚望，于此我感到非常的羞愧。睡醒后本应该和赵老师谈谈情说说爱，不料自己记性太差，
-         * 忘记睡前说的话，于此我感到非常懊恼。面对今天的错误，我将作出深刻的检讨，保证以后绝不再犯，如有再犯绝不姑息。
          */
         fun loadRadius(imageView: ImageView,url:String?,round:Int){
-
-            val factory =
-                DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
             url?.let {
                 Glide.with(imageView.context)
                     .load(url)
@@ -62,8 +54,6 @@ class ImageLoad{
          * 加载圆形图片
          */
         fun loadRound(imageView: ImageView,url:String,round:Int){
-            val factory =
-                DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
             Glide.with(imageView.context)
                 .load(url)
                 .centerCrop()
