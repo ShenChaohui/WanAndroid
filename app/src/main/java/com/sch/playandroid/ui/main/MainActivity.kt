@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.sch.playandroid.R
 import com.sch.playandroid.base.BaseActivity
+import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.ui.fragment.MeFragment
 import com.sch.playandroid.ui.main.tab.TabFragment
 import com.sch.playandroid.ui.fragment.SquareFragment
-import com.sch.playandroid.ui.fragment.WXFragment
 import com.sch.playandroid.ui.main.home.HomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -41,9 +41,21 @@ class MainActivity : BaseActivity() {
 
     private fun initFragment() {
         fragments.add(HomeFragment())
-        fragments.add(TabFragment())
+
+        val projectFragment = TabFragment()
+        val proBundle = Bundle()
+        proBundle.putInt("type", Constants.PROJECT_TYPE)
+        projectFragment.arguments = proBundle
+        fragments.add(projectFragment)
+
         fragments.add(SquareFragment())
-        fragments.add(WXFragment())
+
+        val wxarticleFragment = TabFragment()
+        val wxBundle = Bundle()
+        wxBundle.putInt("type", Constants.WX_TYPE)
+        wxarticleFragment.arguments = wxBundle
+        fragments.add(wxarticleFragment)
+
         fragments.add(MeFragment())
         setFragmentPosition(0)
     }

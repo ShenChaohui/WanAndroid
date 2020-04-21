@@ -1,6 +1,7 @@
 package com.sch.playandroid.ui.main.tab
 
-import com.sch.playandroid.entity.ProjectTypeBean
+import com.sch.playandroid.constants.Constants
+import com.sch.playandroid.entity.TabTypeBean
 import com.sch.playandroid.util.GsonUtil
 import org.json.JSONObject
 import org.xutils.common.Callback
@@ -13,8 +14,14 @@ import org.xutils.x
  * description:
  */
 class TabPresenterImpl(var view: TabContract.ITabView) : TabContract.ITabPresenter {
-    override fun getTabList() {
-        val params = RequestParams("https://www.wanandroid.com/project/tree/json")
+    override fun getTabList(type: Int) {
+        var url: String
+        if (type == Constants.PROJECT_TYPE) {
+            url = "https://www.wanandroid.com/project/tree/json"
+        } else {
+            url = "https://wanandroid.com/wxarticle/chapters/json"
+        }
+        val params = RequestParams(url)
         x.http().get(params, object : Callback.CommonCallback<String> {
             override fun onFinished() {
             }
@@ -22,7 +29,10 @@ class TabPresenterImpl(var view: TabContract.ITabView) : TabContract.ITabPresent
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 val data =
-                    GsonUtil.parseJsonArrayWithGson(obj.getString("data"), ProjectTypeBean::class.java)
+                    GsonUtil.parseJsonArrayWithGson(
+                        obj.getString("data"),
+                        TabTypeBean::class.java
+                    )
                 view?.setTabList(data)
             }
 
@@ -32,7 +42,7 @@ class TabPresenterImpl(var view: TabContract.ITabView) : TabContract.ITabPresent
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
             }
 
-        });
+        })
     }
 
 }

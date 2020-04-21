@@ -1,6 +1,6 @@
 package com.sch.playandroid.ui.main.tab
 
-import com.sch.playandroid.entity.ProjectTypeBean
+import com.sch.playandroid.entity.TabTypeBean
 
 /**
  * Created by Sch.
@@ -9,10 +9,10 @@ import com.sch.playandroid.entity.ProjectTypeBean
  */
 class TabContract {
     interface ITabPresenter {
-        fun getTabList()
+        fun getTabList(type: Int)
     }
 
     interface ITabView {
-        fun setTabList(list:List<ProjectTypeBean>)
+        fun setTabList(list:List<TabTypeBean>)
     }
 }

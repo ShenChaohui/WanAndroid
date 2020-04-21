@@ -55,7 +55,7 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             return HaveImageViewHolder(view)
         } else {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_home_article, parent, false)
+                .inflate(R.layout.item_article, parent, false)
             return NoImageViewHolder(view)
         }
     }

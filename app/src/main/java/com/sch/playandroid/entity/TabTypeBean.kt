@@ -5,7 +5,7 @@ package com.sch.playandroid.entity
  * Date: 2020/4/21
  * description:
  */
-data class ProjectTypeBean(
+data class TabTypeBean(
     var children: List<Any>,
     var courseId: Int,
     var id: Int,

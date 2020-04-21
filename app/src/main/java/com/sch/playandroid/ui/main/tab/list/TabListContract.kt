@@ -10,10 +10,10 @@ import com.sch.playandroid.entity.ArticleBean
  */
 class TabListContract {
     interface ITabListPresenter {
-        fun getListData()
+        fun getListData(type:Int,curPage: Int, cid: Int)
     }
 
     interface ITabListView {
-        fun setListData(list:List<ArticleBean>)
+        fun setListData(list: List<ArticleBean>)
     }
 }

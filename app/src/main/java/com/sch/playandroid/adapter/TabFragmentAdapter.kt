@@ -3,7 +3,7 @@ package com.sch.playandroid.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.sch.playandroid.entity.ProjectTypeBean
+import com.sch.playandroid.entity.TabTypeBean
 
 /**
  * Created by Sch.
@@ -12,7 +12,7 @@ import com.sch.playandroid.entity.ProjectTypeBean
  */
 class TabFragmentAdapter(
     var fragments: List<Fragment>,
-    var projectTypeBeans: List<ProjectTypeBean>,
+    var tabTypeBeans: List<TabTypeBean>,
     fm: FragmentManager
 ) :
     FragmentStatePagerAdapter(fm, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
@@ -25,6 +25,6 @@ class TabFragmentAdapter(
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return projectTypeBeans.get(position).name
+        return tabTypeBeans.get(position).name
     }
 }

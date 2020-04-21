@@ -26,6 +26,7 @@ class SplashActivity :
         Thread(Runnable {
             Thread.sleep(2000)
             intent(MainActivity::class.java, false)
+            finish()
         }).start()
     }
 
