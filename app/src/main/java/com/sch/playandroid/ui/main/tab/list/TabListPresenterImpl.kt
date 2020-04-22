@@ -38,7 +38,7 @@ class TabListPresenterImpl(var view: TabListContract.ITabListView) :
                     data.getString("datas"),
                     ArticleBean::class.java
                 )
-                view.setListData(datas)
+                view?.setListData(datas)
             }
 
             override fun onCancelled(cex: Callback.CancelledException?) {
@@ -46,6 +46,7 @@ class TabListPresenterImpl(var view: TabListContract.ITabListView) :
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
                 Log.e("test", ex.toString())
+                view?.setError(ex.toString())
             }
         })
     }

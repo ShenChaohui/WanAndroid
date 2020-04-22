@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sch.lolcosmos.base.BaseFragment
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.ArticleAdapter
+import com.sch.playandroid.base.LazyFragment
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.ui.web.WebActivity
@@ -18,17 +19,15 @@ import kotlinx.android.synthetic.main.fragment_tab_list.loadingTip
  * Date: 2020/4/21
  * description:
  */
-class TabListFragment : BaseFragment(), TabListContract.ITabListView {
+class TabListFragment : LazyFragment(), TabListContract.ITabListView {
     private val adapter by lazy { ArticleAdapter() }
     private val presenterImpl by lazy { TabListPresenterImpl(this) }
-    private var type: Int = 0
-    private var cid: Int = 0
     private var curPage = 1
     val articleList by lazy { ArrayList<ArticleBean>() }
 
-    override fun init(savedInstanceState: Bundle?) {
-        cid = arguments?.getInt("id")!!
-        type = arguments?.getInt("type")!!
+    override fun lazyInit() {
+        val cid = arguments?.getInt("id")!!
+        val type = arguments?.getInt("type")!!
         Log.e("TabListFragment", arguments?.getString("name"))
         rvTabList.layoutManager = LinearLayoutManager(context)
         rvTabList.adapter = adapter
@@ -46,6 +45,7 @@ class TabListFragment : BaseFragment(), TabListContract.ITabListView {
         loadingTip.setReloadListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 loadingTip.loading()
+                presenterImpl.getListData(type, curPage, cid)
             }
         })
         //下拉监听
@@ -53,16 +53,15 @@ class TabListFragment : BaseFragment(), TabListContract.ITabListView {
             curPage = 1
             articleList.clear()
             adapter.updata(articleList)
-            cid?.let { presenterImpl.getListData(type, curPage, cid) }
+            presenterImpl.getListData(type, curPage, cid)
 
         }
         refreshLayout.setOnLoadMoreListener {
             curPage++
-            cid?.let { presenterImpl.getListData(type, curPage, cid) }
+            presenterImpl.getListData(type, curPage, cid)
 
         }
-        cid?.let { presenterImpl.getListData(type, curPage, cid) }
-
+        presenterImpl.getListData(type, curPage, cid)
     }
 
     override fun getLayoutId(): Int {
@@ -78,5 +77,9 @@ class TabListFragment : BaseFragment(), TabListContract.ITabListView {
         } else {
             refreshLayout.finishLoadMore()
         }
+    }
+
+    override fun setError(ex: String) {
+        loadingTip.showInternetError()
     }
 }

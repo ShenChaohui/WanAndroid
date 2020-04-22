@@ -11,8 +11,8 @@ import com.sch.playandroid.entity.TabTypeBean
  * description:
  */
 class TabFragmentAdapter(
-    var fragments: List<Fragment>,
-    var tabTypeBeans: List<TabTypeBean>,
+    private var fragments: List<Fragment>,
+    private var tabTypeBeans: List<TabTypeBean>,
     fm: FragmentManager
 ) :
     FragmentStatePagerAdapter(fm, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
@@ -26,5 +26,9 @@ class TabFragmentAdapter(
 
     override fun getPageTitle(position: Int): CharSequence? {
         return tabTypeBeans.get(position).name
+    }
+    fun updata(fragments: List<Fragment>){
+        this.fragments = fragments
+        notifyDataSetChanged()
     }
 }

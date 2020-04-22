@@ -40,6 +40,7 @@ class TabPresenterImpl(var view: TabContract.ITabView) : TabContract.ITabPresent
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+                view?.setError(ex.toString())
             }
 
         })
