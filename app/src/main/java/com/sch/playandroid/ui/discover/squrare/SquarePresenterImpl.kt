@@ -4,6 +4,8 @@ import android.util.Log
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.util.GsonUtil
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import org.json.JSONObject
 import org.xutils.common.Callback
 import org.xutils.http.RequestParams
@@ -23,14 +25,18 @@ class SquarePresenterImpl(var view: SquareContract.ISquareView) :
             }
 
             override fun onSuccess(result: String?) {
-                val obj = JSONObject(result)
-                val data = obj.getJSONObject("data")
+                doAsync {
+                    val obj = JSONObject(result)
+                    val data = obj.getJSONObject("data")
 
-                val datas = GsonUtil.parseJsonArrayWithGson(
-                    data.getString("datas"),
-                    ArticleBean::class.java
-                )
-                view?.setListData(datas)
+                    val datas = GsonUtil.parseJsonArrayWithGson(
+                        data.getString("datas"),
+                        ArticleBean::class.java
+                    )
+                    uiThread {
+                        view?.setListData(datas)
+                    }
+                }
             }
 
             override fun onCancelled(cex: Callback.CancelledException?) {

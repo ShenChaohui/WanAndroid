@@ -3,6 +3,8 @@ package com.sch.playandroid.ui.main.tab
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.TabTypeBean
 import com.sch.playandroid.util.GsonUtil
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import org.json.JSONObject
 import org.xutils.common.Callback
 import org.xutils.http.RequestParams
@@ -27,13 +29,17 @@ class TabPresenterImpl(var view: TabContract.ITabView) : TabContract.ITabPresent
             }
 
             override fun onSuccess(result: String?) {
-                val obj = JSONObject(result)
-                val data =
-                    GsonUtil.parseJsonArrayWithGson(
-                        obj.getString("data"),
-                        TabTypeBean::class.java
-                    )
-                view?.setTabList(data)
+                doAsync {
+                    val obj = JSONObject(result)
+                    val data =
+                        GsonUtil.parseJsonArrayWithGson(
+                            obj.getString("data"),
+                            TabTypeBean::class.java
+                        )
+                    uiThread {
+                        view?.setTabList(data)
+                    }
+                }
             }
 
             override fun onCancelled(cex: Callback.CancelledException?) {

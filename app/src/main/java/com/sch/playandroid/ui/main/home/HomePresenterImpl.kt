@@ -1,8 +1,11 @@
 package com.sch.playandroid.ui.main.home
 
+import android.util.Log
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.entity.BannerBean
 import com.sch.playandroid.util.GsonUtil
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import org.json.JSONObject
 import org.xutils.common.Callback
 import org.xutils.http.RequestParams
@@ -15,11 +18,17 @@ class HomePresenterImpl(var view: HomeContract.IHomeView) :
         val params = RequestParams("https://www.wanandroid.com/banner/json")
         x.http().get(params, object : Callback.CommonCallback<String> {
             override fun onSuccess(result: String?) {
-                val obj = JSONObject(result)
-                val bannerList =
-                    GsonUtil.parseJsonArrayWithGson(obj.getString("data"), BannerBean::class.java)
-                view?.showBanner(bannerList)
-
+                doAsync {
+                    val obj = JSONObject(result)
+                    val bannerList =
+                        GsonUtil.parseJsonArrayWithGson(
+                            obj.getString("data"),
+                            BannerBean::class.java
+                        )
+                    uiThread {
+                        view?.showBanner(bannerList)
+                    }
+                }
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
@@ -45,13 +54,18 @@ class HomePresenterImpl(var view: HomeContract.IHomeView) :
             }
 
             override fun onSuccess(result: String?) {
-                val obj = JSONObject(result)
-                val list =
-                    GsonUtil.parseJsonArrayWithGson(
-                        obj.getString("data"),
-                        ArticleBean::class.java
-                    )
-                view?.setTopArticleDatas(list)
+                doAsync {
+                    val obj = JSONObject(result)
+                    val list =
+                        GsonUtil.parseJsonArrayWithGson(
+                            obj.getString("data"),
+                            ArticleBean::class.java
+                        )
+                    uiThread {
+                        view?.setTopArticleDatas(list)
+                    }
+                }
+
             }
 
             override fun onCancelled(cex: Callback.CancelledException?) {
@@ -70,14 +84,17 @@ class HomePresenterImpl(var view: HomeContract.IHomeView) :
             }
 
             override fun onSuccess(result: String?) {
-                val obj = JSONObject(result)
-                val list =
-                    GsonUtil.parseJsonArrayWithGson(
-                        obj.getJSONObject("data").getString("datas"),
-                        ArticleBean::class.java
-                    )
-                view?.onLoadArticleDatas(list)
-
+                doAsync {
+                    val obj = JSONObject(result)
+                    val list =
+                        GsonUtil.parseJsonArrayWithGson(
+                            obj.getJSONObject("data").getString("datas"),
+                            ArticleBean::class.java
+                        )
+                    uiThread {
+                        view?.onLoadArticleDatas(list)
+                    }
+                }
             }
 
             override fun onCancelled(cex: Callback.CancelledException?) {

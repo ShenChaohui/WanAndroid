@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.sch.playandroid.util.AppManager
 import com.sch.playandroid.util.ColorUtils
 import com.sch.playandroid.util.StatusUtils
-import org.jetbrains.anko.toast
 
 abstract class BaseActivity: AppCompatActivity(){
     protected val TAG = javaClass.name
@@ -25,10 +24,6 @@ abstract class BaseActivity: AppCompatActivity(){
     protected abstract fun init(savedInstanceState: Bundle?)
     protected abstract fun getLayoutId(): Int
 
-
-    protected fun myToast(msg: String) {
-        runOnUiThread { toast(msg) }
-    }
 
     /**
      * 界面跳转

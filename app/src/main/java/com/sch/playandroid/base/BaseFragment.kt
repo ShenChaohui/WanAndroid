@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.sch.playandroid.util.AppManager
-import org.jetbrains.anko.runOnUiThread
-import org.jetbrains.anko.toast
 
 abstract class BaseFragment: Fragment() {
     protected var TAG = javaClass.name
@@ -32,9 +30,6 @@ abstract class BaseFragment: Fragment() {
         init(savedInstanceState)
     }
 
-    fun myToast(msg: String) {
-        context?.runOnUiThread { toast(msg) }
-    }
 
     /**
      * 界面跳转
