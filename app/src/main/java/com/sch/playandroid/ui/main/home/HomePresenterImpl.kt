@@ -38,6 +38,31 @@ class HomePresenterImpl(var view: HomeContract.IHomeView) :
         })
     }
 
+    override fun getTopArticleData() {
+        val params = RequestParams("https://www.wanandroid.com/article/top/json")
+        x.http().get(params, object : Callback.CommonCallback<String> {
+            override fun onFinished() {
+            }
+
+            override fun onSuccess(result: String?) {
+                val obj = JSONObject(result)
+                val list =
+                    GsonUtil.parseJsonArrayWithGson(
+                        obj.getString("data"),
+                        ArticleBean::class.java
+                    )
+                view?.setTopArticleDatas(list)
+            }
+
+            override fun onCancelled(cex: Callback.CancelledException?) {
+            }
+
+            override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+            }
+
+        })
+    }
+
     override fun getArticleData(index: Int) {
         val params = RequestParams("https://www.wanandroid.com/article/list/$index/json")
         x.http().get(params, object : Callback.CommonCallback<String> {

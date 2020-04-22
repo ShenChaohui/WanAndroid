@@ -52,6 +52,7 @@ class HomeFragment : BaseFragment(), HomeContract.IHomeView {
         }
         articleList.clear()
         adapter?.updata(articleList)
+        presenter.getTopArticleData()
         articleIndex = 0
         presenter.getArticleData(articleIndex)
     }
@@ -152,6 +153,11 @@ class HomeFragment : BaseFragment(), HomeContract.IHomeView {
     override fun showBanner(list: List<BannerBean>) {
         bannerList.addAll(list)
         initBanners()
+    }
+
+    override fun setTopArticleDatas(list: List<ArticleBean>) {
+        articleList.addAll(0, list)
+        adapter.updata(articleList)
     }
 
     override fun onLoadArticleDatas(list: List<ArticleBean>) {

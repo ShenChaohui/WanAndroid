@@ -28,6 +28,7 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class NoImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvAuthor: TextView = itemView.findViewById(R.id.tvAuthor)
+        val tvTag: TextView = itemView.findViewById(R.id.tvTag)
         val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
         val tvDate: TextView = itemView.findViewById(R.id.tvDate)
         val tvChapterName: TextView = itemView.findViewById(R.id.tvChapterName)
@@ -75,10 +76,12 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         if (getItemViewType(position) == TYPE_HAVE_IMAGE) {
             (holder as HaveImageViewHolder).tvTitle.text = data.title
             (holder as HaveImageViewHolder).tvDes.text = data.desc
-            (holder as HaveImageViewHolder).tvNameData.text = data.niceDate + "  " + data.author
+            (holder as HaveImageViewHolder).tvNameData.text = data.niceDate + " | " + data.author
             ImageLoad.loadRadius((holder as HaveImageViewHolder).ivTitle, data.envelopePic, 10)
         } else {
-            (holder as NoImageViewHolder).tvAuthor.text = data.shareUser
+            (holder as NoImageViewHolder).tvAuthor.text =
+                if (data.author != null && data.author.length > 0) data.author else data.shareUser
+            (holder as NoImageViewHolder).tvTag.text = if (data.type == 1) "置顶  " else ""
             (holder as NoImageViewHolder).tvTitle.text = data.title
             (holder as NoImageViewHolder).tvDate.text = data.niceDate
             (holder as NoImageViewHolder).tvChapterName.text = data.superChapterName

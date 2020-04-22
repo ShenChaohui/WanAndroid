@@ -8,11 +8,13 @@ class HomeContract {
 
     interface IHomePresenter {
         fun getBannerData()
+        fun getTopArticleData()
         fun getArticleData(index: Int)
     }
 
     interface IHomeView {
         fun showBanner(list: List<BannerBean>)
+        fun setTopArticleDatas(list: List<ArticleBean>)
         fun onLoadArticleDatas(list: List<ArticleBean>)
         fun onError(msg: String)
     }
