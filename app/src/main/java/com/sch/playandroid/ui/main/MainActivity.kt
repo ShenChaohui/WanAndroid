@@ -5,10 +5,10 @@ import androidx.fragment.app.Fragment
 import com.sch.playandroid.R
 import com.sch.playandroid.base.BaseActivity
 import com.sch.playandroid.constants.Constants
-import com.sch.playandroid.ui.fragment.MeFragment
-import com.sch.playandroid.ui.main.tab.TabFragment
-import com.sch.playandroid.ui.fragment.SquareFragment
+import com.sch.playandroid.ui.discover.DiscoverFragment
 import com.sch.playandroid.ui.main.home.HomeFragment
+import com.sch.playandroid.ui.main.mine.MeFragment
+import com.sch.playandroid.ui.main.tab.TabFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
@@ -48,7 +48,7 @@ class MainActivity : BaseActivity() {
         projectFragment.arguments = proBundle
         fragments.add(projectFragment)
 
-        fragments.add(SquareFragment())
+        fragments.add(DiscoverFragment())
 
         val wxarticleFragment = TabFragment()
         val wxBundle = Bundle()

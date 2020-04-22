@@ -12,6 +12,9 @@ import kotlinx.android.synthetic.main.fragment_tab.*
 import kotlinx.android.synthetic.main.fragment_tab.loadingTip
 import kotlinx.android.synthetic.main.fragment_tab_list.*
 
+/**
+ * 项目页和公众号 共用
+ */
 class TabFragment : BaseFragment(), TabContract.ITabView {
     private val presenter by lazy { TabPresenterImpl(this) }
     private val mFragments by lazy { ArrayList<Fragment>() }
@@ -30,7 +33,7 @@ class TabFragment : BaseFragment(), TabContract.ITabView {
             presenter.getTabList(it)
         }
         viewPager.adapter = fragmentAdapter
-        viewPager.offscreenPageLimit = 6
+        viewPager.offscreenPageLimit = 5
         tabLayout.setupWithViewPager(viewPager)
         loadingTip.loading()
         // 设置无网络时重新加载点击事件

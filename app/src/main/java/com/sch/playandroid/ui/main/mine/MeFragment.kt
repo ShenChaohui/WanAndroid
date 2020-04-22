@@ -1,4 +1,4 @@
-package com.sch.playandroid.ui.fragment
+package com.sch.playandroid.ui.main.mine
 
 import android.os.Bundle
 import com.sch.lolcosmos.base.BaseFragment

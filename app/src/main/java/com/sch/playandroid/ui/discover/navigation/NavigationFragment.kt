@@ -1,10 +1,14 @@
-package com.sch.playandroid.ui.fragment
+package com.sch.playandroid.ui.discover.navigation
 
 import android.os.Bundle
 import com.sch.lolcosmos.base.BaseFragment
 import com.sch.playandroid.R
 
-class SquareFragment :BaseFragment() {
+/**
+ * 广场
+ */
+
+class NavigationFragment :BaseFragment() {
     override fun init(savedInstanceState: Bundle?) {
 
     }

@@ -1,33 +1,26 @@
-package com.sch.playandroid.ui.main.tab.list
+package com.sch.playandroid.ui.discover.squrare
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sch.lolcosmos.base.BaseFragment
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.ArticleAdapter
-import com.sch.playandroid.base.LazyFragment
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.ui.web.WebActivity
 import kotlinx.android.synthetic.main.fragment_tab_list.*
-import kotlinx.android.synthetic.main.fragment_tab_list.loadingTip
 
 /**
- * Created by Sch.
- * Date: 2020/4/21
- * description:
+ * 广场
  */
-class TabListFragment : LazyFragment(), TabListContract.ITabListView {
+
+class SquareFragment : BaseFragment(),SquareContract.ISquareView{
     private val adapter by lazy { ArticleAdapter() }
-    private val presenterImpl by lazy { TabListPresenterImpl(this) }
+    private val presenterImpl by lazy { SquarePresenterImpl(this) }
     private var curPage = 1
     val articleList by lazy { ArrayList<ArticleBean>() }
-
-    override fun lazyInit() {
-        val cid = arguments?.getInt("id")!!
-        val type = arguments?.getInt("type")!!
+    override fun init(savedInstanceState: Bundle?) {
         rvTabList.layoutManager = LinearLayoutManager(context)
         rvTabList.adapter = adapter
         adapter.setOnItemClickListener(object : ArticleAdapter.OnItemClickListener {
@@ -44,7 +37,7 @@ class TabListFragment : LazyFragment(), TabListContract.ITabListView {
         loadingTip.setReloadListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 loadingTip.loading()
-                presenterImpl.getListData(type, curPage, cid)
+                presenterImpl.getListData(curPage)
             }
         })
         //下拉监听
@@ -52,15 +45,15 @@ class TabListFragment : LazyFragment(), TabListContract.ITabListView {
             curPage = 1
             articleList.clear()
             adapter.updata(articleList)
-            presenterImpl.getListData(type, curPage, cid)
+            presenterImpl.getListData(curPage)
 
         }
         refreshLayout.setOnLoadMoreListener {
             curPage++
-            presenterImpl.getListData(type, curPage, cid)
+            presenterImpl.getListData(curPage)
 
         }
-        presenterImpl.getListData(type, curPage, cid)
+        presenterImpl.getListData(curPage)
     }
 
     override fun getLayoutId(): Int {
@@ -81,4 +74,5 @@ class TabListFragment : LazyFragment(), TabListContract.ITabListView {
     override fun setError(ex: String) {
         loadingTip.showInternetError()
     }
+
 }

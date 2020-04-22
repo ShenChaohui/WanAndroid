@@ -8,14 +8,15 @@ import com.sch.playandroid.entity.TabTypeBean
 /**
  * Created by Sch.
  * Date: 2020/4/21
- * description: 项目/公众号 子fragment Adapter
+ * description: 发现页面 子fragment Adapter
  */
-class TabFragmentAdapter(
+class DiscoverFragmentAdapter(
     private var fragments: List<Fragment>,
-    private var tabTypeBeans: List<TabTypeBean>,
     fm: FragmentManager
 ) :
     FragmentStatePagerAdapter(fm, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    val titles = arrayOf("广场", "体系", "导航")
+
     override fun getItem(position: Int): Fragment {
         return fragments.get(position)
     }
@@ -25,9 +26,10 @@ class TabFragmentAdapter(
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return tabTypeBeans.get(position).name
+        return titles[position]
     }
-    fun updata(fragments: List<Fragment>){
+
+    fun updata(fragments: List<Fragment>) {
         this.fragments = fragments
         notifyDataSetChanged()
     }
