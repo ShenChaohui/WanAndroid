@@ -19,6 +19,8 @@
 
     <!--    点击波纹效果颜色-->
     <color name="ripple_gray">#D1D1D1</color>
+    <!--    点击波纹效果颜色-->
+    <color name="search_bg_gray">#F7F7F7</color>
 
     <!--    一级标题颜色-->
     <color name="text_1">#333333</color>

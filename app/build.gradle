@@ -54,4 +54,6 @@ dependencies {
     //banner
     implementation 'cn.bingoogolapple:bga-banner:2.1.7@aar'
 
+    implementation 'com.github.donkingliang:LabelsView:1.6.1'
+
 }

@@ -1,18 +1,18 @@
 package com.sch.playandroid.ui.main.tab.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.OverScroller
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sch.lolcosmos.base.BaseFragment
+import androidx.recyclerview.widget.RecyclerView
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.ArticleAdapter
 import com.sch.playandroid.base.LazyFragment
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.ui.web.WebActivity
-import kotlinx.android.synthetic.main.fragment_tab_list.*
-import kotlinx.android.synthetic.main.fragment_tab_list.loadingTip
+import kotlinx.android.synthetic.main.fragment_refresh_list.*
+import kotlinx.android.synthetic.main.fragment_refresh_list.loadingTip
 
 /**
  * Created by Sch.
@@ -28,8 +28,9 @@ class TabListFragment : LazyFragment(), TabListContract.ITabListView {
     override fun lazyInit() {
         val cid = arguments?.getInt("id")!!
         val type = arguments?.getInt("type")!!
-        rvTabList.layoutManager = LinearLayoutManager(context)
-        rvTabList.adapter = adapter
+        rvList.layoutManager = LinearLayoutManager(context)
+        rvList.adapter = adapter
+        rvList.overScrollMode = RecyclerView.OVER_SCROLL_NEVER//取消滑动到顶部边界越界效果
         adapter.setOnItemClickListener(object : ArticleAdapter.OnItemClickListener {
             override fun onClick(position: Int) {
                 intent(Bundle().apply {
@@ -64,7 +65,7 @@ class TabListFragment : LazyFragment(), TabListContract.ITabListView {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_tab_list
+        return R.layout.fragment_refresh_list
     }
 
     override fun setListData(list: List<ArticleBean>) {

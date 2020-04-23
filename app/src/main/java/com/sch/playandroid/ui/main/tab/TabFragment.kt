@@ -10,7 +10,7 @@ import com.sch.playandroid.entity.TabTypeBean
 import com.sch.playandroid.ui.main.tab.list.TabListFragment
 import kotlinx.android.synthetic.main.fragment_tab.*
 import kotlinx.android.synthetic.main.fragment_tab.loadingTip
-import kotlinx.android.synthetic.main.fragment_tab_list.*
+import kotlinx.android.synthetic.main.fragment_refresh_list.*
 
 /**
  * 项目页和公众号 共用

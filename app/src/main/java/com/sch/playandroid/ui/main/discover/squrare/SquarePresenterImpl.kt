@@ -1,4 +1,4 @@
-package com.sch.playandroid.ui.discover.squrare
+package com.sch.playandroid.ui.main.discover.squrare
 
 import android.util.Log
 import com.sch.playandroid.constants.Constants

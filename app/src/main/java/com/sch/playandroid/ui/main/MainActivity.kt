@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import com.sch.playandroid.R
 import com.sch.playandroid.base.BaseActivity
 import com.sch.playandroid.constants.Constants
-import com.sch.playandroid.ui.discover.DiscoverFragment
+import com.sch.playandroid.ui.main.discover.DiscoverFragment
 import com.sch.playandroid.ui.main.home.HomeFragment
 import com.sch.playandroid.ui.main.mine.MeFragment
 import com.sch.playandroid.ui.main.tab.TabFragment
