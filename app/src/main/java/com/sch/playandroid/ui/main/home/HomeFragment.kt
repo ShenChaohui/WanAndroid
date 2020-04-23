@@ -18,6 +18,7 @@ import com.sch.playandroid.base.LazyFragment
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.entity.BannerBean
+import com.sch.playandroid.ui.search.SearchActivity
 import com.sch.playandroid.ui.web.WebActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -101,6 +102,11 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
             }
             rlSearch.alpha = alpha
         })
+        ivSearch.setOnClickListener {
+            intent(SearchActivity::class.java, false)
+            //瞬间开启activity，无动画
+            activity?.overridePendingTransition(R.anim.anim_no, R.anim.anim_no)
+        }
 
     }
 

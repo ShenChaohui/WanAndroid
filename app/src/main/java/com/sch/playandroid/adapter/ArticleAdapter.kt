@@ -1,5 +1,6 @@
 package com.sch.playandroid.adapter
 
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,17 +75,19 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         })
         val data = list.get(position)
         if (getItemViewType(position) == TYPE_HAVE_IMAGE) {
-            (holder as HaveImageViewHolder).tvTitle.text = data.title
-            (holder as HaveImageViewHolder).tvDes.text = data.desc
-            (holder as HaveImageViewHolder).tvNameData.text = data.niceDate + " | " + data.author
-            ImageLoad.loadRadius((holder as HaveImageViewHolder).ivTitle, data.envelopePic, 10)
+            val holder = holder as HaveImageViewHolder
+            holder.tvTitle.text = data.title
+            holder.tvDes.text = data.desc
+            holder.tvNameData.text = data.niceDate + " | " + data.author
+            ImageLoad.loadRadius(holder.ivTitle, data.envelopePic, 10)
         } else {
-            (holder as NoImageViewHolder).tvAuthor.text =
-                if (data.author != null && data.author.length > 0) data.author else data.shareUser
-            (holder as NoImageViewHolder).tvTag.text = if (data.type == 1) "置顶  " else ""
-            (holder as NoImageViewHolder).tvTitle.text = data.title
-            (holder as NoImageViewHolder).tvDate.text = data.niceDate
-            (holder as NoImageViewHolder).tvChapterName.text = data.superChapterName
+            val holder = holder as NoImageViewHolder
+            holder.tvAuthor.text =
+                if (!TextUtils.isEmpty(data.author)) data.author else data.shareUser
+            holder.tvTag.text = if (data.type == 1) "置顶  " else ""
+            holder.tvTitle.text = data.title
+            holder.tvDate.text = data.niceDate
+            holder.tvChapterName.text = data.superChapterName
         }
     }
 

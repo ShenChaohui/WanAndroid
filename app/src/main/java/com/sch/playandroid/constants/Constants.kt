@@ -37,4 +37,9 @@ object Constants {
      * 体系 标题
      */
     const val SYSTEM_TITLE = "systemTitle"
+
+    /**
+     * 搜索历史
+     */
+    const val SEARCH_RECORD = "searchRecord"
 }

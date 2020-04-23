@@ -26,6 +26,7 @@
         <activity android:name="com.sch.playandroid.ui.main.MainActivity" />
         <activity android:name="com.sch.playandroid.ui.web.WebActivity" />
         <activity android:name="com.sch.playandroid.ui.main.discover.system.list.SystemListActivity" />
+        <activity android:name=".ui.search.SearchActivity" />
     </application>
 
 </manifest>
