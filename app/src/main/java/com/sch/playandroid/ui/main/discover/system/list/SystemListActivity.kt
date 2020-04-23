@@ -1,37 +1,44 @@
-package com.sch.playandroid.ui.main.discover.squrare
+package com.sch.playandroid.ui.main.discover.system.list
 
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.sch.lolcosmos.base.BaseFragment
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.ArticleAdapter
-import com.sch.playandroid.base.LazyFragment
+import com.sch.playandroid.base.BaseActivity
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.ui.web.WebActivity
+import kotlinx.android.synthetic.main.activity_system_list.*
+import kotlinx.android.synthetic.main.activity_system_list.loadingTip
+import kotlinx.android.synthetic.main.activity_system_list.refreshLayout
+import kotlinx.android.synthetic.main.activity_system_list.rvList
 import kotlinx.android.synthetic.main.fragment_refresh_list.*
 
 /**
- * 广场
+ * Created by Sch.
+ * Date: 2020/4/23
+ * description:
  */
-
-class SquareFragment : LazyFragment(),
-    SquareContract.ISquareView {
+class SystemListActivity : BaseActivity(), SystemListContract.ISystemListView {
+    private var title: String? = null
+    private var cid: Int? = null
     private val adapter by lazy { ArticleAdapter() }
-    private val presenterImpl by lazy {
-        SquarePresenterImpl(
-            this
-        )
-    }
+    private val presenterImpl by lazy { SystemListPresenterImpl(this) }
     private var curPage = 0
     val articleList by lazy { ArrayList<ArticleBean>() }
-    override fun lazyInit() {
-        rvList.layoutManager = LinearLayoutManager(context)
+    override fun init(savedInstanceState: Bundle?) {
+        val bundle: Bundle? = intent.extras
+        cid = bundle?.getInt(Constants.SYSTEM_ID)
+        title = bundle?.getString(Constants.SYSTEM_TITLE)
+        tvTitle.text = title
+        ivBack.setOnClickListener {
+            finish()
+        }
+        rvList.layoutManager = LinearLayoutManager(this)
         rvList.adapter = adapter
         rvList.overScrollMode = RecyclerView.OVER_SCROLL_NEVER//取消滑动到顶部边界越界效果
-
         adapter.setOnItemClickListener(object : ArticleAdapter.OnItemClickListener {
             override fun onClick(position: Int) {
                 intent(Bundle().apply {
@@ -40,13 +47,13 @@ class SquareFragment : LazyFragment(),
                 }, WebActivity::class.java, false)
             }
         })
-        //加载中动画
+//加载中动画
         loadingTip.loading()
         // 设置无网络时重新加载点击事件
         loadingTip.setReloadListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 loadingTip.loading()
-                presenterImpl.getListData(curPage)
+                cid?.let { presenterImpl.getListData(curPage, it) }
             }
         })
         //下拉监听
@@ -54,19 +61,18 @@ class SquareFragment : LazyFragment(),
             curPage = 0
             articleList.clear()
             adapter.updata(articleList)
-            presenterImpl.getListData(curPage)
+            cid?.let { it1 -> presenterImpl.getListData(curPage, it1) }
 
         }
         refreshLayout.setOnLoadMoreListener {
             curPage++
-            presenterImpl.getListData(curPage)
-
+            cid?.let { it1 -> presenterImpl.getListData(curPage, it1) }
         }
-        presenterImpl.getListData(curPage)
+        cid?.let { presenterImpl.getListData(curPage, it) }
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_refresh_list
+        return R.layout.activity_system_list
     }
 
     override fun setListData(list: List<ArticleBean>) {
@@ -83,5 +89,4 @@ class SquareFragment : LazyFragment(),
     override fun setError(ex: String) {
         loadingTip.showInternetError()
     }
-
 }

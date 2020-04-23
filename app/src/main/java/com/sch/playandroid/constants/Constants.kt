@@ -28,4 +28,13 @@ object Constants {
      *  微信公众号
      */
     const val WX_TYPE = 20
+
+    /**
+     * 体系 id
+     */
+    const val SYSTEM_ID = "systemId"
+    /**
+     * 体系 标题
+     */
+    const val SYSTEM_TITLE = "systemTitle"
 }

@@ -8,14 +8,16 @@ import com.sch.lolcosmos.base.BaseFragment
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.NavigationAdapter
 import com.sch.playandroid.base.LazyFragment
+import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.NavigationBean
+import com.sch.playandroid.ui.web.WebActivity
 import kotlinx.android.synthetic.main.fragment_list.*
 
 /**
  * 导航
  */
 
-class NavigationFragment :LazyFragment(),NavigationContract.INavigationView {
+class NavigationFragment : LazyFragment(), NavigationContract.INavigationView {
     private val adapter by lazy { NavigationAdapter() }
     private val navigationList by lazy { ArrayList<NavigationBean>() }
     private val presenter by lazy { NavigationPresenterImpl(this) }
@@ -24,11 +26,17 @@ class NavigationFragment :LazyFragment(),NavigationContract.INavigationView {
         rvList.layoutManager = LinearLayoutManager(context)
         rvList.adapter = adapter
         adapter.setStstemClickListener(object : NavigationAdapter.OnNavigationClickListener {
-            override fun onCollectClick(systemPosition: Int, systemChildrenPosition: Int) {
-                Log.e(
-                    "test",
-                    navigationList.get(systemPosition).articles.get(systemChildrenPosition).title
-                )
+            override fun onCollectClick(navigationPosition: Int, navigationChildrenPosition: Int) {
+                intent(Bundle().apply {
+                    putString(
+                        Constants.WEB_TITLE,
+                        navigationList[navigationPosition].articles[navigationChildrenPosition].title
+                    )
+                    putString(
+                        Constants.WEB_URL,
+                        navigationList[navigationPosition].articles[navigationChildrenPosition].link
+                    )
+                }, WebActivity::class.java, false)
             }
         })
         presenter.getNavigationData()

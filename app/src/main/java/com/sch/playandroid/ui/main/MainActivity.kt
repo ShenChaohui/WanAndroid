@@ -67,6 +67,7 @@ class MainActivity : BaseActivity() {
         lastIndex = position
         ft.hide(lastFragment)
         if (!currentFragment.isAdded) {
+            supportFragmentManager.beginTransaction().remove(currentFragment).commit()
             ft.add(R.id.container, currentFragment)
         }
         ft.show(currentFragment)

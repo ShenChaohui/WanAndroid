@@ -9,7 +9,9 @@ import com.sch.lolcosmos.base.BaseFragment
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.SystemAdapter
 import com.sch.playandroid.base.LazyFragment
+import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.SystemBean
+import com.sch.playandroid.ui.main.discover.system.list.SystemListActivity
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.loadingTip
 import kotlinx.android.synthetic.main.fragment_list.rvList
@@ -29,10 +31,16 @@ class SystemFragment : LazyFragment(), SystemContract.ISystemView {
         rvList.adapter = adapter
         adapter.setStstemClickListener(object : SystemAdapter.OnSystemClickListener {
             override fun onCollectClick(systemPosition: Int, systemChildrenPosition: Int) {
-                Log.e(
-                    "test",
-                    systemList.get(systemPosition).children.get(systemChildrenPosition).name
-                )
+                intent(Bundle().apply {
+                    putInt(
+                        Constants.SYSTEM_ID,
+                        systemList[systemPosition].children[systemChildrenPosition].id
+                    )
+                    putString(
+                        Constants.SYSTEM_TITLE,
+                        systemList[systemPosition].children[systemChildrenPosition].name
+                    )
+                }, SystemListActivity::class.java, false)
             }
         })
         presenter.getSystemData()

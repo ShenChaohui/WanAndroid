@@ -9,7 +9,6 @@ import com.donkingliang.labels.LabelsView
 import com.sch.playandroid.R
 import com.sch.playandroid.entity.NavigationBean
 import com.sch.playandroid.entity.NavigationChildrenBean
-import com.sch.playandroid.entity.SystemChildrenBean
 
 /**
  * Created by Sch.
@@ -24,7 +23,7 @@ class NavigationAdapter : RecyclerView.Adapter<NavigationAdapter.NavigationAdapt
     }
 
     interface OnNavigationClickListener {
-        fun onCollectClick(systemPosition: Int, systemChildrenPosition: Int)
+        fun onCollectClick(navigationPosition: Int, navigationChildrenPosition: Int)
     }
 
     private var navigationClickListener: OnNavigationClickListener? = null

@@ -5,13 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.OverScroller
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import cn.bingoogolapple.bgabanner.BGABanner
 import com.bumptech.glide.Glide
 import com.sch.lolcosmos.base.BaseFragment
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.ArticleAdapter
+import com.sch.playandroid.base.LazyFragment
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.entity.BannerBean
@@ -19,7 +22,7 @@ import com.sch.playandroid.ui.web.WebActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
-class HomeFragment : BaseFragment(), HomeContract.IHomeView {
+class HomeFragment : LazyFragment(), HomeContract.IHomeView {
     val presenter by lazy {
         HomePresenterImpl(
             this
@@ -36,7 +39,7 @@ class HomeFragment : BaseFragment(), HomeContract.IHomeView {
         return R.layout.fragment_home
     }
 
-    override fun init(savedInstanceState: Bundle?) {
+    override fun lazyInit() {
         initListerer()
         loadData()
     }
@@ -59,12 +62,6 @@ class HomeFragment : BaseFragment(), HomeContract.IHomeView {
 
 
     fun initListerer() {
-        //解决NestedScrollView和RecyclerView滑动不流畅问题
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            rlSearch.elevation = 10f
-            llRadius.elevation = 20f
-            rvHomeList.isNestedScrollingEnabled = false
-        }
         //加载中动画
         loadingTip.loading()
         // 设置无网络时重新加载点击事件
@@ -76,6 +73,7 @@ class HomeFragment : BaseFragment(), HomeContract.IHomeView {
         })
         rvHomeList.layoutManager = LinearLayoutManager(context)
         rvHomeList.adapter = adapter
+        rvHomeList.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
         adapter.setOnItemClickListener(object : ArticleAdapter.OnItemClickListener {
             override fun onClick(position: Int) {
                 intent(Bundle().apply {
