@@ -10,6 +10,8 @@ class HomeContract {
         fun getBannerData()
         fun getTopArticleData()
         fun getArticleData(index: Int)
+        fun collect(id: Int)
+        fun unCollect(id: Int)
     }
 
     interface IHomeView {
@@ -17,5 +19,8 @@ class HomeContract {
         fun setTopArticleDatas(list: List<ArticleBean>)
         fun onLoadArticleDatas(list: List<ArticleBean>)
         fun onError(msg: String)
+        fun oncollectError(msg: String)
+        fun collectSuccess()
+        fun unCollectSuccess()
     }
 }

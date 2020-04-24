@@ -21,10 +21,16 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun onClick(position: Int)
     }
 
-    private var listener: OnItemClickListener? = null
+    private var onItemClickListener: OnItemClickListener? = null
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
-        this.listener = listener
+        this.onItemClickListener = listener
+    }
+
+    private var onCollectClickListener: OnCollectClickListener? = null
+
+    fun setOnCollectClickListener(listener: OnCollectClickListener) {
+        this.onCollectClickListener = listener
     }
 
     class NoImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -33,6 +39,7 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
         val tvDate: TextView = itemView.findViewById(R.id.tvDate)
         val tvChapterName: TextView = itemView.findViewById(R.id.tvChapterName)
+        val ivCollect: ImageView = itemView.findViewById(R.id.ivCollect)
     }
 
     class HaveImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -40,6 +47,8 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
         val tvDes: TextView = itemView.findViewById(R.id.tvDes)
         val tvNameData: TextView = itemView.findViewById(R.id.tvNameData)
+        val ivCollect: ImageView = itemView.findViewById(R.id.ivCollect)
+
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -70,7 +79,7 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder.itemView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                listener?.onClick(position)
+                onItemClickListener?.onClick(position)
             }
         })
         val data = list.get(position)
@@ -80,6 +89,16 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder.tvDes.text = data.desc
             holder.tvNameData.text = data.niceDate + " | " + data.author
             ImageLoad.loadRadius(holder.ivTitle, data.envelopePic, 10)
+            holder.ivCollect.apply {
+                setOnClickListener {
+                    onCollectClickListener?.onCollectClick(position)
+                }
+                if (data.collect) {
+                    setImageResource(R.mipmap.article_collect)
+                } else {
+                    setImageResource(R.mipmap.article_un_collect)
+                }
+            }
         } else {
             val holder = holder as NoImageViewHolder
             holder.tvAuthor.text =
@@ -88,6 +107,16 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder.tvTitle.text = data.title
             holder.tvDate.text = data.niceDate
             holder.tvChapterName.text = data.superChapterName
+            holder.ivCollect.apply {
+                setOnClickListener {
+                    onCollectClickListener?.onCollectClick(position)
+                }
+                if (data.collect) {
+                    setImageResource(R.mipmap.article_collect)
+                } else {
+                    setImageResource(R.mipmap.article_un_collect)
+                }
+            }
         }
     }
 

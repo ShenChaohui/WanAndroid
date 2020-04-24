@@ -1,25 +1,26 @@
 package com.sch.playandroid.ui.main.home
 
-import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
-import android.widget.OverScroller
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.bingoogolapple.bgabanner.BGABanner
 import com.bumptech.glide.Glide
-import com.sch.lolcosmos.base.BaseFragment
+import com.coder.zzq.smartshow.toast.SmartToast
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.ArticleAdapter
+import com.sch.playandroid.adapter.OnCollectClickListener
 import com.sch.playandroid.base.LazyFragment
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.entity.BannerBean
 import com.sch.playandroid.ui.search.SearchActivity
 import com.sch.playandroid.ui.web.WebActivity
+import com.sch.playandroid.util.AppManager
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -33,8 +34,15 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
     val articleList by lazy { ArrayList<ArticleBean>() }
     val bannerList by lazy { ArrayList<BannerBean>() }
 
-    private var articleIndex = 0
+    private var pageNum = 0
 
+    private var collectPosition = 0
+
+    /**
+     * 点击收藏后将点击事件上锁,等接口有相应结果再解锁
+     * 避免重复点击产生的bug  false表示没锁，true表示锁住
+     */
+    private var lockCollectClick = false
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_home
@@ -57,8 +65,8 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
         articleList.clear()
         adapter?.updata(articleList)
         presenter.getTopArticleData()
-        articleIndex = 0
-        presenter.getArticleData(articleIndex)
+        pageNum = 0
+        presenter.getArticleData(pageNum)
     }
 
 
@@ -83,13 +91,36 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
                 }, WebActivity::class.java, false)
             }
         })
+        adapter.setOnCollectClickListener(object : OnCollectClickListener {
+            override fun onCollectClick(position: Int) {
+                if (!AppManager.isLogin()) {
+                    SmartToast.info("请先登录")
+                    return
+                }
+                if (position < articleList.size && !lockCollectClick) {
+                    lockCollectClick = true
+                    collectPosition = position
+                    articleList[position].apply {
+                        if (!collect) {
+                            Log.e("test", "收藏 $position")
+                            presenter?.collect(id)
+                        } else {
+                            Log.e("test", "取消收藏 $position")
+                            presenter?.unCollect(id)
+                        }
+
+                    }
+
+                }
+            }
+        })
         //下拉监听
         refreshLayout.setOnRefreshListener {
             loadData()
         }
         refreshLayout.setOnLoadMoreListener {
-            articleIndex++
-            presenter.getArticleData(articleIndex)
+            pageNum++
+            presenter.getArticleData(pageNum)
         }
         //NestedScrollView 滑动监听
         nestedView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
@@ -168,7 +199,7 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
         loadingTip.dismiss()
         articleList.addAll(list)
         adapter.updata(articleList)
-        if (articleIndex == 0) {
+        if (pageNum == 0) {
             refreshLayout.finishRefresh()
         } else {
             refreshLayout.finishLoadMore()
@@ -177,6 +208,27 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
 
     override fun onError(msg: String) {
         loadingTip.showInternetError()
+    }
+
+    override fun oncollectError(msg: String) {
+        lockCollectClick = false
+        SmartToast.error(msg)
+    }
+
+    override fun collectSuccess() {
+        lockCollectClick = false
+        if (collectPosition < articleList.size) {
+            articleList[collectPosition].collect = true
+            adapter.updata(articleList)
+        }
+    }
+
+    override fun unCollectSuccess() {
+        lockCollectClick = false
+        if (collectPosition < articleList.size) {
+            articleList[collectPosition].collect = false
+            adapter.updata(articleList)
+        }
     }
 
 }

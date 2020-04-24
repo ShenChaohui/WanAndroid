@@ -5,6 +5,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import com.coder.zzq.smartshow.core.SmartShow;
 import com.sch.playandroid.util.ColorUtils;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -50,7 +51,7 @@ public class PlayAndroidApplication extends Application {
         super.onCreate();
         x.Ext.init(this);
         baseApplication = this;
-
+        SmartShow.init(this);
     }
 
     public static Context getContext() {

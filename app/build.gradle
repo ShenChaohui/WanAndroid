@@ -56,4 +56,9 @@ dependencies {
 
     implementation 'com.github.donkingliang:LabelsView:1.6.1'
 
+    //smart toast
+    implementation 'com.github.the-pig-of-jungle.smart-show:toast:2.8.3'
+    // smart dialog
+    implementation 'com.github.the-pig-of-jungle.smart-show:dialog:2.8.3'
+
 }

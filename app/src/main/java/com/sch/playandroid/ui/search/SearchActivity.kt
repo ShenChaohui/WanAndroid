@@ -12,6 +12,10 @@ import android.view.animation.ScaleAnimation
 import android.view.inputmethod.EditorInfo
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.coder.zzq.smartshow.dialog.DialogBtnClickListener
+import com.coder.zzq.smartshow.dialog.EnsureDialog
+import com.coder.zzq.smartshow.dialog.SmartDialog
+import com.coder.zzq.smartshow.toast.SmartToast
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.ArticleAdapter
 import com.sch.playandroid.base.BaseActivity
@@ -37,6 +41,20 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
 
     private val recordList by lazy { ArrayList<String>() }
 
+    private val clearRecordDialog by lazy {
+        EnsureDialog()
+            .message("确定要清空搜索记录？")
+            .confirmBtn("确定") { smartDialog: SmartDialog<*>?, i: Int, any: Any? ->
+                smartDialog?.dismiss()
+                clearRecord()
+            }
+            .cancelBtn("取消", object : DialogBtnClickListener<SmartDialog<*>> {
+                override fun onBtnClick(p0: SmartDialog<*>?, p1: Int, p2: Any?) {
+                    p0?.dismiss()
+                }
+            })
+    }
+
     /**
      * 如果是第一次加载label，将label隐藏后续动画开启后再显示
      */
@@ -46,8 +64,8 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
 
     override fun init(savedInstanceState: Bundle?) {
         val recordStr = PrefUtils.getString(Constants.SEARCH_RECORD)
-        if (recordStr != null) {
-            recordList.addAll(recordStr.split("|"))
+        if (!TextUtils.isEmpty(recordStr)) {
+            recordList.addAll(recordStr!!.split("|"))
         }
         startSearchAnim()
         loadRecord()
@@ -61,7 +79,7 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
             finish()
         }
         tvClear.setOnClickListener {
-            clearRecord()
+            clearRecordDialog.showInActivity(this)
         }
         ivClear.setOnClickListener {
             editText.setText("")
@@ -78,18 +96,7 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
                     putString(Constants.WEB_TITLE, articleList[position].title)
                 }, WebActivity::class.java, false)
             }
-
         })
-    }
-
-    private fun loadRecord() {
-        labelsView.setLabels(recordList) { label, position, data ->
-            if (isFirstLoad) {
-                label.visibility = View.GONE
-            }
-            data
-        }
-        isFirstLoad = false
         labelsView.setOnLabelClickListener { label, data, position ->
             if (data is String) {
                 editText.setText(data)
@@ -97,6 +104,18 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
                 search()
             }
         }
+    }
+
+    private fun loadRecord() {
+//        labelsView.setLabels(recordList,object :LabelsView.LabelTextProvider<String>{})
+        //最后一个参数是函数，可以提到外部
+        labelsView.setLabels(recordList) { label, position, data ->
+            if (isFirstLoad) {
+                label.visibility = View.GONE
+            }
+            data
+        }
+        isFirstLoad = false
     }
 
     /**
@@ -118,11 +137,11 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
                     loadRecord()
                     ivClear.visibility = View.GONE
                     loadingTip.dismiss()
-                    smartRefresh.visibility = View.GONE
-                    rlRecord.visibility = View.VISIBLE
-
+                    smartRefresh.visibility = View.GONE//搜索结果关闭
+                    rlRecord.visibility = View.VISIBLE//搜索历史显示
                 } else {
                     ivClear.visibility = View.VISIBLE
+                    editText.setSelection(editText.text.length)
                 }
             }
         })
@@ -149,10 +168,12 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
     }
 
     private fun search() {
-        KeyBoardUtil.closeKeyboard(editText, this)
-        loadingTip.loading()
-        rlRecord.visibility = View.GONE
-        smartRefresh.visibility = View.VISIBLE
+        articleList.clear()//清空上一次的结果
+        adapter.updata(articleList)
+        KeyBoardUtil.closeKeyboard(editText, this)//关闭键盘
+        loadingTip.loading()//加载中动画
+        rlRecord.visibility = View.GONE//搜索历史关闭
+        smartRefresh.visibility = View.VISIBLE//搜索结果显示
         pageNum = 0
         keyWord?.let { persenter.getSearchData(it, pageNum) }
 
@@ -205,6 +226,7 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
 
     override fun onPause() {
         super.onPause()
+        KeyBoardUtil.closeKeyboard(editText, this)
         overridePendingTransition(R.anim.anim_no, R.anim.anim_search_out)
     }
 
@@ -215,7 +237,6 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
 
 
     override fun finish() {
-        KeyBoardUtil.closeKeyboard(editText, this)
         super.finish()
         val rlWidth = rlTop.measuredWidth
         val animator = ValueAnimator.ofInt(rlWidth, rlInitWidth)
@@ -235,11 +256,12 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
     override fun setSearchResultData(datas: List<ArticleBean>) {
         loadingTip.dismiss()
         smartRefresh.finishLoadMore()
-        if (datas == null || datas.size == 0) {
+        articleList.addAll(datas)
+        adapter.updata(articleList)
+        if (articleList.isEmpty()) {
             loadingTip.showEmpty()
-        } else {
-            articleList.addAll(datas)
-            adapter.updata(articleList)
+        }else if (datas.isEmpty()){
+            SmartToast.show("没有更多数据")
         }
     }
 

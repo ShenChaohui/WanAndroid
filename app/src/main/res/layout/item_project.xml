@@ -43,6 +43,7 @@
         android:layout_marginTop="10dp" />
 
     <ImageView
+        android:id="@+id/ivCollect"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignTop="@+id/tvNameData"
