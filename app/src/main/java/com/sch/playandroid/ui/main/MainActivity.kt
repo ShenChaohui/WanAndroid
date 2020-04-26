@@ -7,7 +7,7 @@ import com.sch.playandroid.base.BaseActivity
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.ui.main.discover.DiscoverFragment
 import com.sch.playandroid.ui.main.home.HomeFragment
-import com.sch.playandroid.ui.main.mine.MeFragment
+import com.sch.playandroid.ui.main.mine.MineFragment
 import com.sch.playandroid.ui.main.tab.TabFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -56,7 +56,7 @@ class MainActivity : BaseActivity() {
         wxarticleFragment.arguments = wxBundle
         fragments.add(wxarticleFragment)
 
-        fragments.add(MeFragment())
+        fragments.add(MineFragment())
         setFragmentPosition(0)
     }
 

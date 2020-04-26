@@ -29,6 +29,9 @@
         <activity android:name=".ui.search.SearchActivity" />
         <activity android:name=".ui.login.LoginActivity" />
         <activity android:name=".ui.regist.RegistActivity" />
+        <activity android:name=".ui.set.SetActivity" />
+        <activity android:name=".ui.rank.RankActivity" />
+        <activity android:name=".ui.coin.MyCoinActivity" />
     </application>
 
 </manifest>

@@ -6,9 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.sch.playandroid.ui.login.LoginActivity
 import com.sch.playandroid.util.AppManager
 
-abstract class BaseFragment: Fragment() {
+abstract class BaseFragment : Fragment() {
     protected var TAG = javaClass.name
     var contentView: View? = null
 
@@ -38,7 +39,7 @@ abstract class BaseFragment: Fragment() {
     protected fun intent(clazz: Class<*>, isLogin: Boolean) {
         //需要登录&&未登录
         if (isLogin && !AppManager.isLogin()) {
-//            startActivity(Intent(context, LoginActivity::class.java))
+            startActivity(Intent(context, LoginActivity::class.java))
         } else {
             startActivity(Intent(context, clazz))
         }
@@ -51,7 +52,7 @@ abstract class BaseFragment: Fragment() {
     protected fun intent(bundle: Bundle, clazz: Class<*>, isLogin: Boolean) {
         //需要登录&&未登录
         if (isLogin && !AppManager.isLogin()) {
-//            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(Intent(context, LoginActivity::class.java))
         } else {
             startActivity(Intent(context, clazz).apply {
                 putExtras(bundle)

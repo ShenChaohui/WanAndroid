@@ -2,6 +2,7 @@ package com.sch.playandroid.util
 
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.UserBean
+import com.sch.playandroid.entity.UserCoinInfo
 
 
 /**
@@ -24,6 +25,14 @@ class AppManager {
                 PrefUtils.getString(Constants.USERINFO),
                 UserBean::class.java
             )
+        }
+
+        fun getUserCoinInfo(): UserCoinInfo? {
+            var userCoinInfo: UserCoinInfo? = null
+            PrefUtils.getString(Constants.USERCOININFO)?.let {
+                userCoinInfo = GsonUtil.parseJsonWithGson(it, UserCoinInfo::class.java)
+            }
+            return userCoinInfo
         }
     }
 }

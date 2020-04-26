@@ -13,7 +13,9 @@ import com.sch.playandroid.entity.UserBean
 import com.sch.playandroid.ui.regist.RegistActivity
 import com.sch.playandroid.util.AppManager
 import com.sch.playandroid.util.PrefUtils
+import com.zs.wanandroid.event.LoginEvent
 import kotlinx.android.synthetic.main.activity_login.*
+import org.greenrobot.eventbus.EventBus
 
 /**
  * Created by Sch.
@@ -102,6 +104,7 @@ class LoginActivity : BaseActivity(), LoginConstant.ILoginView {
 
     override fun loginSuccess() {
         PrefUtils.setBoolean(Constants.LOGIN, true)
+        EventBus.getDefault().post(LoginEvent())
         finish()
     }
 

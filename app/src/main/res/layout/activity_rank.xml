@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ripple_circle_bg"
+            android:padding="10dp"
+            android:src="@mipmap/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/ivBack"
+            android:gravity="center_vertical"
+            android:text="排名"
+            android:textColor="@color/text_1"
+            android:textSize="17dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivDetail"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ripple_circle_bg"
+            android:padding="13dp"
+            android:src="@mipmap/detail" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/division_line_thickening"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/llMyRank"
+            app:srlEnableAutoLoadMore="false"
+            app:srlEnableLoadMore="true"
+            app:srlEnableOverScrollBounce="true"
+            app:srlEnableRefresh="true"
+            >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:background="@color/white" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        <com.sch.playandroid.widget.LoadingTip
+            android:id="@+id/loadingTip"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/llMyRank"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white">
+
+            <ImageView
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_marginLeft="10dp"
+                android:padding="5dp"
+                android:src="@mipmap/logo_green" />
+
+            <TextView
+                android:id="@+id/tvRank"
+                android:layout_width="wrap_content"
+                android:layout_height="54dp"
+                android:layout_marginLeft="70dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_2"
+                android:textSize="@dimen/text_1"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvCoinCount"
+                android:layout_width="wrap_content"
+                android:layout_height="54dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/padding"
+                android:gravity="center_vertical"
+                android:textColor="@color/theme"
+                android:textSize="@dimen/text_1"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

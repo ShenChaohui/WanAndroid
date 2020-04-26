@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:overScrollMode="never">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivHead"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="@dimen/set_padding"
+            android:layout_marginTop="80dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/logo_green" />
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/ivHead"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/ivHead"
+            android:text="请先登录"
+            android:textColor="@color/black"
+            android:textSize="17dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvUserName"
+            android:layout_alignLeft="@+id/tvUserName"
+            android:layout_marginTop="5dp"
+            android:text="id:---"
+            android:textColor="@color/text_1"
+            android:textSize="13dp" />
+
+        <LinearLayout
+            android:id="@+id/llCoinInfo"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_below="@+id/ivHead"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/set_padding"
+            android:paddingRight="@dimen/set_padding">
+
+            <LinearLayout
+                android:id="@+id/llCoin"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_bg"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvCoinCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_1"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/text_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="积分" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llRank"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_bg"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvRank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_1"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/text_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="排名" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/llCoinInfo"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/division_line_thickening" />
+
+            <LinearLayout
+                android:id="@+id/llMyCollect"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/ripple_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/set_padding"
+                android:paddingRight="@dimen/set_padding">
+
+                <ImageView
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:src="@mipmap/collect" />
+
+                <TextView
+                    style="@style/text_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:drawableRight="@drawable/ic_arrow_right"
+                    android:gravity="center_vertical"
+                    android:text="我的收藏"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llMyArticle"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/ripple_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/set_padding"
+                android:paddingRight="@dimen/set_padding">
+
+                <ImageView
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:src="@mipmap/my_article" />
+
+                <TextView
+                    style="@style/text_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:drawableRight="@drawable/ic_arrow_right"
+                    android:gravity="center_vertical"
+                    android:text="我的文章"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/division_line_thickening" />
+
+            <LinearLayout
+                android:id="@+id/llSet"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/ripple_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/set_padding"
+                android:paddingRight="@dimen/set_padding">
+
+                <ImageView
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:src="@mipmap/set" />
+
+                <TextView
+                    style="@style/text_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:drawableRight="@drawable/ic_arrow_right"
+                    android:gravity="center_vertical"
+                    android:text="设置"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>

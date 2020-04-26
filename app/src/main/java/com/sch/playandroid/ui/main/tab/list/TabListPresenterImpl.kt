@@ -19,7 +19,6 @@ import org.xutils.x
 class TabListPresenterImpl(var view: TabListContract.ITabListView) :
     TabListContract.ITabListPresenter {
     override fun getListData(type: Int, curPage: Int, cid: Int) {
-        Log.e("test", "getListData" + type)
         var url: String
         if (type == Constants.PROJECT_TYPE) {
             url = "https://www.wanandroid.com/project/list/$curPage/json?cid=$cid"
