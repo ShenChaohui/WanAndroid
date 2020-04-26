@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.coder.zzq.smartshow.toast.SmartToast
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.ArticleAdapter
 import com.sch.playandroid.base.BaseActivity
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.ui.web.WebActivity
+import com.sch.playandroid.util.AppManager
 import kotlinx.android.synthetic.main.activity_system_list.*
 import kotlinx.android.synthetic.main.activity_system_list.loadingTip
 import kotlinx.android.synthetic.main.activity_system_list.refreshLayout
@@ -28,6 +30,14 @@ class SystemListActivity : BaseActivity(), SystemListContract.ISystemListView {
     private val presenterImpl by lazy { SystemListPresenterImpl(this) }
     private var curPage = 0
     val articleList by lazy { ArrayList<ArticleBean>() }
+
+    private var collectPosition = 0
+
+    /**
+     * 点击收藏后将点击事件上锁,等接口有相应结果再解锁
+     * 避免重复点击产生的bug  false表示没锁，true表示锁住
+     */
+    private var lockCollectClick = false
     override fun init(savedInstanceState: Bundle?) {
         val bundle: Bundle? = intent.extras
         cid = bundle?.getInt(Constants.SYSTEM_ID)
@@ -45,6 +55,27 @@ class SystemListActivity : BaseActivity(), SystemListContract.ISystemListView {
                     putString(Constants.WEB_URL, articleList[position].link)
                     putString(Constants.WEB_TITLE, articleList[position].title)
                 }, WebActivity::class.java, false)
+            }
+        })
+        adapter.setOnCollectClickListener(object : ArticleAdapter.OnCollectClickListener {
+            override fun onCollectClick(position: Int) {
+                if (!AppManager.isLogin()) {
+                    SmartToast.info("请先登录")
+                    return
+                }
+                if (position < articleList.size && !lockCollectClick) {
+                    lockCollectClick = true
+                    collectPosition = position
+                    articleList[position].apply {
+                        if (!collect) {
+                            presenterImpl?.collect(id)
+                        } else {
+                            presenterImpl?.unCollect(id)
+                        }
+
+                    }
+
+                }
             }
         })
 //加载中动画
@@ -88,5 +119,25 @@ class SystemListActivity : BaseActivity(), SystemListContract.ISystemListView {
 
     override fun setError(ex: String) {
         loadingTip.showInternetError()
+    }
+    override fun oncollectError(msg: String) {
+        lockCollectClick = false
+        SmartToast.error(msg)
+    }
+
+    override fun collectSuccess() {
+        lockCollectClick = false
+        if (collectPosition < articleList.size) {
+            articleList[collectPosition].collect = true
+            adapter.updata(articleList)
+        }
+    }
+
+    override fun unCollectSuccess() {
+        lockCollectClick = false
+        if (collectPosition < articleList.size) {
+            articleList[collectPosition].collect = false
+            adapter.updata(articleList)
+        }
     }
 }

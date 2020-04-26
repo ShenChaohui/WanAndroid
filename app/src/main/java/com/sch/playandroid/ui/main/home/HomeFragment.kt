@@ -1,7 +1,6 @@
 package com.sch.playandroid.ui.main.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -13,7 +12,6 @@ import com.bumptech.glide.Glide
 import com.coder.zzq.smartshow.toast.SmartToast
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.ArticleAdapter
-import com.sch.playandroid.adapter.OnCollectClickListener
 import com.sch.playandroid.base.LazyFragment
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.ArticleBean
@@ -91,7 +89,7 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
                 }, WebActivity::class.java, false)
             }
         })
-        adapter.setOnCollectClickListener(object : OnCollectClickListener {
+        adapter.setOnCollectClickListener(object : ArticleAdapter.OnCollectClickListener {
             override fun onCollectClick(position: Int) {
                 if (!AppManager.isLogin()) {
                     SmartToast.info("请先登录")
@@ -102,10 +100,8 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
                     collectPosition = position
                     articleList[position].apply {
                         if (!collect) {
-                            Log.e("test", "收藏 $position")
                             presenter?.collect(id)
                         } else {
-                            Log.e("test", "取消收藏 $position")
                             presenter?.unCollect(id)
                         }
 

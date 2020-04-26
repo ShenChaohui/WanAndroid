@@ -49,5 +49,53 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView) :
             }
         })
     }
+    override fun collect(id: Int) {
+        val params = RequestParams("https://www.wanandroid.com/lg/collect/$id/json")
+        x.http().post(params, object : Callback.CommonCallback<String> {
+            override fun onFinished() {
+            }
 
+            override fun onSuccess(result: String?) {
+                val obj = JSONObject(result)
+                val errorCode = obj.getInt("errorCode")
+                if (errorCode == 0) {
+                    view?.collectSuccess()
+                } else {
+                    view?.oncollectError(obj.getString("errorMsg"))
+                }
+            }
+
+            override fun onCancelled(cex: Callback.CancelledException?) {
+            }
+
+            override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+            }
+
+        })
+    }
+
+    override fun unCollect(id: Int) {
+        val params = RequestParams("https://www.wanandroid.com/lg/uncollect_originId/$id/json")
+        x.http().post(params, object : Callback.CommonCallback<String> {
+            override fun onFinished() {
+            }
+
+            override fun onSuccess(result: String?) {
+                val obj = JSONObject(result)
+                val errorCode = obj.getInt("errorCode")
+                if (errorCode == 0) {
+                    view?.unCollectSuccess()
+                } else {
+                    view?.oncollectError(obj.getString("errorMsg"))
+                }
+            }
+
+            override fun onCancelled(cex: Callback.CancelledException?) {
+            }
+
+            override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+            }
+
+        })
+    }
 }

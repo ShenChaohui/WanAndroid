@@ -10,10 +10,14 @@ import com.sch.playandroid.entity.ArticleBean
 class SystemListContract {
     interface ISystemListPresenter{
         fun getListData(curPage: Int, cid: Int)
-
+        fun collect(id: Int)
+        fun unCollect(id: Int)
     }
     interface ISystemListView{
         fun setListData(list: List<ArticleBean>)
         fun setError(ex: String)
+        fun oncollectError(msg: String)
+        fun collectSuccess()
+        fun unCollectSuccess()
     }
 }

@@ -21,6 +21,10 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun onClick(position: Int)
     }
 
+    interface OnCollectClickListener {
+        fun onCollectClick(position: Int)
+    }
+
     private var onItemClickListener: OnItemClickListener? = null
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
