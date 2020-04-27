@@ -16,8 +16,8 @@ import com.sch.playandroid.entity.SystemChildrenBean
  * description:
  */
 class SystemAdapter : RecyclerView.Adapter<SystemAdapter.SystemAdapterHolder>() {
-    private var list = ArrayList<SystemBean>()
-    fun updata(list: ArrayList<SystemBean>) {
+    private var list = mutableListOf<SystemBean>()
+    fun updata(list: MutableList<SystemBean>) {
         this.list = list
         notifyDataSetChanged()
     }

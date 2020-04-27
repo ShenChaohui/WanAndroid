@@ -13,7 +13,7 @@ class TabContract {
     }
 
     interface ITabView {
-        fun setTabList(list: List<TabTypeBean>)
+        fun setTabList(list: MutableList<TabTypeBean>)
         fun setError(ex: String)
     }
 }

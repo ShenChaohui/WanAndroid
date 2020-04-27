@@ -27,6 +27,9 @@ import com.sch.playandroid.util.KeyBoardUtil
 import com.sch.playandroid.util.PrefUtils
 import com.sch.playandroid.util.UiUtils
 import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.activity_search.ivBack
+import kotlinx.android.synthetic.main.activity_search.loadingTip
+import kotlinx.android.synthetic.main.activity_search.smartRefresh
 
 /**
  * Created by Sch.
@@ -37,11 +40,12 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
     private val persenter by lazy { SearchPresenterImpl(this) }
     private var keyWord: String? = null
     private var pageNum: Int = 0
-    private val articleList by lazy { ArrayList<ArticleBean>() }
+    private val articleList by lazy { mutableListOf<ArticleBean>() }
     private val adapter by lazy { ArticleAdapter() }
 
-    private val recordList by lazy { ArrayList<String>() }
+    private val recordList by lazy { mutableListOf<String>() }
     private var collectPosition = 0
+
     /**
      * 点击收藏后将点击事件上锁,等接口有相应结果再解锁
      * 避免重复点击产生的bug  false表示没锁，true表示锁住
@@ -280,24 +284,26 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
         animator.start()
     }
 
-    override fun setSearchResultData(datas: List<ArticleBean>) {
-        loadingTip.dismiss()
-        smartRefresh.finishLoadMore()
-        articleList.addAll(datas)
-        adapter.updata(articleList)
-        if (articleList.isEmpty()) {
-            loadingTip.showEmpty()
-        }else if (datas.isEmpty()){
-            SmartToast.show("没有更多数据")
+    override fun setSearchResultData(datas: MutableList<ArticleBean>) {
+        dismissRefresh()
+        if (datas.isNotEmpty()) {
+            articleList.addAll(datas)
+            adapter.updata(articleList)
+        } else {
+            if (articleList.size == 0) loadingTip.showEmpty()
+            else SmartToast.info("没有更多数据了")
         }
     }
 
     override fun setError(ex: String) {
-        loadingTip.showInternetError()
-    }
-    override fun oncollectError(msg: String) {
         lockCollectClick = false
-        SmartToast.error(msg)
+        //请求失败将page -1
+        if (pageNum > 0) pageNum--
+        dismissRefresh()
+        if (articleList.size == 0) {
+            loadingTip.showInternetError()
+        }
+        SmartToast.error(ex)
     }
 
     override fun collectSuccess() {
@@ -313,6 +319,17 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
         if (collectPosition < articleList.size) {
             articleList[collectPosition].collect = false
             adapter.updata(articleList)
+        }
+    }
+
+    /**
+     * 隐藏刷新加载
+     */
+    private fun dismissRefresh() {
+        loadingTip.dismiss()
+        if (smartRefresh.state.isOpening) {
+            smartRefresh.finishLoadMore()
+            smartRefresh.finishRefresh()
         }
     }
 }

@@ -13,7 +13,7 @@ class RankConstant {
     }
 
     interface IRankView {
-        fun showRankList(list: List<RankBean>)
+        fun showRankList(list: MutableList<RankBean>)
         fun onError(ex: String)
     }
 }

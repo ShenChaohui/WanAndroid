@@ -31,7 +31,10 @@
         <activity android:name=".ui.regist.RegistActivity" />
         <activity android:name=".ui.set.SetActivity" />
         <activity android:name=".ui.rank.RankActivity" />
-        <activity android:name=".ui.coin.MyCoinActivity" />
+        <activity android:name=".ui.coin.CoinActivity" />
+        <activity android:name=".test.TestActivity" >
+
+        </activity>
     </application>
 
 </manifest>

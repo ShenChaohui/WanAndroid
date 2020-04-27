@@ -5,7 +5,7 @@ import com.sch.playandroid.R
 import com.sch.playandroid.base.LazyFragment
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.UserCoinInfo
-import com.sch.playandroid.ui.coin.MyCoinActivity
+import com.sch.playandroid.ui.coin.CoinActivity
 import com.sch.playandroid.ui.login.LoginActivity
 import com.sch.playandroid.ui.rank.RankActivity
 import com.sch.playandroid.ui.set.SetActivity
@@ -46,7 +46,10 @@ class MineFragment : LazyFragment(), MineContract.IMineView {
             intent(SetActivity::class.java, false)
         }
         llCoin.setOnClickListener {
-            intent(MyCoinActivity::class.java, true)
+            intent(Bundle().apply {
+                putInt(Constants.MY_COIN, Integer.valueOf(tvCoinCount.text.toString()))
+            }
+                , CoinActivity::class.java, true)
         }
         llRank.setOnClickListener {
             intent(Bundle().apply {

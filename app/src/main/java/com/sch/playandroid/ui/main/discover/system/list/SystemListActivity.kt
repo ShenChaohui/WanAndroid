@@ -14,9 +14,7 @@ import com.sch.playandroid.ui.web.WebActivity
 import com.sch.playandroid.util.AppManager
 import kotlinx.android.synthetic.main.activity_system_list.*
 import kotlinx.android.synthetic.main.activity_system_list.loadingTip
-import kotlinx.android.synthetic.main.activity_system_list.refreshLayout
 import kotlinx.android.synthetic.main.activity_system_list.rvList
-import kotlinx.android.synthetic.main.fragment_refresh_list.*
 
 /**
  * Created by Sch.
@@ -28,8 +26,8 @@ class SystemListActivity : BaseActivity(), SystemListContract.ISystemListView {
     private var cid: Int? = null
     private val adapter by lazy { ArticleAdapter() }
     private val presenterImpl by lazy { SystemListPresenterImpl(this) }
-    private var curPage = 0
-    val articleList by lazy { ArrayList<ArticleBean>() }
+    private var pageNum = 0
+    val articleList by lazy { mutableListOf<ArticleBean>() }
 
     private var collectPosition = 0
 
@@ -84,45 +82,48 @@ class SystemListActivity : BaseActivity(), SystemListContract.ISystemListView {
         loadingTip.setReloadListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 loadingTip.loading()
-                cid?.let { presenterImpl.getListData(curPage, it) }
+                cid?.let { presenterImpl.getListData(pageNum, it) }
             }
         })
         //下拉监听
-        refreshLayout.setOnRefreshListener {
-            curPage = 0
+        smartRefresh.setOnRefreshListener {
+            pageNum = 0
             articleList.clear()
             adapter.updata(articleList)
-            cid?.let { it1 -> presenterImpl.getListData(curPage, it1) }
+            cid?.let { it1 -> presenterImpl.getListData(pageNum, it1) }
 
         }
-        refreshLayout.setOnLoadMoreListener {
-            curPage++
-            cid?.let { it1 -> presenterImpl.getListData(curPage, it1) }
+        smartRefresh.setOnLoadMoreListener {
+            pageNum++
+            cid?.let { it1 -> presenterImpl.getListData(pageNum, it1) }
         }
-        cid?.let { presenterImpl.getListData(curPage, it) }
+        cid?.let { presenterImpl.getListData(pageNum, it) }
     }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_system_list
     }
 
-    override fun setListData(list: List<ArticleBean>) {
-        loadingTip.dismiss()
-        articleList.addAll(list)
-        adapter.updata(articleList)
-        if (curPage == 0) {
-            refreshLayout.finishRefresh()
+    override fun setListData(list: MutableList<ArticleBean>) {
+        dismissRefresh()
+        if (list.isNotEmpty()) {
+            articleList.addAll(list)
+            adapter.updata(articleList)
         } else {
-            refreshLayout.finishLoadMore()
+            if (articleList.size == 0) loadingTip.showEmpty()
+            else SmartToast.info("没有更多数据了")
         }
     }
 
     override fun setError(ex: String) {
-        loadingTip.showInternetError()
-    }
-    override fun oncollectError(msg: String) {
         lockCollectClick = false
-        SmartToast.error(msg)
+        //请求失败将page -1
+        if (pageNum > 0) pageNum--
+        dismissRefresh()
+        if (articleList.size == 0) {
+            loadingTip.showInternetError()
+        }
+        SmartToast.error(ex)
     }
 
     override fun collectSuccess() {
@@ -138,6 +139,16 @@ class SystemListActivity : BaseActivity(), SystemListContract.ISystemListView {
         if (collectPosition < articleList.size) {
             articleList[collectPosition].collect = false
             adapter.updata(articleList)
+        }
+    }
+    /**
+     * 隐藏刷新加载
+     */
+    private fun dismissRefresh() {
+        loadingTip.dismiss()
+        if (smartRefresh.state.isOpening) {
+            smartRefresh.finishLoadMore()
+            smartRefresh.finishRefresh()
         }
     }
 }

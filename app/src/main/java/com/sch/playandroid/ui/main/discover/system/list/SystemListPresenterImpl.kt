@@ -44,7 +44,6 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                Log.e("test", ex.toString())
                 view?.setError(ex.toString())
             }
         })
@@ -61,7 +60,7 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView) :
                 if (errorCode == 0) {
                     view?.collectSuccess()
                 } else {
-                    view?.oncollectError(obj.getString("errorMsg"))
+                    view?.setError(obj.getString("errorMsg"))
                 }
             }
 
@@ -69,6 +68,8 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+                view?.setError(ex.toString())
+
             }
 
         })
@@ -86,7 +87,7 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView) :
                 if (errorCode == 0) {
                     view?.unCollectSuccess()
                 } else {
-                    view?.oncollectError(obj.getString("errorMsg"))
+                    view?.setError(obj.getString("errorMsg"))
                 }
             }
 
@@ -94,6 +95,8 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+                view?.setError(ex.toString())
+
             }
 
         })

@@ -15,8 +15,8 @@ import com.sch.playandroid.entity.RankBean
  * description:
  */
 class RankAdapter : RecyclerView.Adapter<RankAdapter.RankViewHolder>() {
-    val list = ArrayList<RankBean>()
-    fun updata(list: ArrayList<RankBean>) {
+    val list = mutableListOf<RankBean>()
+    fun updata(list: MutableList<RankBean>) {
         list?.let {
             this.list.clear()
             this.list.addAll(it)

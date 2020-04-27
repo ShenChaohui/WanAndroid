@@ -1,11 +1,8 @@
 package com.sch.playandroid.ui.main.discover.system
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sch.lolcosmos.base.BaseFragment
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.SystemAdapter
 import com.sch.playandroid.base.LazyFragment
@@ -13,9 +10,6 @@ import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.SystemBean
 import com.sch.playandroid.ui.main.discover.system.list.SystemListActivity
 import kotlinx.android.synthetic.main.fragment_list.*
-import kotlinx.android.synthetic.main.fragment_list.loadingTip
-import kotlinx.android.synthetic.main.fragment_list.rvList
-import kotlinx.android.synthetic.main.fragment_refresh_list.*
 
 /**
  * 体系
@@ -23,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_refresh_list.*
 
 class SystemFragment : LazyFragment(), SystemContract.ISystemView {
     private val adapter by lazy { SystemAdapter() }
-    private val systemList by lazy { ArrayList<SystemBean>() }
+    private val systemList by lazy { mutableListOf<SystemBean>() }
     private val presenter by lazy { SystemPresenterImpl(this) }
     override fun lazyInit() {
         rvList.layoutManager = LinearLayoutManager(context)
@@ -59,7 +53,7 @@ class SystemFragment : LazyFragment(), SystemContract.ISystemView {
         return R.layout.fragment_list
     }
 
-    override fun setSystemData(list: List<SystemBean>) {
+    override fun setSystemData(list: MutableList<SystemBean>) {
         loadingTip.dismiss()
         systemList.clear()
         systemList.addAll(list)

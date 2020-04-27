@@ -55,6 +55,7 @@ class TabListPresenterImpl(var view: TabListContract.ITabListView) :
             }
         })
     }
+
     override fun collect(id: Int) {
         val params = RequestParams("https://www.wanandroid.com/lg/collect/$id/json")
         x.http().post(params, object : Callback.CommonCallback<String> {
@@ -66,8 +67,8 @@ class TabListPresenterImpl(var view: TabListContract.ITabListView) :
                 val errorCode = obj.getInt("errorCode")
                 if (errorCode == 0) {
                     view?.collectSuccess()
-                }else{
-                    view?.oncollectError(obj.getString("errorMsg"))
+                } else {
+                    view?.setError(obj.getString("errorMsg"))
                 }
             }
 
@@ -75,6 +76,7 @@ class TabListPresenterImpl(var view: TabListContract.ITabListView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+                view?.setError(ex.toString())
             }
 
         })
@@ -91,8 +93,8 @@ class TabListPresenterImpl(var view: TabListContract.ITabListView) :
                 val errorCode = obj.getInt("errorCode")
                 if (errorCode == 0) {
                     view?.unCollectSuccess()
-                }else{
-                    view?.oncollectError(obj.getString("errorMsg"))
+                } else {
+                    view?.setError(obj.getString("errorMsg"))
                 }
             }
 
@@ -100,6 +102,8 @@ class TabListPresenterImpl(var view: TabListContract.ITabListView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+                view?.setError(ex.toString())
+
             }
 
         })

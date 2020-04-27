@@ -16,8 +16,8 @@ import com.sch.playandroid.entity.NavigationChildrenBean
  * description:
  */
 class NavigationAdapter : RecyclerView.Adapter<NavigationAdapter.NavigationAdapterHolder>() {
-    private var list = ArrayList<NavigationBean>()
-    fun updata(list: ArrayList<NavigationBean>) {
+    private var list = mutableListOf<NavigationBean>()
+    fun updata(list: MutableList<NavigationBean>) {
         this.list = list
         notifyDataSetChanged()
     }

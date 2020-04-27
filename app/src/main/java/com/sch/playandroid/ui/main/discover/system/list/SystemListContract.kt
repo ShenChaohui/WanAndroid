@@ -14,9 +14,8 @@ class SystemListContract {
         fun unCollect(id: Int)
     }
     interface ISystemListView{
-        fun setListData(list: List<ArticleBean>)
+        fun setListData(list: MutableList<ArticleBean>)
         fun setError(ex: String)
-        fun oncollectError(msg: String)
         fun collectSuccess()
         fun unCollectSuccess()
     }

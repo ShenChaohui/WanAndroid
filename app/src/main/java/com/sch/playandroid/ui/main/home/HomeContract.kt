@@ -15,11 +15,10 @@ class HomeContract {
     }
 
     interface IHomeView {
-        fun showBanner(list: List<BannerBean>)
-        fun setTopArticleDatas(list: List<ArticleBean>)
-        fun onLoadArticleDatas(list: List<ArticleBean>)
+        fun showBanner(list: MutableList<BannerBean>)
+        fun setTopArticleDatas(list: MutableList<ArticleBean>)
+        fun onLoadArticleDatas(list: MutableList<ArticleBean>)
         fun onError(msg: String)
-        fun oncollectError(msg: String)
         fun collectSuccess()
         fun unCollectSuccess()
     }

@@ -20,6 +20,7 @@ import com.sch.playandroid.ui.search.SearchActivity
 import com.sch.playandroid.ui.web.WebActivity
 import com.sch.playandroid.util.AppManager
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home.loadingTip
 
 
 class HomeFragment : LazyFragment(), HomeContract.IHomeView {
@@ -29,8 +30,8 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
         )
     }
     val adapter by lazy { ArticleAdapter() }
-    val articleList by lazy { ArrayList<ArticleBean>() }
-    val bannerList by lazy { ArrayList<BannerBean>() }
+    val articleList by lazy { mutableListOf<ArticleBean>() }
+    val bannerList by lazy { mutableListOf<BannerBean>() }
 
     private var pageNum = 0
 
@@ -111,10 +112,10 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
             }
         })
         //下拉监听
-        refreshLayout.setOnRefreshListener {
+        smartRefresh.setOnRefreshListener {
             loadData()
         }
-        refreshLayout.setOnLoadMoreListener {
+        smartRefresh.setOnLoadMoreListener {
             pageNum++
             presenter.getArticleData(pageNum)
         }
@@ -139,7 +140,7 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
 
     private fun initBanners() {
         banner.setAutoPlayAble(true)
-        val views: MutableList<View> = ArrayList()
+        val views = mutableListOf<View>()
         bannerList.forEach { _ ->
             views.add(
                 LayoutInflater.from(context).inflate(R.layout.banner_layout, null)
@@ -181,33 +182,35 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
     }
 
 
-    override fun showBanner(list: List<BannerBean>) {
+    override fun showBanner(list: MutableList<BannerBean>) {
         bannerList.addAll(list)
         initBanners()
     }
 
-    override fun setTopArticleDatas(list: List<ArticleBean>) {
+    override fun setTopArticleDatas(list: MutableList<ArticleBean>) {
         articleList.addAll(0, list)
         adapter.updata(articleList)
     }
 
-    override fun onLoadArticleDatas(list: List<ArticleBean>) {
-        loadingTip.dismiss()
-        articleList.addAll(list)
-        adapter.updata(articleList)
-        if (pageNum == 0) {
-            refreshLayout.finishRefresh()
+    override fun onLoadArticleDatas(list: MutableList<ArticleBean>) {
+        dismissRefresh()
+        if (list.isNotEmpty()) {
+            articleList.addAll(list)
+            adapter.updata(articleList)
         } else {
-            refreshLayout.finishLoadMore()
+            if (articleList.size == 0) loadingTip.showEmpty()
+            else SmartToast.info("没有更多数据了")
         }
     }
 
     override fun onError(msg: String) {
-        loadingTip.showInternetError()
-    }
-
-    override fun oncollectError(msg: String) {
         lockCollectClick = false
+        //请求失败将page -1
+        if (pageNum > 0) pageNum--
+        dismissRefresh()
+        if (articleList.size == 0) {
+            loadingTip.showInternetError()
+        }
         SmartToast.error(msg)
     }
 
@@ -227,4 +230,14 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
         }
     }
 
+    /**
+     * 隐藏刷新加载
+     */
+    private fun dismissRefresh() {
+        loadingTip.dismiss()
+        if (smartRefresh.state.isOpening) {
+            smartRefresh.finishLoadMore()
+            smartRefresh.finishRefresh()
+        }
+    }
 }

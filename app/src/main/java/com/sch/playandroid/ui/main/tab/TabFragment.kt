@@ -9,16 +9,14 @@ import com.sch.playandroid.adapter.TabFragmentAdapter
 import com.sch.playandroid.entity.TabTypeBean
 import com.sch.playandroid.ui.main.tab.list.TabListFragment
 import kotlinx.android.synthetic.main.fragment_tab.*
-import kotlinx.android.synthetic.main.fragment_tab.loadingTip
-import kotlinx.android.synthetic.main.fragment_refresh_list.*
 
 /**
  * 项目页和公众号 共用
  */
 class TabFragment : BaseFragment(), TabContract.ITabView {
     private val presenter by lazy { TabPresenterImpl(this) }
-    private val mFragments by lazy { ArrayList<Fragment>() }
-    private val tabList by lazy { ArrayList<TabTypeBean>() }
+    private val mFragments by lazy { mutableListOf<Fragment>() }
+    private val tabList by lazy { mutableListOf<TabTypeBean>() }
     private val fragmentAdapter by lazy {
         TabFragmentAdapter(
             mFragments,
@@ -52,12 +50,11 @@ class TabFragment : BaseFragment(), TabContract.ITabView {
         return R.layout.fragment_tab
     }
 
-    override fun setTabList(list: List<TabTypeBean>) {
+    override fun setTabList(list: MutableList<TabTypeBean>) {
         loadingTip.dismiss()
         tabList.clear()
         tabList.addAll(list)
         initListFragment()
-
     }
 
     private fun initListFragment() {

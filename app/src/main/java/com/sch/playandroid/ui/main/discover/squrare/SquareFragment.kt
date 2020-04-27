@@ -5,7 +5,6 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.coder.zzq.smartshow.toast.SmartToast
-import com.sch.lolcosmos.base.BaseFragment
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.ArticleAdapter
 import com.sch.playandroid.base.LazyFragment
@@ -27,8 +26,8 @@ class SquareFragment : LazyFragment(),
             this
         )
     }
-    private var curPage = 0
-    val articleList by lazy { ArrayList<ArticleBean>() }
+    private var pageNum = 0
+    val articleList by lazy { mutableListOf<ArticleBean>() }
 
     private var collectPosition = 0
 
@@ -77,46 +76,49 @@ class SquareFragment : LazyFragment(),
         loadingTip.setReloadListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 loadingTip.loading()
-                presenterImpl.getListData(curPage)
+                presenterImpl.getListData(pageNum)
             }
         })
         //下拉监听
-        refreshLayout.setOnRefreshListener {
-            curPage = 0
+        smartRefresh.setOnRefreshListener {
+            pageNum = 0
             articleList.clear()
             adapter.updata(articleList)
-            presenterImpl.getListData(curPage)
+            presenterImpl.getListData(pageNum)
 
         }
-        refreshLayout.setOnLoadMoreListener {
-            curPage++
-            presenterImpl.getListData(curPage)
+        smartRefresh.setOnLoadMoreListener {
+            pageNum++
+            presenterImpl.getListData(pageNum)
 
         }
-        presenterImpl.getListData(curPage)
+        presenterImpl.getListData(pageNum)
     }
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_refresh_list
     }
 
-    override fun setListData(list: List<ArticleBean>) {
-        loadingTip.dismiss()
-        articleList.addAll(list)
-        adapter.updata(articleList)
-        if (curPage == 0) {
-            refreshLayout.finishRefresh()
+    override fun setListData(list: MutableList<ArticleBean>) {
+        dismissRefresh()
+        if (list.isNotEmpty()) {
+            articleList.addAll(list)
+            adapter.updata(articleList)
         } else {
-            refreshLayout.finishLoadMore()
+            if (articleList.size == 0) loadingTip.showEmpty()
+            else SmartToast.info("没有更多数据了")
         }
     }
 
     override fun setError(ex: String) {
-        loadingTip.showInternetError()
-    }
-    override fun oncollectError(msg: String) {
         lockCollectClick = false
-        SmartToast.error(msg)
+        //请求失败将page -1
+        if (pageNum > 0) pageNum--
+        dismissRefresh()
+        if (articleList.size == 0) {
+            loadingTip.showInternetError()
+        }
+        SmartToast.error(ex)
     }
 
     override fun collectSuccess() {
@@ -132,6 +134,17 @@ class SquareFragment : LazyFragment(),
         if (collectPosition < articleList.size) {
             articleList[collectPosition].collect = false
             adapter.updata(articleList)
+        }
+    }
+
+    /**
+     * 隐藏刷新加载
+     */
+    private fun dismissRefresh() {
+        loadingTip.dismiss()
+        if (smartRefresh.state.isOpening) {
+            smartRefresh.finishLoadMore()
+            smartRefresh.finishRefresh()
         }
     }
 }

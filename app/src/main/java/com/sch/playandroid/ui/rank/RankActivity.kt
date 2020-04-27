@@ -1,6 +1,5 @@
 package com.sch.playandroid.ui.rank
 
-import android.os.Build
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coder.zzq.smartshow.toast.SmartToast
@@ -21,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_rank.loadingTip
 class RankActivity : BaseActivity(), RankConstant.IRankView {
     private val presenterImpl by lazy { RankPresenterImpl(this) }
     private var pageNum = 1
-    private val rankList by lazy { ArrayList<RankBean>() }
+    private val rankList by lazy { mutableListOf<RankBean>() }
     private val adapter by lazy { RankAdapter() }
 
     /**
@@ -47,10 +46,10 @@ class RankActivity : BaseActivity(), RankConstant.IRankView {
     }
 
     private fun initListener() {
-        refreshLayout.setOnRefreshListener {
+        smartRefresh.setOnRefreshListener {
             loadData()
         }
-        refreshLayout.setOnLoadMoreListener {
+        smartRefresh.setOnLoadMoreListener {
             pageNum++
             presenterImpl?.getRankList(pageNum)
         }
@@ -73,9 +72,6 @@ class RankActivity : BaseActivity(), RankConstant.IRankView {
     }
 
     private fun initMyRank() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            llMyRank.elevation = 10f
-        }
         tvCoinCount.text = "$myCoin"
         tvRank.text = "$myRank"
     }
@@ -84,7 +80,7 @@ class RankActivity : BaseActivity(), RankConstant.IRankView {
         return R.layout.activity_rank
     }
 
-    override fun showRankList(list: List<RankBean>) {
+    override fun showRankList(list: MutableList<RankBean>) {
         dismissRefresh()
         if (list.isNotEmpty()) {
             rankList.addAll(list)
@@ -97,7 +93,12 @@ class RankActivity : BaseActivity(), RankConstant.IRankView {
     }
 
     override fun onError(ex: String) {
+        //请求失败将page -1
+        if (pageNum > 0) pageNum--
         dismissRefresh()
+        if (rankList.size == 0) {
+            loadingTip.showInternetError()
+        }
         SmartToast.error(ex)
     }
 
@@ -106,9 +107,9 @@ class RankActivity : BaseActivity(), RankConstant.IRankView {
      */
     private fun dismissRefresh() {
         loadingTip.dismiss()
-        if (refreshLayout.state.isOpening) {
-            refreshLayout.finishLoadMore()
-            refreshLayout.finishRefresh()
+        if (smartRefresh.state.isOpening) {
+            smartRefresh.finishLoadMore()
+            smartRefresh.finishRefresh()
         }
     }
 }

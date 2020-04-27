@@ -15,7 +15,7 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     //设置类型标志
     private val TYPE_HAVE_IMAGE = 0x00
     private val TYPE_NO_IMAGE = 0x01
-    val list = ArrayList<ArticleBean>()
+    val list = mutableListOf<ArticleBean>()
 
     interface OnItemClickListener {
         fun onClick(position: Int)
@@ -124,7 +124,7 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    fun updata(list: List<ArticleBean>?) {
+    fun updata(list: MutableList<ArticleBean>?) {
         list?.let {
             this.list.clear()
             this.list.addAll(it)

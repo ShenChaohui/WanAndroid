@@ -13,7 +13,7 @@ class SystemContract {
     }
 
     interface ISystemView {
-        fun setSystemData(list: List<SystemBean>)
+        fun setSystemData(list: MutableList<SystemBean>)
         fun setError(ex: String)
     }
 }

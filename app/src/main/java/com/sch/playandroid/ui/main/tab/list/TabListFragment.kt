@@ -22,8 +22,8 @@ import kotlinx.android.synthetic.main.fragment_refresh_list.*
 class TabListFragment : LazyFragment(), TabListContract.ITabListView {
     private val adapter by lazy { ArticleAdapter() }
     private val presenterImpl by lazy { TabListPresenterImpl(this) }
-    private var curPage = 1
-    val articleList by lazy { ArrayList<ArticleBean>() }
+    private var pageNum = 1
+    val articleList by lazy { mutableListOf<ArticleBean>() }
     private var collectPosition = 0
 
     /**
@@ -72,47 +72,49 @@ class TabListFragment : LazyFragment(), TabListContract.ITabListView {
         loadingTip.setReloadListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 loadingTip.loading()
-                presenterImpl.getListData(type, curPage, cid)
+                presenterImpl.getListData(type, pageNum, cid)
             }
         })
         //下拉监听
-        refreshLayout.setOnRefreshListener {
-            curPage = 1
+        smartRefresh.setOnRefreshListener {
+            pageNum = 1
             articleList.clear()
             adapter.updata(articleList)
-            presenterImpl.getListData(type, curPage, cid)
+            presenterImpl.getListData(type, pageNum, cid)
 
         }
-        refreshLayout.setOnLoadMoreListener {
-            curPage++
-            presenterImpl.getListData(type, curPage, cid)
+        smartRefresh.setOnLoadMoreListener {
+            pageNum++
+            presenterImpl.getListData(type, pageNum, cid)
 
         }
-        presenterImpl.getListData(type, curPage, cid)
+        presenterImpl.getListData(type, pageNum, cid)
     }
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_refresh_list
     }
 
-    override fun setListData(list: List<ArticleBean>) {
-        loadingTip.dismiss()
-        articleList.addAll(list)
-        adapter.updata(articleList)
-        if (curPage == 1) {
-            refreshLayout.finishRefresh()
+    override fun setListData(list: MutableList<ArticleBean>) {
+        dismissRefresh()
+        if (list.isNotEmpty()) {
+            articleList.addAll(list)
+            adapter.updata(articleList)
         } else {
-            refreshLayout.finishLoadMore()
+            if (articleList.size == 0) loadingTip.showEmpty()
+            else SmartToast.info("没有更多数据了")
         }
     }
 
     override fun setError(ex: String) {
-        loadingTip.showInternetError()
-    }
-
-    override fun oncollectError(msg: String) {
         lockCollectClick = false
-        SmartToast.error(msg)
+        //请求失败将page -1
+        if (pageNum > 1) pageNum--
+        dismissRefresh()
+        if (articleList.size == 0) {
+            loadingTip.showInternetError()
+        }
+        SmartToast.error(ex)
     }
 
     override fun collectSuccess() {
@@ -128,6 +130,17 @@ class TabListFragment : LazyFragment(), TabListContract.ITabListView {
         if (collectPosition < articleList.size) {
             articleList[collectPosition].collect = false
             adapter.updata(articleList)
+        }
+    }
+
+    /**
+     * 隐藏刷新加载
+     */
+    private fun dismissRefresh() {
+        loadingTip.dismiss()
+        if (smartRefresh.state.isOpening) {
+            smartRefresh.finishLoadMore()
+            smartRefresh.finishRefresh()
         }
     }
 }

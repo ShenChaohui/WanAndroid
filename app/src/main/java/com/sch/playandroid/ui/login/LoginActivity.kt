@@ -3,15 +3,12 @@ package com.sch.playandroid.ui.login
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import android.view.View
 import com.coder.zzq.smartshow.toast.SmartToast
 import com.sch.playandroid.R
 import com.sch.playandroid.base.BaseActivity
 import com.sch.playandroid.constants.Constants
-import com.sch.playandroid.entity.UserBean
 import com.sch.playandroid.ui.regist.RegistActivity
-import com.sch.playandroid.util.AppManager
 import com.sch.playandroid.util.PrefUtils
 import com.zs.wanandroid.event.LoginEvent
 import kotlinx.android.synthetic.main.activity_login.*

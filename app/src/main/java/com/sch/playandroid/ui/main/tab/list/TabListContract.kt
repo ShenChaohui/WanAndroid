@@ -16,9 +16,8 @@ class TabListContract {
     }
 
     interface ITabListView {
-        fun setListData(list: List<ArticleBean>)
+        fun setListData(list: MutableList<ArticleBean>)
         fun setError(ex: String)
-        fun oncollectError(msg: String)
         fun collectSuccess()
         fun unCollectSuccess()
     }

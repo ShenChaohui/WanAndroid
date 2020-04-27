@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_list.*
 
 class NavigationFragment : LazyFragment(), NavigationContract.INavigationView {
     private val adapter by lazy { NavigationAdapter() }
-    private val navigationList by lazy { ArrayList<NavigationBean>() }
+    private val navigationList by lazy { mutableListOf<NavigationBean>() }
     private val presenter by lazy { NavigationPresenterImpl(this) }
 
     override fun lazyInit() {
@@ -55,7 +55,7 @@ class NavigationFragment : LazyFragment(), NavigationContract.INavigationView {
         return R.layout.fragment_list
     }
 
-    override fun setNavigationData(list: List<NavigationBean>) {
+    override fun setNavigationData(list: MutableList<NavigationBean>) {
         loadingTip.dismiss()
         navigationList.clear()
         navigationList.addAll(list)

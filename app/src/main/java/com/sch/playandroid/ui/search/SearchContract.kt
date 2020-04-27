@@ -15,9 +15,8 @@ class SearchContract {
     }
 
     interface ISearchView {
-        fun setSearchResultData(datas: List<ArticleBean>)
+        fun setSearchResultData(datas: MutableList<ArticleBean>)
         fun setError(ex: String)
-        fun oncollectError(msg: String)
         fun collectSuccess()
         fun unCollectSuccess()
     }

@@ -1,6 +1,5 @@
 package com.sch.playandroid.ui.main.home
 
-import android.util.Log
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.entity.BannerBean
 import com.sch.playandroid.util.GsonUtil
@@ -118,8 +117,8 @@ class HomePresenterImpl(var view: HomeContract.IHomeView) :
                 val errorCode = obj.getInt("errorCode")
                 if (errorCode == 0) {
                     view?.collectSuccess()
-                }else{
-                    view?.oncollectError(obj.getString("errorMsg"))
+                } else {
+                    view?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -127,6 +126,8 @@ class HomePresenterImpl(var view: HomeContract.IHomeView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+                view?.onError(ex.toString())
+
             }
 
         })
@@ -143,8 +144,8 @@ class HomePresenterImpl(var view: HomeContract.IHomeView) :
                 val errorCode = obj.getInt("errorCode")
                 if (errorCode == 0) {
                     view?.unCollectSuccess()
-                }else{
-                    view?.oncollectError(obj.getString("errorMsg"))
+                } else {
+                    view?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -152,6 +153,7 @@ class HomePresenterImpl(var view: HomeContract.IHomeView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+                view?.onError(ex.toString())
             }
 
         })

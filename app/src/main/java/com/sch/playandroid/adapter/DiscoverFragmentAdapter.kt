@@ -3,7 +3,6 @@ package com.sch.playandroid.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.sch.playandroid.entity.TabTypeBean
 
 /**
  * Created by Sch.
@@ -11,7 +10,7 @@ import com.sch.playandroid.entity.TabTypeBean
  * description: 发现页面 子fragment Adapter
  */
 class DiscoverFragmentAdapter(
-    private var fragments: List<Fragment>,
+    private var fragments: MutableList<Fragment>,
     fm: FragmentManager
 ) :
     FragmentStatePagerAdapter(fm, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
@@ -29,7 +28,7 @@ class DiscoverFragmentAdapter(
         return titles[position]
     }
 
-    fun updata(fragments: List<Fragment>) {
+    fun updata(fragments: MutableList<Fragment>) {
         this.fragments = fragments
         notifyDataSetChanged()
     }

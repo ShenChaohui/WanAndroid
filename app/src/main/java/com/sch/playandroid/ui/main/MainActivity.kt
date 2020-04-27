@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
     private var lastIndex = 0
-    private var fragments: MutableList<Fragment> = mutableListOf()
+    private val fragments by lazy { mutableListOf<Fragment>() }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main

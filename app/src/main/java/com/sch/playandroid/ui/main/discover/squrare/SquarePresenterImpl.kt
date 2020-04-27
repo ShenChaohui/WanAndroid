@@ -61,7 +61,7 @@ class SquarePresenterImpl(var view: SquareContract.ISquareView) :
                 if (errorCode == 0) {
                     view?.collectSuccess()
                 } else {
-                    view?.oncollectError(obj.getString("errorMsg"))
+                    view?.setError(obj.getString("errorMsg"))
                 }
             }
 
@@ -69,6 +69,7 @@ class SquarePresenterImpl(var view: SquareContract.ISquareView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+                view?.setError(ex.toString())
             }
 
         })
@@ -86,7 +87,7 @@ class SquarePresenterImpl(var view: SquareContract.ISquareView) :
                 if (errorCode == 0) {
                     view?.unCollectSuccess()
                 } else {
-                    view?.oncollectError(obj.getString("errorMsg"))
+                    view?.setError(obj.getString("errorMsg"))
                 }
             }
 
@@ -94,6 +95,8 @@ class SquarePresenterImpl(var view: SquareContract.ISquareView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+                view?.setError(ex.toString())
+
             }
 
         })

@@ -1,6 +1,5 @@
 package com.sch.playandroid.ui.search
 
-import android.util.Log
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.util.GsonUtil
 import org.jetbrains.anko.doAsync
@@ -25,7 +24,6 @@ class SearchPresenterImpl(var view: SearchContract.ISearchView) : SearchContract
                 doAsync {
                     val obj = JSONObject(result)
                     val data = obj.getJSONObject("data")
-
                     val datas = GsonUtil.parseJsonArrayWithGson(
                         data.getString("datas"),
                         ArticleBean::class.java
@@ -57,7 +55,7 @@ class SearchPresenterImpl(var view: SearchContract.ISearchView) : SearchContract
                 if (errorCode == 0) {
                     view?.collectSuccess()
                 } else {
-                    view?.oncollectError(obj.getString("errorMsg"))
+                    view?.setError(obj.getString("errorMsg"))
                 }
             }
 
@@ -65,6 +63,8 @@ class SearchPresenterImpl(var view: SearchContract.ISearchView) : SearchContract
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+                view?.setError(ex.toString())
+
             }
 
         })
@@ -82,7 +82,7 @@ class SearchPresenterImpl(var view: SearchContract.ISearchView) : SearchContract
                 if (errorCode == 0) {
                     view?.unCollectSuccess()
                 } else {
-                    view?.oncollectError(obj.getString("errorMsg"))
+                    view?.setError(obj.getString("errorMsg"))
                 }
             }
 
@@ -90,6 +90,8 @@ class SearchPresenterImpl(var view: SearchContract.ISearchView) : SearchContract
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+                view?.setError(ex.toString())
+
             }
 
         })

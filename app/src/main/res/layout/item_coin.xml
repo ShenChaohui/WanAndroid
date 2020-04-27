@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding">
+
+    <TextView
+        android:id="@+id/tvDesc"
+        style="@style/text_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="签到积分10+10" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        style="@style/text_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvDesc"
+        android:layout_marginTop="5dp"
+        tools:text="2020-03-17 15:16:33" />
+
+    <TextView
+        android:id="@+id/tvAddCoinCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvDesc"
+        android:layout_alignBottom="@+id/tvDate"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:textColor="@color/theme"
+        android:textSize="@dimen/text_1"
+        android:textStyle="bold"
+        tools:text="+20" />
+</RelativeLayout>
