@@ -2,6 +2,7 @@ package com.sch.playandroid.ui.coin
 
 import android.animation.ValueAnimator
 import android.os.Bundle
+import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coder.zzq.smartshow.toast.SmartToast
@@ -11,6 +12,10 @@ import com.sch.playandroid.base.BaseActivity
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.CoinRecordBean
 import kotlinx.android.synthetic.main.activity_coin.*
+import kotlinx.android.synthetic.main.activity_coin.ivBack
+import kotlinx.android.synthetic.main.activity_coin.loadingTip
+import kotlinx.android.synthetic.main.activity_coin.smartRefresh
+import kotlinx.android.synthetic.main.activity_issue.*
 
 /**
  * Created by Sch.
@@ -36,6 +41,13 @@ class CoinActivity : BaseActivity(), CoinConstant.ICoinView {
             finish()
         }
         loadingTip.loading()
+        // 设置无网络时重新加载点击事件
+        loadingTip.setReloadListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                loadingTip.loading()
+                presenterImpl?.getCoinList(pageNum)
+            }
+        })
         presenterImpl?.getCoinList(pageNum)
     }
 

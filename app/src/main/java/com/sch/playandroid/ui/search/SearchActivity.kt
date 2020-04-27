@@ -85,6 +85,13 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
     }
 
     private fun initListener() {
+        // 设置无网络时重新加载点击事件
+        loadingTip.setReloadListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                loadingTip.loading()
+                search()
+            }
+        })
         ivBack.setOnClickListener {
             finish()
         }

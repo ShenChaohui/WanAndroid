@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Html
 import android.view.KeyEvent
 import android.webkit.*
+import androidx.core.text.HtmlCompat
 import com.sch.playandroid.R
 import com.sch.playandroid.base.BaseActivity
 import com.sch.playandroid.constants.Constants
@@ -22,7 +23,7 @@ class WebActivity : BaseActivity() {
         val bundle: Bundle? = intent.extras
         loadUrl = bundle?.getString(Constants.WEB_URL)
         title = bundle?.getString(Constants.WEB_TITLE)
-        tvTitle.text = Html.fromHtml(title)
+        tvTitle.text = title?.let { HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_LEGACY) }
         initWebView()
         ivBack.setOnClickListener {
             finish()

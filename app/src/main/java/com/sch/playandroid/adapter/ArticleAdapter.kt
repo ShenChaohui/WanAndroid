@@ -1,11 +1,13 @@
 package com.sch.playandroid.adapter
 
+import android.text.Html
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.sch.playandroid.R
 import com.sch.playandroid.entity.ArticleBean
@@ -89,7 +91,7 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val data = list.get(position)
         if (getItemViewType(position) == TYPE_HAVE_IMAGE) {
             val holder = holder as HaveImageViewHolder
-            holder.tvTitle.text = data.title
+            holder.tvTitle.text = HtmlCompat.fromHtml(data.title,HtmlCompat.FROM_HTML_MODE_LEGACY)
             holder.tvDes.text = data.desc
             holder.tvNameData.text = data.niceDate + " | " + data.author
             ImageLoad.loadRadius(holder.ivTitle, data.envelopePic, 10)
@@ -108,7 +110,7 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder.tvAuthor.text =
                 if (!TextUtils.isEmpty(data.author)) data.author else data.shareUser
             holder.tvTag.text = if (data.type == 1) "置顶  " else ""
-            holder.tvTitle.text = data.title
+            holder.tvTitle.text = HtmlCompat.fromHtml(data.title,HtmlCompat.FROM_HTML_MODE_LEGACY)
             holder.tvDate.text = data.niceDate
             holder.tvChapterName.text = data.superChapterName
             holder.ivCollect.apply {

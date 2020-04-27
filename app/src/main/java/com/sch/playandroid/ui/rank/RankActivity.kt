@@ -1,6 +1,7 @@
 package com.sch.playandroid.ui.rank
 
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.coder.zzq.smartshow.toast.SmartToast
 import com.sch.playandroid.R
@@ -9,8 +10,11 @@ import com.sch.playandroid.base.BaseActivity
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.RankBean
 import com.sch.playandroid.ui.web.WebActivity
+import kotlinx.android.synthetic.main.activity_coin.*
 import kotlinx.android.synthetic.main.activity_rank.*
+import kotlinx.android.synthetic.main.activity_rank.ivBack
 import kotlinx.android.synthetic.main.activity_rank.loadingTip
+import kotlinx.android.synthetic.main.activity_rank.smartRefresh
 
 /**
  * Created by Sch.
@@ -62,6 +66,13 @@ class RankActivity : BaseActivity(), RankConstant.IRankView {
                 putString(Constants.WEB_TITLE, "积分规则")
             }, WebActivity::class.java, false)
         }
+        // 设置无网络时重新加载点击事件
+        loadingTip.setReloadListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                loadingTip.loading()
+                loadData()
+            }
+        })
     }
 
     private fun loadData() {
