@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/division_line_thickening"
-    android:fitsSystemWindows="true">
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/llTitle"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="@color/white"
-        android:elevation="1dp"
+        android:elevation="2dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -23,128 +23,135 @@
             android:src="@mipmap/back" />
 
         <TextView
+            style="@style/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="设置"
-            android:textColor="@color/text_1"
-            android:textSize="17dp"
-            android:textStyle="bold" />
+            android:text="设置" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvClearCache"
-        style="@style/text_1"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@+id/llTitle"
-        android:background="@drawable/ripple_bg"
-        android:drawableRight="@drawable/ic_arrow_right"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/padding"
-        android:paddingRight="@dimen/padding"
-        android:text="清除缓存" />
+        android:layout_height="match_parent"
+        android:background="@color/division_line_thickening">
 
-    <TextView
-        android:id="@+id/tvCache"
-        style="@style/text_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/tvClearCache"
-        android:layout_alignBottom="@id/tvClearCache"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="50dp"
-        android:gravity="center_vertical"
-        android:text="1.23M"
+        <TextView
+            android:id="@+id/tvClearCache"
+            style="@style/text_1"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/ripple_bg"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding"
+            android:text="清除缓存" />
 
-        />
+        <TextView
+            android:id="@+id/tvCacheValue"
+            style="@style/text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tvClearCache"
+            android:layout_alignBottom="@id/tvClearCache"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:gravity="center_vertical"
+            android:text="1.23M"
 
-    <TextView
-        android:id="@+id/tvVersions"
-        style="@style/text_1"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@+id/tvClearCache"
-        android:background="@drawable/ripple_bg"
-        android:drawableRight="@drawable/ic_arrow_right"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/padding"
-        android:paddingRight="@dimen/padding"
-        android:text="版本" />
+            />
 
-    <TextView
-        style="@style/text_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/tvVersions"
-        android:layout_alignBottom="@id/tvVersions"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="50dp"
-        android:gravity="center_vertical"
-        android:text="1.0.1"
+        <TextView
+            android:id="@+id/tvVersions"
+            style="@style/text_1"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/tvClearCache"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/ripple_bg"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding"
+            android:text="版本" />
 
-        />
+        <TextView
+            android:id="@+id/tvVersionsValue"
+            style="@style/text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tvVersions"
+            android:layout_alignBottom="@id/tvVersions"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:gravity="center_vertical"
+            android:text="1.0.1"
 
-    <TextView
-        android:id="@+id/tvAuthor"
-        style="@style/text_1"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@+id/tvVersions"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/ripple_bg"
-        android:drawableRight="@drawable/ic_arrow_right"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/padding"
-        android:paddingRight="@dimen/padding"
-        android:text="作者" />
+            />
 
-    <TextView
-        style="@style/text_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/tvAuthor"
-        android:layout_alignBottom="@id/tvAuthor"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="50dp"
-        android:gravity="center_vertical"
-        android:text="ShenChaoHui" />
+        <TextView
+            android:id="@+id/tvAuthor"
+            style="@style/text_1"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/tvVersions"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/ripple_bg"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding"
+            android:text="作者" />
 
-    <TextView
-        android:id="@+id/tvProject"
-        style="@style/text_1"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@+id/tvAuthor"
-        android:background="@drawable/ripple_bg"
-        android:drawableRight="@drawable/ic_arrow_right"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/padding"
-        android:paddingRight="@dimen/padding"
-        android:text="项目" />
+        <TextView
+            style="@style/text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tvAuthor"
+            android:layout_alignBottom="@id/tvAuthor"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:gravity="center_vertical"
+            android:text="ShenChaoHui" />
 
-    <TextView
-        android:id="@+id/tvCopyright"
-        style="@style/text_1"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@+id/tvProject"
-        android:background="@drawable/ripple_bg"
-        android:drawableRight="@drawable/ic_arrow_right"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/padding"
-        android:paddingRight="@dimen/padding"
-        android:text="版权声明" />
+        <TextView
+            android:id="@+id/tvProject"
+            style="@style/text_1"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/tvAuthor"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/ripple_bg"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding"
+            android:text="项目" />
 
-    <TextView
-        android:id="@+id/tvLogout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/tvCopyright"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/ripple_bg"
-        android:gravity="center"
-        android:text="退出登录"
-        android:textColor="@color/red"
-        android:textSize="@dimen/text_1" />
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tvCopyright"
+            style="@style/text_1"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/tvProject"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/ripple_bg"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding"
+            android:text="版权声明" />
+
+        <TextView
+            android:id="@+id/tvLogout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/tvCopyright"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/ripple_bg"
+            android:gravity="center"
+            android:text="退出登录"
+            android:textColor="@color/red"
+            android:textSize="@dimen/text_1" />
+    </RelativeLayout>
+</LinearLayout>

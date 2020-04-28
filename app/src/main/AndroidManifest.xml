@@ -33,6 +33,9 @@
         <activity android:name=".ui.rank.RankActivity" />
         <activity android:name=".ui.coin.CoinActivity" />
         <activity android:name=".ui.issue.IssueActivity" />
+        <activity android:name=".ui.collect.MyCollectActivity" />
+        <activity android:name=".ui.articles.MyArticlesActivity" />
+
         <activity android:name=".test.TestActivity">
 
         </activity>

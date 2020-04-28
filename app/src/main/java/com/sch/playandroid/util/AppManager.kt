@@ -1,8 +1,8 @@
 package com.sch.playandroid.util
 
+import android.content.Context
 import com.sch.playandroid.constants.Constants
-import com.sch.playandroid.entity.UserBean
-import com.sch.playandroid.entity.UserCoinInfo
+import java.lang.Exception
 
 
 /**
@@ -20,19 +20,38 @@ class AppManager {
             return PrefUtils.getBoolean(Constants.LOGIN, false)
         }
 
-        fun getUser(): UserBean {
-            return GsonUtil.parseJsonWithGson(
-                PrefUtils.getString(Constants.USERINFO),
-                UserBean::class.java
-            )
+        /**
+         * 获取当前程序版本名
+         *
+         * @param context
+         * @return
+         */
+        fun getVersionName(context: Context): String {
+            var versionName = "1.0"
+            try {
+                versionName =
+                    context.packageManager.getPackageInfo(context.packageName, 0).versionName
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return versionName
         }
 
-        fun getUserCoinInfo(): UserCoinInfo? {
-            var userCoinInfo: UserCoinInfo? = null
-            PrefUtils.getString(Constants.USERCOININFO)?.let {
-                userCoinInfo = GsonUtil.parseJsonWithGson(it, UserCoinInfo::class.java)
+        /**
+         * 获取当前程序版本号
+         *
+         * @param context
+         * @return
+         */
+        fun getVersionCode(context: Context): Int {
+            var versionCode = 1
+            try {
+                versionCode =
+                    context.packageManager.getPackageInfo(context.packageName, 0).versionCode
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-            return userCoinInfo
+            return versionCode
         }
     }
 }

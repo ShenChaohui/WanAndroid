@@ -138,6 +138,10 @@
                     android:text="我的收藏"
                     android:textStyle="bold" />
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/division_line_thickening" />
 
             <LinearLayout
                 android:id="@+id/llMyArticle"
@@ -164,6 +168,10 @@
                     android:text="我的文章"
                     android:textStyle="bold" />
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/division_line_thickening" />
 
             <LinearLayout
                 android:id="@+id/llIssue"
@@ -221,6 +229,10 @@
                     android:text="设置"
                     android:textStyle="bold" />
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/division_line_thickening" />
 
         </LinearLayout>
     </RelativeLayout>

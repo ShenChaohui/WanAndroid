@@ -5,7 +5,9 @@ import com.sch.playandroid.R
 import com.sch.playandroid.base.LazyFragment
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.UserCoinInfo
+import com.sch.playandroid.ui.articles.MyArticlesActivity
 import com.sch.playandroid.ui.coin.CoinActivity
+import com.sch.playandroid.ui.collect.MyCollectActivity
 import com.sch.playandroid.ui.issue.IssueActivity
 import com.sch.playandroid.ui.login.LoginActivity
 import com.sch.playandroid.ui.rank.RankActivity
@@ -28,7 +30,7 @@ class MineFragment : LazyFragment(), MineContract.IMineView {
 
     override fun lazyInit() {
         if (AppManager.isLogin()) {
-            AppManager.getUserCoinInfo()?.let {
+            UserCoinInfo.getUserCoinInfo()?.let {
                 setUserCoinInfo(it)
             }
             presenterImpl.getUserCoinInfo()
@@ -62,6 +64,13 @@ class MineFragment : LazyFragment(), MineContract.IMineView {
         llIssue.setOnClickListener {
             intent(IssueActivity::class.java, false)
         }
+        llMyCollect.setOnClickListener {
+            intent(MyCollectActivity::class.java, true)
+        }
+        llMyArticle.setOnClickListener {
+            intent(MyArticlesActivity::class.java, true)
+        }
+
     }
 
     override fun getLayoutId(): Int {

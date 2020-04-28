@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_issue.*
 /**
  * Created by Sch.
  * Date: 2020/4/26
- * description:
+ * description:积分页面
  */
 class CoinActivity : BaseActivity(), CoinConstant.ICoinView {
     private val presenterImpl by lazy { CoinPresenterImpl(this) }

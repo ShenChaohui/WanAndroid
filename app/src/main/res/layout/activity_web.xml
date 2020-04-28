@@ -11,6 +11,7 @@
         android:layout_height="55dp"
         android:background="@color/white"
         android:gravity="center_vertical"
+        android:elevation="2dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -28,20 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="40dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="@color/text_1"
-            android:textSize="17dp"
-            android:textStyle="bold" />
+            style="@style/text_title" />
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_marginTop="55dp"
-        android:background="@color/division_line_thickening"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:layout_width="match_parent"

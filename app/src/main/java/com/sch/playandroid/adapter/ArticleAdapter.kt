@@ -91,7 +91,7 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val data = list.get(position)
         if (getItemViewType(position) == TYPE_HAVE_IMAGE) {
             val holder = holder as HaveImageViewHolder
-            holder.tvTitle.text = HtmlCompat.fromHtml(data.title,HtmlCompat.FROM_HTML_MODE_LEGACY)
+            holder.tvTitle.text = HtmlCompat.fromHtml(data.title, HtmlCompat.FROM_HTML_MODE_LEGACY)
             holder.tvDes.text = data.desc
             holder.tvNameData.text = data.niceDate + " | " + data.author
             ImageLoad.loadRadius(holder.ivTitle, data.envelopePic, 10)
@@ -110,7 +110,7 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder.tvAuthor.text =
                 if (!TextUtils.isEmpty(data.author)) data.author else data.shareUser
             holder.tvTag.text = if (data.type == 1) "置顶  " else ""
-            holder.tvTitle.text = HtmlCompat.fromHtml(data.title,HtmlCompat.FROM_HTML_MODE_LEGACY)
+            holder.tvTitle.text = HtmlCompat.fromHtml(data.title, HtmlCompat.FROM_HTML_MODE_LEGACY)
             holder.tvDate.text = data.niceDate
             holder.tvChapterName.text = data.superChapterName
             holder.ivCollect.apply {

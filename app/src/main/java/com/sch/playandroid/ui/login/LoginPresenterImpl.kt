@@ -26,8 +26,6 @@ class LoginPresenterImpl(var view: LoginConstant.ILoginView) : LoginConstant.ILo
                 val obj = JSONObject(result)
                 val errorCode = obj.getInt("errorCode")
                 if (errorCode == 0) {
-                    val userInfo = obj.getString("data")
-                    PrefUtils.setString(Constants.USERINFO, userInfo)
                     view?.loginSuccess()
                 } else {
                     view?.onError(obj.getString("errorMsg"))

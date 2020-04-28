@@ -4,8 +4,6 @@ package com.sch.playandroid.constants
  * des 存储常量
  */
 object Constants {
-    //登录信息
-    const val USERINFO = "userInfo"
     //积分信息
     const val USERCOININFO = "userCoinInfo"
     /**

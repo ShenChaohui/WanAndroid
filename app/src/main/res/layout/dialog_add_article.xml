@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:maxHeight="200dp"
+    android:orientation="vertical"
+    android:padding="@dimen/padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="分享文章" />
+
+        <ImageView
+            android:id="@+id/ivShare"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ripple_circle_bg"
+            android:padding="8dp"
+            android:src="@mipmap/ic_share" />
+    </LinearLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="*请输入标题">
+
+        <EditText
+            android:id="@+id/etTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:inputType="text" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/division_line" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:hint="*请输入链接地址">
+
+        <EditText
+            android:id="@+id/etLink"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:inputType="text"
+            android:text="https://" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/division_line" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="分享须知"
+        android:textColor="@color/text_3"
+        android:textSize="@dimen/text_3"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:lineSpacingExtra="6dp"
+            android:paddingLeft="10dp"
+            android:text="1、"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_3" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="4dp"
+            android:paddingRight="10dp"
+            android:text="@string/share_information_1"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_3" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:lineSpacingExtra="6dp"
+            android:paddingLeft="10dp"
+            android:text="2、"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_3" />
+
+        <TextView
+            android:id="@+id/tvInformation2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="4dp"
+            android:paddingRight="10dp"
+            android:text="@string/share_information_2"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_3" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:lineSpacingExtra="6dp"
+            android:paddingLeft="10dp"
+            android:text="3、"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_3" />
+
+        <TextView
+            android:id="@+id/tvInformation3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="4dp"
+            android:paddingRight="10dp"
+            android:text="@string/share_information_3"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_3" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:lineSpacingExtra="6dp"
+            android:paddingLeft="10dp"
+            android:text="4、"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_3" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="4dp"
+            android:paddingRight="10dp"
+            android:text="@string/share_information_4"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_3" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:lineSpacingExtra="6dp"
+            android:paddingLeft="10dp"
+            android:text="5、"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_3" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="4dp"
+            android:paddingRight="10dp"
+            android:text="@string/share_information_5"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_3" />
+    </LinearLayout>
+</LinearLayout>

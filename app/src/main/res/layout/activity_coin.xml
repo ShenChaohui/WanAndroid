@@ -24,13 +24,11 @@
             android:src="@mipmap/back" />
 
         <TextView
+            style="@style/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="积分"
-            android:textColor="@color/text_1"
-            android:textSize="17dp"
-            android:textStyle="bold" />
+            android:text="积分" />
     </LinearLayout>
 
     <LinearLayout
