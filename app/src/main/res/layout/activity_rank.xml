@@ -52,16 +52,14 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/llMyRank"
             app:srlEnableAutoLoadMore="false"
-            app:srlEnableLoadMore="true"
-            app:srlEnableOverScrollBounce="true"
-            app:srlEnableRefresh="true">
+            >
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvList"
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
-                android:overScrollMode="never" />
+                />
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
         <com.sch.playandroid.widget.LoadingTip

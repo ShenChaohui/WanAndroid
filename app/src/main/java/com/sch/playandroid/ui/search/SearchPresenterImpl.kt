@@ -14,7 +14,7 @@ import org.xutils.x
  * Date: 2020/4/23
  * description:
  */
-class SearchPresenterImpl(var view: SearchContract.ISearchView) : SearchContract.ISearchPresenter {
+class SearchPresenterImpl(var view: SearchContract.ISearchView?) : SearchContract.ISearchPresenter {
     override fun getSearchData(keyWord: String, pageNum: Int) {
         val params = RequestParams("https://www.wanandroid.com/article/query/$pageNum/json")
         params.addParameter("k", keyWord)

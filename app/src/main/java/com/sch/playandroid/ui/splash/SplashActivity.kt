@@ -4,10 +4,12 @@ import android.os.Bundle
 import com.sch.playandroid.R
 import com.sch.playandroid.base.BaseActivity
 import com.sch.playandroid.ui.main.MainActivity
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class SplashActivity :
     BaseActivity(), SplashPresenterConstant.ISplashView {
-    val persenter by lazy {
+    val persenterImpl by lazy {
         SplashPresenterImpl(
             this
         )
@@ -18,20 +20,33 @@ class SplashActivity :
     }
 
     override fun init(savedInstanceState: Bundle?) {
-        persenter.requestPermission(this)
+        //请求权限
+        persenterImpl.requestPermission(this)
     }
 
-
+    /**
+     * 权限请求成功
+     */
     override fun onSuccess() {
-        Thread(Runnable {
-            Thread.sleep(2000)
-            intent(MainActivity::class.java, false)
-            finish()
-        }).start()
+        doAsync {
+            Thread.sleep(1500)
+            uiThread {
+                intent(MainActivity::class.java, false)
+                finish()
+            }
+        }
     }
-
+    /**
+     * 权限请求失败
+     */
     override fun onFail() {
-
+        doAsync {
+            Thread.sleep(1500)
+            uiThread {
+                intent(MainActivity::class.java, false)
+                finish()
+            }
+        }
     }
 
 }

@@ -15,5 +15,6 @@ class MineContract {
 
     interface IMineView {
         fun setUserCoinInfo(userCoinInfo: UserCoinInfo)
+        fun onError(ex: String)
     }
 }

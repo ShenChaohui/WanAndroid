@@ -12,8 +12,8 @@ import com.sch.playandroid.ui.main.tab.TabFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
-    private var lastIndex = 0
-    private val fragments by lazy { mutableListOf<Fragment>() }
+    private var lastIndex = 0 //上一次切换的fragment下标
+    private val fragmentList by lazy { mutableListOf<Fragment>() }//切换的fragment集合
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
@@ -24,6 +24,9 @@ class MainActivity : BaseActivity() {
         initBottom()
     }
 
+    /**
+     * 初始化下方切换控件 BottomNavigationView
+     */
     private fun initBottom() {
         btmNavigation.run {
             setOnNavigationItemSelectedListener {
@@ -39,37 +42,50 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    /**
+     * 初始化fragment，默认显示第0个
+     */
     private fun initFragment() {
-        fragments.add(HomeFragment())
-
+        //添加home页
+        fragmentList.add(HomeFragment())
+        //项目页和微信公众号页面使用同一种逻辑和页面，传入的type区分是项目页还是微信公众号页
+        //添加项目页
         val projectFragment = TabFragment()
         val proBundle = Bundle()
         proBundle.putInt("type", Constants.PROJECT_TYPE)
         projectFragment.arguments = proBundle
-        fragments.add(projectFragment)
-
-        fragments.add(DiscoverFragment())
-
+        fragmentList.add(projectFragment)
+        //添加发现页
+        fragmentList.add(DiscoverFragment())
+        //添加微信公众号页
         val wxarticleFragment = TabFragment()
         val wxBundle = Bundle()
         wxBundle.putInt("type", Constants.WX_TYPE)
         wxarticleFragment.arguments = wxBundle
-        fragments.add(wxarticleFragment)
-
-        fragments.add(MineFragment())
+        fragmentList.add(wxarticleFragment)
+        //添加我的页面
+        fragmentList.add(MineFragment())
+        //默认展示第0个页面
         setFragmentPosition(0)
     }
 
     private fun setFragmentPosition(position: Int) {
         val ft = supportFragmentManager.beginTransaction()
-        val currentFragment: Fragment = fragments[position]
-        val lastFragment: Fragment = fragments[lastIndex]
+        //当前要展示的fragment
+        val currentFragment: Fragment = fragmentList[position]
+        //切换前的fragment
+        val lastFragment: Fragment = fragmentList[lastIndex]
+
         lastIndex = position
+        //隐藏上一个页面
         ft.hide(lastFragment)
+        //如果要展示的页面没有添加
         if (!currentFragment.isAdded) {
+            //避免之前添加过被回收，先删除
             supportFragmentManager.beginTransaction().remove(currentFragment).commit()
             ft.add(R.id.container, currentFragment)
         }
+        //展示当前fragment
         ft.show(currentFragment)
         ft.commit()
     }

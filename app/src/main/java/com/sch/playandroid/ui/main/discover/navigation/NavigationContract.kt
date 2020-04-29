@@ -16,6 +16,6 @@ class NavigationContract {
 
     interface INavigationView {
         fun setNavigationData(list: MutableList<NavigationBean>)
-        fun setError(ex: String)
+        fun onError(ex: String)
     }
 }

@@ -1,16 +1,17 @@
 package com.sch.playandroid.ui.main.mine
 
 import android.os.Bundle
+import com.coder.zzq.smartshow.toast.SmartToast
 import com.sch.playandroid.R
 import com.sch.playandroid.base.LazyFragment
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.UserCoinInfo
-import com.sch.playandroid.ui.articles.MyArticlesActivity
-import com.sch.playandroid.ui.coin.CoinActivity
-import com.sch.playandroid.ui.collect.MyCollectActivity
+import com.sch.playandroid.ui.my.articles.MyArticlesActivity
+import com.sch.playandroid.ui.my.coin.CoinActivity
+import com.sch.playandroid.ui.my.collect.MyCollectActivity
 import com.sch.playandroid.ui.issue.IssueActivity
 import com.sch.playandroid.ui.login.LoginActivity
-import com.sch.playandroid.ui.rank.RankActivity
+import com.sch.playandroid.ui.my.rank.RankActivity
 import com.sch.playandroid.ui.set.SetActivity
 import com.sch.playandroid.util.AppManager
 import com.zs.wanandroid.event.LoginEvent
@@ -78,12 +79,16 @@ class MineFragment : LazyFragment(), MineContract.IMineView {
     }
 
     override fun setUserCoinInfo(userCoinInfo: UserCoinInfo) {
-        userCoinInfo?.apply {
+        userCoinInfo.apply {
             tvUserName.text = username
             tvId.text = "$userId"
             tvRank.text = "$rank"
             tvCoinCount.text = "$coinCount"
         }
+    }
+
+    override fun onError(ex: String) {
+        SmartToast.error(ex)
     }
 
     override fun onDestroy() {
@@ -96,7 +101,7 @@ class MineFragment : LazyFragment(), MineContract.IMineView {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public fun loginEvent(loginEvent: LoginEvent) {
-        presenterImpl?.getUserCoinInfo()
+        presenterImpl.getUserCoinInfo()
     }
 
     /**

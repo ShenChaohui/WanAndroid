@@ -9,11 +9,11 @@ import com.sch.playandroid.entity.TabTypeBean
  */
 class TabContract {
     interface ITabPresenter {
-        fun getTabList(type: Int)
+        fun getTabListData(type: Int)
     }
 
     interface ITabView {
-        fun setTabList(list: MutableList<TabTypeBean>)
-        fun setError(ex: String)
+        fun setTabListData(list: MutableList<TabTypeBean>)
+        fun onError(ex: String)
     }
 }

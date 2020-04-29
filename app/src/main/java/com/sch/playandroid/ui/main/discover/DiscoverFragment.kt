@@ -16,13 +16,13 @@ import kotlinx.android.synthetic.main.fragment_discover.*
  * description:发现页
  */
 class DiscoverFragment : BaseFragment() {
-    private val mFragments by lazy { ArrayList<Fragment>() }
+    private val fragmentList by lazy { ArrayList<Fragment>() }
 
     override fun init(savedInstanceState: Bundle?) {
-        mFragments.add(SquareFragment())
-        mFragments.add(SystemFragment())
-        mFragments.add(NavigationFragment())
-        viewPager.adapter = DiscoverFragmentAdapter(mFragments, childFragmentManager)
+        fragmentList.add(SquareFragment())
+        fragmentList.add(SystemFragment())
+        fragmentList.add(NavigationFragment())
+        viewPager.adapter = DiscoverFragmentAdapter(fragmentList, childFragmentManager)
         viewPager.offscreenPageLimit = 3
         tabLayout.setupWithViewPager(viewPager)
     }

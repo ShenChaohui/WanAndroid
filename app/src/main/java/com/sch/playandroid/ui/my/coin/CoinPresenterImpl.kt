@@ -1,7 +1,9 @@
-package com.sch.playandroid.ui.coin
+package com.sch.playandroid.ui.my.coin
 
 import com.sch.playandroid.entity.CoinRecordBean
 import com.sch.playandroid.util.GsonUtil
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import org.json.JSONObject
 import org.xutils.common.Callback
 import org.xutils.http.RequestParams
@@ -12,8 +14,8 @@ import org.xutils.x
  * Date: 2020/4/27
  * description:
  */
-class CoinPresenterImpl(var view: CoinConstant.ICoinView) : CoinConstant.ICoinPresenter {
-    override fun getCoinList(pageNum: Int) {
+class CoinPresenterImpl(var view: CoinConstant.ICoinView?) : CoinConstant.ICoinPresenter {
+    override fun getCoinData(pageNum: Int) {
         val params = RequestParams("https://www.wanandroid.com//lg/coin/list/$pageNum/json")
         x.http().get(params, object : Callback.CommonCallback<String> {
             override fun onFinished() {
@@ -21,12 +23,20 @@ class CoinPresenterImpl(var view: CoinConstant.ICoinView) : CoinConstant.ICoinPr
 
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
-                val data = obj.getJSONObject("data");
-                val list = GsonUtil.parseJsonArrayWithGson(
-                    data.getString("datas"),
-                    CoinRecordBean::class.java
-                )
-                view?.showCoinList(list)
+                if (obj.getInt("errorCode") != 0) {
+                    view?.onError(obj.getString("errorMsg"))
+                    return
+                }
+                doAsync {
+                    val data = obj.getJSONObject("data");
+                    val list = GsonUtil.parseJsonArrayWithGson(
+                        data.getString("datas"),
+                        CoinRecordBean::class.java
+                    )
+                    uiThread {
+                        view?.setCoinData(list)
+                    }
+                }
             }
 
             override fun onCancelled(cex: Callback.CancelledException?) {

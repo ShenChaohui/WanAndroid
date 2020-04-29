@@ -1,12 +1,10 @@
-package com.sch.playandroid.ui.articles
+package com.sch.playandroid.ui.my.articles
 
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,9 +26,14 @@ import kotlinx.android.synthetic.main.activity_myarticles.*
  * Date: 2020/4/28
  * description:
  */
-class MyArticlesActivity : BaseActivity(), MyArticlesContract.IMyArticlesView {
-    private val adapter by lazy { MyArticleAdapter() }
-    private val presenterImpl by lazy { MyArticlePresenterImpl(this) }
+class MyArticlesActivity : BaseActivity(),
+    MyArticlesContract.IMyArticlesView {
+    private val myArticleAdapter by lazy { MyArticleAdapter() }
+    private val presenterImpl by lazy {
+        MyArticlePresenterImpl(
+            this
+        )
+    }
     private var pageNum = 1
     private val articleList by lazy { mutableListOf<ArticleBean>() }
     private var addArticleDialog: Dialog? = null
@@ -42,20 +45,27 @@ class MyArticlesActivity : BaseActivity(), MyArticlesContract.IMyArticlesView {
             .confirmBtn("确定", object : DialogBtnClickListener<SmartDialog<*>> {
                 override fun onBtnClick(p0: SmartDialog<*>?, p1: Int, p2: Any?) {
                     p0?.dismiss()
-                    presenterImpl?.deleteArticle(articleList[delatePosition].id)
+                    presenterImpl.deleteArticle(articleList[delatePosition].id)
                 }
             })
     }
 
     override fun init(savedInstanceState: Bundle?) {
         initListener()
-        rvList.layoutManager = LinearLayoutManager(this)
-        rvList.adapter = adapter
-        rvList.overScrollMode = RecyclerView.OVER_SCROLL_NEVER//取消滑动到顶部边界越界效果
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = myArticleAdapter
+        recyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER//取消滑动到顶部边界越界效果
+        initAddArticleDialog()
         //加载中动画
         loadingTip.loading()
-        presenterImpl.getListData(pageNum)
-        initAddArticleDialog()
+        loadData()
+    }
+
+    private fun loadData() {
+        articleList.clear()
+        myArticleAdapter.updata(articleList)
+        pageNum = 1
+        presenterImpl.getArticleData(pageNum)
     }
 
     private fun initAddArticleDialog() {
@@ -93,7 +103,7 @@ class MyArticlesActivity : BaseActivity(), MyArticlesContract.IMyArticlesView {
         ivAdd.setOnClickListener {
             addArticleDialog?.show()
         }
-        adapter.setOnItemClickListener(object : MyArticleAdapter.OnItemClickListener {
+        myArticleAdapter.setOnItemClickListener(object : MyArticleAdapter.OnItemClickListener {
             override fun onClick(position: Int) {
                 intent(Bundle().apply {
                     putString(Constants.WEB_URL, articleList[position].link)
@@ -101,7 +111,7 @@ class MyArticlesActivity : BaseActivity(), MyArticlesContract.IMyArticlesView {
                 }, WebActivity::class.java, false)
             }
         })
-        adapter.setOnItemLongClickListener(object : MyArticleAdapter.OnItemLongClickListener {
+        myArticleAdapter.setOnItemLongClickListener(object : MyArticleAdapter.OnItemLongClickListener {
             override fun onLongClick(position: Int) {
                 delatePosition = position
                 delateDialog.showInActivity(this@MyArticlesActivity)
@@ -111,20 +121,16 @@ class MyArticlesActivity : BaseActivity(), MyArticlesContract.IMyArticlesView {
         loadingTip.setReloadListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 loadingTip.loading()
-                presenterImpl.getListData(pageNum)
+                loadData()
             }
         })
         //下拉监听
         smartRefresh.setOnRefreshListener {
-            pageNum = 1
-            articleList.clear()
-            adapter.updata(articleList)
-            presenterImpl.getListData(pageNum)
-
+            loadData()
         }
         smartRefresh.setOnLoadMoreListener {
             pageNum++
-            presenterImpl.getListData(pageNum)
+            presenterImpl.getArticleData(pageNum)
         }
     }
 
@@ -132,18 +138,18 @@ class MyArticlesActivity : BaseActivity(), MyArticlesContract.IMyArticlesView {
         return R.layout.activity_myarticles
     }
 
-    override fun setListData(list: MutableList<ArticleBean>) {
+    override fun setArticleData(list: MutableList<ArticleBean>) {
         dismissRefresh()
         if (list.isNotEmpty()) {
             articleList.addAll(list)
-            adapter.updata(articleList)
+            myArticleAdapter.updata(articleList)
         } else {
             if (articleList.size == 0) loadingTip.showEmpty()
             else SmartToast.info("没有更多数据了")
         }
     }
 
-    override fun setError(ex: String) {
+    override fun onError(ex: String) {
         //请求失败将page -1
         if (pageNum > 0) pageNum--
         dismissRefresh()
@@ -153,16 +159,16 @@ class MyArticlesActivity : BaseActivity(), MyArticlesContract.IMyArticlesView {
         SmartToast.error(ex)
     }
 
-    override fun deleteSuccess() {
+    override fun deleteArticleSuccess() {
         articleList.removeAt(delatePosition)
-        adapter.deleteAt(delatePosition)
+        myArticleAdapter.deleteAt(delatePosition)
         if (articleList.size == 0) loadingTip.showEmpty()
     }
 
     override fun addArticleSuccess() {
         loadingTip.loading()
         pageNum = 0
-        presenterImpl.getListData(pageNum)
+        presenterImpl.getArticleData(pageNum)
     }
 
     /**

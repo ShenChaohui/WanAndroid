@@ -14,32 +14,39 @@ import kotlinx.android.synthetic.main.fragment_tab.*
  * 项目页和公众号 共用
  */
 class TabFragment : BaseFragment(), TabContract.ITabView {
-    private val presenter by lazy { TabPresenterImpl(this) }
-    private val mFragments by lazy { mutableListOf<Fragment>() }
+    private val presenterImpl by lazy { TabPresenterImpl(this) }
+    private val fragmentList by lazy { mutableListOf<Fragment>() }
     private val tabList by lazy { mutableListOf<TabTypeBean>() }
     private val fragmentAdapter by lazy {
         TabFragmentAdapter(
-            mFragments,
+            fragmentList,
             tabList,
             childFragmentManager
         )
     }
     var type: Int? = null
     override fun init(savedInstanceState: Bundle?) {
+        //获取type，用于判断当前是项目页还是公众号页面
         type = arguments?.getInt("type")!!
-        type?.let {
-            presenter.getTabList(it)
-        }
         viewPager.adapter = fragmentAdapter
         viewPager.offscreenPageLimit = 5
+        //tabLayout 和viewPager绑定
         tabLayout.setupWithViewPager(viewPager)
-        loadingTip.loading()
+        initListener()
+        type?.let {
+            //获取tab分类数据
+            loadingTip.loading()
+            presenterImpl.getTabListData(it)
+        }
+    }
+
+    private fun initListener() {
         // 设置无网络时重新加载点击事件
         loadingTip.setReloadListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 loadingTip.loading()
                 type?.let {
-                    presenter.getTabList(it)
+                    presenterImpl.getTabListData(it)
                 }
             }
         })
@@ -50,7 +57,7 @@ class TabFragment : BaseFragment(), TabContract.ITabView {
         return R.layout.fragment_tab
     }
 
-    override fun setTabList(list: MutableList<TabTypeBean>) {
+    override fun setTabListData(list: MutableList<TabTypeBean>) {
         loadingTip.dismiss()
         tabList.clear()
         tabList.addAll(list)
@@ -58,7 +65,7 @@ class TabFragment : BaseFragment(), TabContract.ITabView {
     }
 
     private fun initListFragment() {
-        mFragments.clear()
+        fragmentList.clear()
         tabList.forEach {
             val tabListFragment = TabListFragment()
             val bundle = Bundle()
@@ -66,12 +73,12 @@ class TabFragment : BaseFragment(), TabContract.ITabView {
             type?.let { it1 -> bundle.putInt("type", it1) }
             bundle.putString("name", it.name)
             tabListFragment.arguments = bundle
-            mFragments.add(tabListFragment)
+            fragmentList.add(tabListFragment)
         }
-        fragmentAdapter.updata(mFragments)
+        fragmentAdapter.updata(fragmentList)
     }
 
-    override fun setError(ex: String) {
+    override fun onError(ex: String) {
         loadingTip.showInternetError()
     }
 }

@@ -113,15 +113,13 @@
         android:layout_marginTop="90dp"
         android:visibility="gone"
         app:srlEnableAutoLoadMore="false"
-        app:srlEnableLoadMore="true"
-        app:srlEnableOverScrollBounce="true"
         app:srlEnableRefresh="false">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvSearch"
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:overScrollMode="never" />
+             />
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

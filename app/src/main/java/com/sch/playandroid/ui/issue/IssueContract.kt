@@ -9,13 +9,13 @@ import com.sch.playandroid.entity.ArticleBean
  */
 class IssueContract {
     interface IIssuePresenter{
-        fun getListData(curPage: Int)
+        fun getArticleData(pageNum: Int)
         fun collect(id: Int)
         fun unCollect(id: Int)
     }
     interface IIssueView{
-        fun setListData(list: MutableList<ArticleBean>)
-        fun setError(ex: String)
+        fun setArticleData(list: MutableList<ArticleBean>)
+        fun onError(ex: String)
         fun collectSuccess()
         fun unCollectSuccess()
     }

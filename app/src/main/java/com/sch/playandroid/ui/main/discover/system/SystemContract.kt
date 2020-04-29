@@ -14,6 +14,6 @@ class SystemContract {
 
     interface ISystemView {
         fun setSystemData(list: MutableList<SystemBean>)
-        fun setError(ex: String)
+        fun onError(ex: String)
     }
 }

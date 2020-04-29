@@ -10,22 +10,26 @@ import org.xutils.common.Callback
 import org.xutils.http.RequestParams
 import org.xutils.x
 
-class HomePresenterImpl(var view: HomeContract.IHomeView) :
+class HomePresenterImpl(var view: HomeContract.IHomeView?) :
     HomeContract.IHomePresenter {
 
     override fun getBannerData() {
         val params = RequestParams("https://www.wanandroid.com/banner/json")
         x.http().get(params, object : Callback.CommonCallback<String> {
             override fun onSuccess(result: String?) {
+                val obj = JSONObject(result)
+                if (obj.getInt("errorCode") != 0) {
+                    view?.onError(obj.getString("errorMsg"))
+                    return
+                }
                 doAsync {
-                    val obj = JSONObject(result)
                     val bannerList =
                         GsonUtil.parseJsonArrayWithGson(
                             obj.getString("data"),
                             BannerBean::class.java
                         )
                     uiThread {
-                        view?.showBanner(bannerList)
+                        view?.setBannerData(bannerList)
                     }
                 }
             }
@@ -53,15 +57,19 @@ class HomePresenterImpl(var view: HomeContract.IHomeView) :
             }
 
             override fun onSuccess(result: String?) {
+                val obj = JSONObject(result)
+                if (obj.getInt("errorCode") != 0) {
+                    view?.onError(obj.getString("errorMsg"))
+                    return
+                }
                 doAsync {
-                    val obj = JSONObject(result)
                     val list =
                         GsonUtil.parseJsonArrayWithGson(
                             obj.getString("data"),
                             ArticleBean::class.java
                         )
                     uiThread {
-                        view?.setTopArticleDatas(list)
+                        view?.setTopArticleData(list)
                     }
                 }
 
@@ -71,27 +79,32 @@ class HomePresenterImpl(var view: HomeContract.IHomeView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+                view?.onError(ex.toString())
             }
 
         })
     }
 
-    override fun getArticleData(index: Int) {
-        val params = RequestParams("https://www.wanandroid.com/article/list/$index/json")
+    override fun getArticleData(pageNum: Int) {
+        val params = RequestParams("https://www.wanandroid.com/article/list/$pageNum/json")
         x.http().get(params, object : Callback.CommonCallback<String> {
             override fun onFinished() {
             }
 
             override fun onSuccess(result: String?) {
+                val obj = JSONObject(result)
+                if (obj.getInt("errorCode") != 0) {
+                    view?.onError(obj.getString("errorMsg"))
+                    return
+                }
                 doAsync {
-                    val obj = JSONObject(result)
                     val list =
                         GsonUtil.parseJsonArrayWithGson(
                             obj.getJSONObject("data").getString("datas"),
                             ArticleBean::class.java
                         )
                     uiThread {
-                        view?.onLoadArticleDatas(list)
+                        view?.setArticleData(list)
                     }
                 }
             }
@@ -114,8 +127,7 @@ class HomePresenterImpl(var view: HomeContract.IHomeView) :
 
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
-                val errorCode = obj.getInt("errorCode")
-                if (errorCode == 0) {
+                if (obj.getInt("errorCode") == 0) {
                     view?.collectSuccess()
                 } else {
                     view?.onError(obj.getString("errorMsg"))
@@ -141,8 +153,7 @@ class HomePresenterImpl(var view: HomeContract.IHomeView) :
 
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
-                val errorCode = obj.getInt("errorCode")
-                if (errorCode == 0) {
+                if (obj.getInt("errorCode") == 0) {
                     view?.unCollectSuccess()
                 } else {
                     view?.onError(obj.getString("errorMsg"))

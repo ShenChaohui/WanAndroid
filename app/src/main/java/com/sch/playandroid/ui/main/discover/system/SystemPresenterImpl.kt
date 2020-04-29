@@ -14,7 +14,7 @@ import org.xutils.x
  * Date: 2020/4/23
  * description:
  */
-class SystemPresenterImpl(val view: SystemContract.ISystemView) : SystemContract.ISystemPresenter {
+class SystemPresenterImpl(val view: SystemContract.ISystemView?) : SystemContract.ISystemPresenter {
     override fun getSystemData() {
         val params = RequestParams("https://www.wanandroid.com/tree/json")
         x.http().get(params, object : Callback.CommonCallback<String> {
@@ -22,10 +22,14 @@ class SystemPresenterImpl(val view: SystemContract.ISystemView) : SystemContract
             }
 
             override fun onSuccess(result: String?) {
+                val obj = JSONObject(result)
+                if (obj.getInt("errorCode") != 0) {
+                    view?.onError(obj.getString("errorMsg"))
+                    return
+                }
                 doAsync {
-                    val objects = JSONObject(result)
                     val data = GsonUtil.parseJsonArrayWithGson(
-                        objects.getString("data"),
+                        obj.getString("data"),
                         SystemBean::class.java
                     )
                     uiThread {
@@ -38,7 +42,7 @@ class SystemPresenterImpl(val view: SystemContract.ISystemView) : SystemContract
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.setError(ex.toString())
+                view?.onError(ex.toString())
             }
         })
     }

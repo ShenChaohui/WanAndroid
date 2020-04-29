@@ -14,26 +14,28 @@ import org.xutils.x
  * Date: 2020/4/21
  * description:
  */
-class IssuePresenterImpl(var view: IssueContract.IIssueView) :
+class IssuePresenterImpl(var view: IssueContract.IIssueView?) :
     IssueContract.IIssuePresenter {
-    override fun getListData(curPage: Int) {
-        var url: String = "https://wanandroid.com/wenda/list/$curPage/json "
-        val requestParams = RequestParams(url)
+    override fun getArticleData(pageNum: Int) {
+        val requestParams = RequestParams("https://wanandroid.com/wenda/list/$pageNum/json ")
         x.http().get(requestParams, object : Callback.CommonCallback<String> {
             override fun onFinished() {
             }
 
             override fun onSuccess(result: String?) {
+                val obj = JSONObject(result)
+                if (obj.getInt("errorCode") != 0) {
+                    view?.onError(obj.getString("errorMsg"))
+                    return
+                }
                 doAsync {
-                    val obj = JSONObject(result)
                     val data = obj.getJSONObject("data")
-
                     val datas = GsonUtil.parseJsonArrayWithGson(
                         data.getString("datas"),
                         ArticleBean::class.java
                     )
                     uiThread {
-                        view?.setListData(datas)
+                        view?.setArticleData(datas)
                     }
                 }
             }
@@ -42,7 +44,7 @@ class IssuePresenterImpl(var view: IssueContract.IIssueView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.setError(ex.toString())
+                view?.onError(ex.toString())
             }
         })
     }
@@ -59,7 +61,7 @@ class IssuePresenterImpl(var view: IssueContract.IIssueView) :
                 if (errorCode == 0) {
                     view?.collectSuccess()
                 } else {
-                    view?.setError(obj.getString("errorMsg"))
+                    view?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -67,7 +69,7 @@ class IssuePresenterImpl(var view: IssueContract.IIssueView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.setError(ex.toString())
+                view?.onError(ex.toString())
 
             }
 
@@ -86,7 +88,7 @@ class IssuePresenterImpl(var view: IssueContract.IIssueView) :
                 if (errorCode == 0) {
                     view?.unCollectSuccess()
                 } else {
-                    view?.setError(obj.getString("errorMsg"))
+                    view?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -94,7 +96,7 @@ class IssuePresenterImpl(var view: IssueContract.IIssueView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.setError(ex.toString())
+                view?.onError(ex.toString())
 
             }
 

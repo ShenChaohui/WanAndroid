@@ -1,4 +1,4 @@
-package com.sch.playandroid.ui.coin
+package com.sch.playandroid.ui.my.coin
 
 import com.sch.playandroid.entity.CoinRecordBean
 
@@ -9,11 +9,11 @@ import com.sch.playandroid.entity.CoinRecordBean
  */
 class CoinConstant {
     interface ICoinPresenter {
-        fun getCoinList(pageNum: Int)
+        fun getCoinData(pageNum: Int)
     }
 
     interface ICoinView {
-        fun showCoinList(list: MutableList<CoinRecordBean>)
+        fun setCoinData(list: MutableList<CoinRecordBean>)
         fun onError(ex: String)
     }
 }

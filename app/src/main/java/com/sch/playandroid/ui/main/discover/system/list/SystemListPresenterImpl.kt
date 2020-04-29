@@ -1,7 +1,5 @@
 package com.sch.playandroid.ui.main.discover.system.list
 
-import android.util.Log
-import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.util.GsonUtil
 import org.jetbrains.anko.doAsync
@@ -16,26 +14,29 @@ import org.xutils.x
  * Date: 2020/4/21
  * description:
  */
-class SystemListPresenterImpl(var view: SystemListContract.ISystemListView) :
+class SystemListPresenterImpl(var view: SystemListContract.ISystemListView?) :
     SystemListContract.ISystemListPresenter {
-    override fun getListData(curPage: Int, cid: Int) {
-        var url: String = "https://www.wanandroid.com/article/list/$curPage/json?cid=$cid"
+    override fun getArticleData(pageNum: Int, cid: Int) {
+        var url: String = "https://www.wanandroid.com/article/list/$pageNum/json?cid=$cid"
         val requestParams = RequestParams(url)
         x.http().get(requestParams, object : Callback.CommonCallback<String> {
             override fun onFinished() {
             }
 
             override fun onSuccess(result: String?) {
+                val obj = JSONObject(result)
+                if (obj.getInt("errorCode") != 0) {
+                    view?.onError(obj.getString("errorMsg"))
+                    return
+                }
                 doAsync {
-                    val obj = JSONObject(result)
                     val data = obj.getJSONObject("data")
-
                     val datas = GsonUtil.parseJsonArrayWithGson(
                         data.getString("datas"),
                         ArticleBean::class.java
                     )
                     uiThread {
-                        view?.setListData(datas)
+                        view?.setArticleData(datas)
                     }
                 }
             }
@@ -44,7 +45,7 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.setError(ex.toString())
+                view?.onError(ex.toString())
             }
         })
     }
@@ -60,7 +61,7 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView) :
                 if (errorCode == 0) {
                     view?.collectSuccess()
                 } else {
-                    view?.setError(obj.getString("errorMsg"))
+                    view?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -68,7 +69,7 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.setError(ex.toString())
+                view?.onError(ex.toString())
 
             }
 
@@ -87,7 +88,7 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView) :
                 if (errorCode == 0) {
                     view?.unCollectSuccess()
                 } else {
-                    view?.setError(obj.getString("errorMsg"))
+                    view?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -95,7 +96,7 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.setError(ex.toString())
+                view?.onError(ex.toString())
 
             }
 

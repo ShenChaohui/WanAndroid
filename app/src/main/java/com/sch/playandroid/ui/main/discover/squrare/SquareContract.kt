@@ -10,14 +10,14 @@ import com.sch.playandroid.entity.ArticleBean
  */
 class SquareContract {
     interface ISquarePresenter {
-        fun getListData(curPage: Int)
+        fun getArticleData(pageNum: Int)
         fun collect(id: Int)
         fun unCollect(id: Int)
     }
 
     interface ISquareView {
-        fun setListData(list: MutableList<ArticleBean>)
-        fun setError(ex: String)
+        fun setArticleData(list: MutableList<ArticleBean>)
+        fun onError(ex: String)
         fun collectSuccess()
         fun unCollectSuccess()
     }

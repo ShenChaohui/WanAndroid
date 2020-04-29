@@ -1,10 +1,9 @@
 package com.sch.playandroid.ui.main.discover.navigation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sch.lolcosmos.base.BaseFragment
+import androidx.recyclerview.widget.RecyclerView
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.NavigationAdapter
 import com.sch.playandroid.base.LazyFragment
@@ -18,14 +17,24 @@ import kotlinx.android.synthetic.main.fragment_list.*
  */
 
 class NavigationFragment : LazyFragment(), NavigationContract.INavigationView {
-    private val adapter by lazy { NavigationAdapter() }
+    private val navigationAdapter by lazy { NavigationAdapter() }
     private val navigationList by lazy { mutableListOf<NavigationBean>() }
-    private val presenter by lazy { NavigationPresenterImpl(this) }
+    private val presenterImpl by lazy { NavigationPresenterImpl(this) }
 
     override fun lazyInit() {
-        rvList.layoutManager = LinearLayoutManager(context)
-        rvList.adapter = adapter
-        adapter.setStstemClickListener(object : NavigationAdapter.OnNavigationClickListener {
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = navigationAdapter
+        recyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER//取消滑动到顶部边界越界效果
+
+        initListener()
+        //加载中动画
+        loadingTip.loading()
+        presenterImpl.getNavigationData()
+    }
+
+    private fun initListener() {
+        navigationAdapter.setStstemClickListener(object :
+            NavigationAdapter.OnNavigationClickListener {
             override fun onCollectClick(navigationPosition: Int, navigationChildrenPosition: Int) {
                 intent(Bundle().apply {
                     putString(
@@ -39,16 +48,15 @@ class NavigationFragment : LazyFragment(), NavigationContract.INavigationView {
                 }, WebActivity::class.java, false)
             }
         })
-        presenter.getNavigationData()
-        //加载中动画
-        loadingTip.loading()
         // 设置无网络时重新加载点击事件
         loadingTip.setReloadListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 loadingTip.loading()
-                presenter.getNavigationData()
+                presenterImpl.getNavigationData()
             }
         })
+
+
     }
 
     override fun getLayoutId(): Int {
@@ -59,10 +67,10 @@ class NavigationFragment : LazyFragment(), NavigationContract.INavigationView {
         loadingTip.dismiss()
         navigationList.clear()
         navigationList.addAll(list)
-        adapter.updata(navigationList)
+        navigationAdapter.updata(navigationList)
     }
 
-    override fun setError(ex: String) {
+    override fun onError(ex: String) {
         loadingTip.showInternetError()
     }
 

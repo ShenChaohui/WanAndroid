@@ -60,8 +60,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/title"
         app:srlEnableAutoLoadMore="false"
-        app:srlEnableLoadMore="true"
-        app:srlEnableOverScrollBounce="true"
         app:srlEnableRefresh="false">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -124,11 +122,10 @@
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycleView"
+                        android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/white"
-                        android:overScrollMode="never" />
+                        android:background="@color/white" />
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 

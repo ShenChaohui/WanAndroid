@@ -10,14 +10,14 @@ import com.sch.playandroid.entity.ArticleBean
  */
 class TabListContract {
     interface ITabListPresenter {
-        fun getListData(type: Int, curPage: Int, cid: Int)
+        fun getArticleData(type: Int, pageNum: Int, cid: Int)
         fun collect(id: Int)
         fun unCollect(id: Int)
     }
 
     interface ITabListView {
-        fun setListData(list: MutableList<ArticleBean>)
-        fun setError(ex: String)
+        fun setArticleData(list: MutableList<ArticleBean>)
+        fun onError(ex: String)
         fun collectSuccess()
         fun unCollectSuccess()
     }

@@ -1,10 +1,11 @@
-package com.sch.playandroid.ui.coin
+package com.sch.playandroid.ui.my.coin
 
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.coder.zzq.smartshow.toast.SmartToast
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.CoinRecordAdapter
@@ -15,7 +16,6 @@ import kotlinx.android.synthetic.main.activity_coin.*
 import kotlinx.android.synthetic.main.activity_coin.ivBack
 import kotlinx.android.synthetic.main.activity_coin.loadingTip
 import kotlinx.android.synthetic.main.activity_coin.smartRefresh
-import kotlinx.android.synthetic.main.activity_issue.*
 
 /**
  * Created by Sch.
@@ -25,42 +25,54 @@ import kotlinx.android.synthetic.main.activity_issue.*
 class CoinActivity : BaseActivity(), CoinConstant.ICoinView {
     private val presenterImpl by lazy { CoinPresenterImpl(this) }
     private val coinRecordList by lazy { mutableListOf<CoinRecordBean>() }
-    private val adapter by lazy { CoinRecordAdapter() }
+    private val coinRecordAdapter by lazy { CoinRecordAdapter() }
     private var pageNum: Int = 1
     private var myCoin: Int? = 0
     override fun init(savedInstanceState: Bundle?) {
         val bundle: Bundle? = intent.extras
         myCoin = bundle?.getInt(Constants.MY_COIN)
-        recycleView.layoutManager = LinearLayoutManager(this)
-        recycleView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = coinRecordAdapter
+        recyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+        initListener()
+        loadingTip.loading()
+        loadData()
+    }
+
+    private fun loadData() {
+        coinRecordList.clear()
+        coinRecordAdapter.updata(coinRecordList)
+        pageNum = 1
+        presenterImpl.getCoinData(pageNum)
+    }
+
+    private fun initListener() {
         smartRefresh.setOnLoadMoreListener {
             pageNum++
-            presenterImpl?.getCoinList(pageNum)
+            presenterImpl.getCoinData(pageNum)
         }
         ivBack.setOnClickListener {
             finish()
         }
-        loadingTip.loading()
         // 设置无网络时重新加载点击事件
         loadingTip.setReloadListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 loadingTip.loading()
-                presenterImpl?.getCoinList(pageNum)
+                loadData()
             }
         })
-        presenterImpl?.getCoinList(pageNum)
     }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_coin
     }
 
-    override fun showCoinList(list: MutableList<CoinRecordBean>) {
+    override fun setCoinData(list: MutableList<CoinRecordBean>) {
         dismissRefresh()
         startAnim()
-        if (list?.isNotEmpty()) {
+        if (list.isNotEmpty()) {
             coinRecordList.addAll(list)
-            adapter.updata(coinRecordList)
+            coinRecordAdapter.updata(coinRecordList)
         } else {
             if (coinRecordList.size == 0) loadingTip.showEmpty()
             else SmartToast.info("没有更多数据了")

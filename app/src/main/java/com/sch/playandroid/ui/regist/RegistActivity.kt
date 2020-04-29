@@ -72,7 +72,7 @@ class RegistActivity : BaseActivity(), RegisterConstant.IRegisterView {
                 password != rePassword -> SmartToast.error("两次密码不一致")
                 else -> {
                     setViewStatus(false)
-                    presenter?.doRegister(username, password, rePassword)
+                    presenter.doRegister(username, password, rePassword)
                 }
             }
         }

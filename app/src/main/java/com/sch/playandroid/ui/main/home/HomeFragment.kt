@@ -24,17 +24,25 @@ import kotlinx.android.synthetic.main.fragment_home.loadingTip
 
 
 class HomeFragment : LazyFragment(), HomeContract.IHomeView {
-    val presenter by lazy {
+    private val presenterImpl by lazy {
         HomePresenterImpl(
             this
         )
     }
-    val adapter by lazy { ArticleAdapter() }
-    val articleList by lazy { mutableListOf<ArticleBean>() }
-    val bannerList by lazy { mutableListOf<BannerBean>() }
 
+    //文章适配器
+    private val articleAdapter by lazy { ArticleAdapter() }
+
+    //文章列表数据
+    private val articleList by lazy { mutableListOf<ArticleBean>() }
+
+    //轮播图列表数据
+    private val bannerList by lazy { mutableListOf<BannerBean>() }
+
+    //获取文章数据时的页码，从0开始
     private var pageNum = 0
 
+    //收藏或取消收藏是点击的位置
     private var collectPosition = 0
 
     /**
@@ -48,7 +56,13 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
     }
 
     override fun lazyInit() {
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = articleAdapter
+        //取消滑动越界效果
+        recyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
         initListerer()
+        //加载中动画
+        loadingTip.loading()
         loadData()
     }
 
@@ -59,19 +73,17 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
     private fun loadData() {
         //banner只加载一次
         if (bannerList.size == 0) {
-            presenter.getBannerData()
+            presenterImpl.getBannerData()
         }
         articleList.clear()
-        adapter?.updata(articleList)
-        presenter.getTopArticleData()
+        articleAdapter.updata(articleList)
+        presenterImpl.getTopArticleData()
         pageNum = 0
-        presenter.getArticleData(pageNum)
+        presenterImpl.getArticleData(pageNum)
     }
 
 
     fun initListerer() {
-        //加载中动画
-        loadingTip.loading()
         // 设置无网络时重新加载点击事件
         loadingTip.setReloadListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
@@ -79,31 +91,36 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
                 loadData()
             }
         })
-        rvHomeList.layoutManager = LinearLayoutManager(context)
-        rvHomeList.adapter = adapter
-        rvHomeList.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
-        adapter.setOnItemClickListener(object : ArticleAdapter.OnItemClickListener {
+
+        //recycleView item 点击事件
+        articleAdapter.setOnItemClickListener(object : ArticleAdapter.OnItemClickListener {
             override fun onClick(position: Int) {
+                //打开web页面，全局用一个，传入url 和 title
                 intent(Bundle().apply {
                     putString(Constants.WEB_URL, articleList[position].link)
                     putString(Constants.WEB_TITLE, articleList[position].title)
                 }, WebActivity::class.java, false)
             }
         })
-        adapter.setOnCollectClickListener(object : ArticleAdapter.OnCollectClickListener {
+        // recycleView上的收藏按钮 点击事件
+        articleAdapter.setOnCollectClickListener(object : ArticleAdapter.OnCollectClickListener {
             override fun onCollectClick(position: Int) {
                 if (!AppManager.isLogin()) {
                     SmartToast.info("请先登录")
                     return
                 }
+                //避免数组越界   并且 当前 收藏按钮没加锁
                 if (position < articleList.size && !lockCollectClick) {
+                    //加锁，收藏成功或失败前不可再点击收藏
                     lockCollectClick = true
+                    //记录当前点击的位置
                     collectPosition = position
+                    //判断当前文章是否被收藏，如果收藏过，则调用取消收藏
                     articleList[position].apply {
                         if (!collect) {
-                            presenter?.collect(id)
+                            presenterImpl.collect(id)
                         } else {
-                            presenter?.unCollect(id)
+                            presenterImpl.unCollect(id)
                         }
 
                     }
@@ -117,7 +134,7 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
         }
         smartRefresh.setOnLoadMoreListener {
             pageNum++
-            presenter.getArticleData(pageNum)
+            presenterImpl.getArticleData(pageNum)
         }
         //NestedScrollView 滑动监听
         nestedView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
@@ -128,6 +145,7 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
                 ivSearch.isEnabled = false
                 0f
             }
+            //改变搜索栏透明度
             rlSearch.alpha = alpha
         })
         ivSearch.setOnClickListener {
@@ -138,9 +156,14 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
 
     }
 
+    /**
+     * 初始化banner控件
+     */
     private fun initBanners() {
+        //设置自动播放
         banner.setAutoPlayAble(true)
         val views = mutableListOf<View>()
+        //添加banner的view
         bannerList.forEach { _ ->
             views.add(
                 LayoutInflater.from(context).inflate(R.layout.banner_layout, null)
@@ -181,52 +204,71 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
         })
     }
 
-
-    override fun showBanner(list: MutableList<BannerBean>) {
+    /**
+     * 获取banner数据成功
+     */
+    override fun setBannerData(list: MutableList<BannerBean>) {
         bannerList.addAll(list)
         initBanners()
     }
 
-    override fun setTopArticleDatas(list: MutableList<ArticleBean>) {
+    /**
+     * 获取置顶数据成功
+     */
+    override fun setTopArticleData(list: MutableList<ArticleBean>) {
         articleList.addAll(0, list)
-        adapter.updata(articleList)
+        articleAdapter.updata(articleList)
     }
 
-    override fun onLoadArticleDatas(list: MutableList<ArticleBean>) {
+    /**
+     * 获取文章数据成功
+     */
+    override fun setArticleData(list: MutableList<ArticleBean>) {
         dismissRefresh()
+        //如果list不是空，刷新列表
         if (list.isNotEmpty()) {
             articleList.addAll(list)
-            adapter.updata(articleList)
+            articleAdapter.updata(articleList)
         } else {
+            //如果当前页面没有数据，展示无数据
             if (articleList.size == 0) loadingTip.showEmpty()
+            //如果当前页面有数据，则没有更多数据
             else SmartToast.info("没有更多数据了")
         }
     }
 
     override fun onError(msg: String) {
+        //释放收藏锁
         lockCollectClick = false
         //请求失败将page -1
         if (pageNum > 0) pageNum--
         dismissRefresh()
+        //如果当前没有数据，展示网络异常
         if (articleList.size == 0) {
             loadingTip.showInternetError()
         }
         SmartToast.error(msg)
     }
 
+    /**
+     * 收藏成功
+     */
     override fun collectSuccess() {
         lockCollectClick = false
         if (collectPosition < articleList.size) {
             articleList[collectPosition].collect = true
-            adapter.updata(articleList)
+            articleAdapter.updata(articleList)
         }
     }
 
+    /**
+     * 收藏失败
+     */
     override fun unCollectSuccess() {
         lockCollectClick = false
         if (collectPosition < articleList.size) {
             articleList[collectPosition].collect = false
-            adapter.updata(articleList)
+            articleAdapter.updata(articleList)
         }
     }
 

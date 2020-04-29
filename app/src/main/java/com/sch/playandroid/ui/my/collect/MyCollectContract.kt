@@ -1,4 +1,4 @@
-package com.sch.playandroid.ui.collect
+package com.sch.playandroid.ui.my.collect
 
 import com.sch.playandroid.entity.CollectBean
 

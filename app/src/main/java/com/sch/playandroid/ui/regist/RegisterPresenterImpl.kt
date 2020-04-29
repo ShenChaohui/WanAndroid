@@ -11,7 +11,7 @@ import org.xutils.x
  * Date: 2020/4/24
  * description:
  */
-class RegisterPresenterImpl(var view: RegisterConstant.IRegisterView) :
+class RegisterPresenterImpl(var view: RegisterConstant.IRegisterView?) :
     RegisterConstant.IRegisterPresenter {
     override fun doRegister(username: String, password: String, rePassword: String) {
         val params = RequestParams("https://www.wanandroid.com/user/register")

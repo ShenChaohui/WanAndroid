@@ -14,7 +14,7 @@ import org.xutils.x
  * Date: 2020/4/23
  * description:
  */
-class NavigationPresenterImpl(val view: NavigationContract.INavigationView) :
+class NavigationPresenterImpl(val view: NavigationContract.INavigationView?) :
     NavigationContract.INavigationPresenter {
     override fun getNavigationData() {
         val params = RequestParams("https://www.wanandroid.com/navi/json")
@@ -23,10 +23,14 @@ class NavigationPresenterImpl(val view: NavigationContract.INavigationView) :
             }
 
             override fun onSuccess(result: String?) {
+                val obj = JSONObject(result)
+                if (obj.getInt("errorCode") != 0) {
+                    view?.onError(obj.getString("errorMsg"))
+                    return
+                }
                 doAsync {
-                    val objects = JSONObject(result)
                     val data = GsonUtil.parseJsonArrayWithGson(
-                        objects.getString("data"),
+                        obj.getString("data"),
                         NavigationBean::class.java
                     )
                     uiThread {
@@ -39,7 +43,7 @@ class NavigationPresenterImpl(val view: NavigationContract.INavigationView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.setError(ex.toString())
+                view?.onError(ex.toString())
             }
         })
     }

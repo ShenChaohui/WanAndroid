@@ -13,7 +13,7 @@ import org.xutils.x
  * Date: 2020/4/24
  * description:
  */
-class LoginPresenterImpl(var view: LoginConstant.ILoginView) : LoginConstant.ILoginPresenter {
+class LoginPresenterImpl(var view: LoginConstant.ILoginView?) : LoginConstant.ILoginPresenter {
     override fun doLogin(username: String, password: String) {
         val params = RequestParams("https://www.wanandroid.com/user/login")
         params.addParameter("username", username)

@@ -5,12 +5,10 @@
     android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvList"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:overScrollMode="never"
-        android:scrollbars="none" />
+        android:background="@color/white" />
 
     <com.sch.playandroid.widget.LoadingTip
         android:id="@+id/loadingTip"

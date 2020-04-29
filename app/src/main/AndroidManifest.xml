@@ -30,11 +30,11 @@
         <activity android:name=".ui.login.LoginActivity" />
         <activity android:name=".ui.regist.RegistActivity" />
         <activity android:name=".ui.set.SetActivity" />
-        <activity android:name=".ui.rank.RankActivity" />
-        <activity android:name=".ui.coin.CoinActivity" />
+        <activity android:name=".ui.my.rank.RankActivity" />
+        <activity android:name="com.sch.playandroid.ui.my.coin.CoinActivity" />
         <activity android:name=".ui.issue.IssueActivity" />
-        <activity android:name=".ui.collect.MyCollectActivity" />
-        <activity android:name=".ui.articles.MyArticlesActivity" />
+        <activity android:name=".ui.my.collect.MyCollectActivity" />
+        <activity android:name=".ui.my.articles.MyArticlesActivity" />
 
         <activity android:name=".test.TestActivity">
 

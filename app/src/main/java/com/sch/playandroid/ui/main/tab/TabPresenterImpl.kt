@@ -15,8 +15,8 @@ import org.xutils.x
  * Date: 2020/4/21
  * description:
  */
-class TabPresenterImpl(var view: TabContract.ITabView) : TabContract.ITabPresenter {
-    override fun getTabList(type: Int) {
+class TabPresenterImpl(var view: TabContract.ITabView?) : TabContract.ITabPresenter {
+    override fun getTabListData(type: Int) {
         var url: String
         if (type == Constants.PROJECT_TYPE) {
             url = "https://www.wanandroid.com/project/tree/json"
@@ -29,15 +29,19 @@ class TabPresenterImpl(var view: TabContract.ITabView) : TabContract.ITabPresent
             }
 
             override fun onSuccess(result: String?) {
+                val obj = JSONObject(result)
+                if (obj.getInt("errorCode") != 0) {
+                    view?.onError(obj.getString("errorMsg"))
+                    return
+                }
                 doAsync {
-                    val obj = JSONObject(result)
                     val data =
                         GsonUtil.parseJsonArrayWithGson(
                             obj.getString("data"),
                             TabTypeBean::class.java
                         )
                     uiThread {
-                        view?.setTabList(data)
+                        view?.setTabListData(data)
                     }
                 }
             }
@@ -46,7 +50,7 @@ class TabPresenterImpl(var view: TabContract.ITabView) : TabContract.ITabPresent
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.setError(ex.toString())
+                view?.onError(ex.toString())
             }
 
         })

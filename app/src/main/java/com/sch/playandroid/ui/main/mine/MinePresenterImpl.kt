@@ -5,6 +5,8 @@ import com.sch.playandroid.entity.UserCoinInfo
 import com.sch.playandroid.util.GsonUtil
 import com.sch.playandroid.util.PrefUtils
 import kotlinx.android.synthetic.main.fragment_mine.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import org.json.JSONObject
 import org.xutils.common.Callback
 import org.xutils.http.RequestParams
@@ -15,7 +17,7 @@ import org.xutils.x
  * Date: 2020/4/26
  * description:
  */
-class MinePresenterImpl(var view: MineContract.IMineView) : MineContract.IMinePresenter {
+class MinePresenterImpl(var view: MineContract.IMineView?) : MineContract.IMinePresenter {
     override fun getUserCoinInfo() {
         val params = RequestParams("https://www.wanandroid.com/lg/coin/userinfo/json")
         x.http().get(params, object : Callback.CommonCallback<String> {
@@ -24,13 +26,18 @@ class MinePresenterImpl(var view: MineContract.IMineView) : MineContract.IMinePr
 
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
-                val errorCode = obj.getInt("errorCode")
-                if (errorCode == 0) {
+                if (obj.getInt("errorCode") != 0) {
+                    view?.onError(obj.getString("errorMsg"))
+                    return
+                }
+                doAsync {
                     val userCoinInfoStr = obj.getString("data")
                     val userCoinInfo =
                         GsonUtil.parseJsonWithGson(userCoinInfoStr, UserCoinInfo::class.java)
                     PrefUtils.setString(Constants.USERCOININFO, userCoinInfoStr)
-                    view?.setUserCoinInfo(userCoinInfo)
+                    uiThread {
+                        view?.setUserCoinInfo(userCoinInfo)
+                    }
                 }
             }
 
@@ -39,6 +46,7 @@ class MinePresenterImpl(var view: MineContract.IMineView) : MineContract.IMinePr
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+                view?.onError(ex.toString())
             }
 
         })

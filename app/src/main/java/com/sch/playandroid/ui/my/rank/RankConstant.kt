@@ -1,4 +1,4 @@
-package com.sch.playandroid.ui.rank
+package com.sch.playandroid.ui.my.rank
 
 import com.sch.playandroid.entity.RankBean
 
@@ -9,11 +9,11 @@ import com.sch.playandroid.entity.RankBean
  */
 class RankConstant {
     interface IRankPresenter {
-        fun getRankList(pageNum: Int)
+        fun getRankData(pageNum: Int)
     }
 
     interface IRankView {
-        fun showRankList(list: MutableList<RankBean>)
+        fun setRankData(list: MutableList<RankBean>)
         fun onError(ex: String)
     }
 }

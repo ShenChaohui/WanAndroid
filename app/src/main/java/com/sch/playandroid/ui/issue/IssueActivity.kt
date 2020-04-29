@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_issue.*
  * description:
  */
 class IssueActivity : BaseActivity(), IssueContract.IIssueView {
-    private val adapter by lazy { ArticleAdapter() }
+    private val articleAdapter by lazy { ArticleAdapter() }
     private val presenterImpl by lazy { IssuePresenterImpl(this) }
     private var pageNum = 1
     val articleList by lazy { mutableListOf<ArticleBean>() }
@@ -35,10 +35,40 @@ class IssueActivity : BaseActivity(), IssueContract.IIssueView {
         ivBack.setOnClickListener {
             finish()
         }
-        rvList.layoutManager = LinearLayoutManager(this)
-        rvList.adapter = adapter
-        rvList.overScrollMode = RecyclerView.OVER_SCROLL_NEVER//取消滑动到顶部边界越界效果
-        adapter.setOnItemClickListener(object : ArticleAdapter.OnItemClickListener {
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = articleAdapter
+        recyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER//取消滑动到顶部边界越界效果
+        initListener()
+
+//加载中动画
+        loadingTip.loading()
+        loadData()
+    }
+
+    private fun loadData() {
+        articleList.clear()
+        articleAdapter.updata(articleList)
+        pageNum = 1
+        presenterImpl.getArticleData(pageNum)
+    }
+
+    private fun initListener() {
+        // 设置无网络时重新加载点击事件
+        loadingTip.setReloadListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                loadingTip.loading()
+                loadData()
+            }
+        })
+        //下拉监听
+        smartRefresh.setOnRefreshListener {
+            loadData()
+        }
+        smartRefresh.setOnLoadMoreListener {
+            pageNum++
+            presenterImpl.getArticleData(pageNum)
+        }
+        articleAdapter.setOnItemClickListener(object : ArticleAdapter.OnItemClickListener {
             override fun onClick(position: Int) {
                 intent(Bundle().apply {
                     putString(Constants.WEB_URL, articleList[position].link)
@@ -46,7 +76,7 @@ class IssueActivity : BaseActivity(), IssueContract.IIssueView {
                 }, WebActivity::class.java, false)
             }
         })
-        adapter.setOnCollectClickListener(object : ArticleAdapter.OnCollectClickListener {
+        articleAdapter.setOnCollectClickListener(object : ArticleAdapter.OnCollectClickListener {
             override fun onCollectClick(position: Int) {
                 if (!AppManager.isLogin()) {
                     SmartToast.info("请先登录")
@@ -57,9 +87,9 @@ class IssueActivity : BaseActivity(), IssueContract.IIssueView {
                     collectPosition = position
                     articleList[position].apply {
                         if (!collect) {
-                            presenterImpl?.collect(id)
+                            presenterImpl.collect(id)
                         } else {
-                            presenterImpl?.unCollect(id)
+                            presenterImpl.unCollect(id)
                         }
 
                     }
@@ -67,46 +97,24 @@ class IssueActivity : BaseActivity(), IssueContract.IIssueView {
                 }
             }
         })
-//加载中动画
-        loadingTip.loading()
-        // 设置无网络时重新加载点击事件
-        loadingTip.setReloadListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                loadingTip.loading()
-                presenterImpl.getListData(pageNum)
-            }
-        })
-        //下拉监听
-        smartRefresh.setOnRefreshListener {
-            pageNum = 1
-            articleList.clear()
-            adapter.updata(articleList)
-            presenterImpl.getListData(pageNum)
-
-        }
-        smartRefresh.setOnLoadMoreListener {
-            pageNum++
-            presenterImpl.getListData(pageNum)
-        }
-        presenterImpl.getListData(pageNum)
     }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_issue
     }
 
-    override fun setListData(list: MutableList<ArticleBean>) {
+    override fun setArticleData(list: MutableList<ArticleBean>) {
         dismissRefresh()
         if (list.isNotEmpty()) {
             articleList.addAll(list)
-            adapter.updata(articleList)
+            articleAdapter.updata(articleList)
         } else {
             if (articleList.size == 0) loadingTip.showEmpty()
             else SmartToast.info("没有更多数据了")
         }
     }
 
-    override fun setError(ex: String) {
+    override fun onError(ex: String) {
         lockCollectClick = false
         //请求失败将page -1
         if (pageNum > 0) pageNum--
@@ -121,7 +129,7 @@ class IssueActivity : BaseActivity(), IssueContract.IIssueView {
         lockCollectClick = false
         if (collectPosition < articleList.size) {
             articleList[collectPosition].collect = true
-            adapter.updata(articleList)
+            articleAdapter.updata(articleList)
         }
     }
 
@@ -129,7 +137,7 @@ class IssueActivity : BaseActivity(), IssueContract.IIssueView {
         lockCollectClick = false
         if (collectPosition < articleList.size) {
             articleList[collectPosition].collect = false
-            adapter.updata(articleList)
+            articleAdapter.updata(articleList)
         }
     }
 

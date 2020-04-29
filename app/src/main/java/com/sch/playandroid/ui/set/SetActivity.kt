@@ -1,7 +1,6 @@
 package com.sch.playandroid.ui.set
 
 import android.os.Bundle
-import androidx.annotation.UiThread
 import com.coder.zzq.smartshow.dialog.DialogBtnClickListener
 import com.coder.zzq.smartshow.dialog.EnsureDialog
 import com.coder.zzq.smartshow.dialog.LoadingDialog
@@ -10,7 +9,6 @@ import com.coder.zzq.smartshow.toast.SmartToast
 import com.sch.playandroid.R
 import com.sch.playandroid.base.BaseActivity
 import com.sch.playandroid.constants.Constants
-import com.sch.playandroid.entity.UserCoinInfo
 import com.sch.playandroid.util.AppManager
 import com.sch.playandroid.util.CacheDataManager
 import com.sch.playandroid.util.PrefUtils
@@ -19,9 +17,6 @@ import kotlinx.android.synthetic.main.activity_set.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import org.xutils.common.Callback
-import org.xutils.http.RequestParams
-import org.xutils.x
 
 /**
  * Created by Sch.
@@ -33,7 +28,8 @@ class SetActivity : BaseActivity(), SetContract.ISetView {
     private val updataDialog by lazy {
         LoadingDialog()
             .large()
-            .message("检查更新") }
+            .message("检查更新")
+    }
 
     private val logoutDialog by lazy {
         EnsureDialog()
@@ -41,9 +37,8 @@ class SetActivity : BaseActivity(), SetContract.ISetView {
             .cancelBtn("取消")
             .confirmBtn("确定", object : DialogBtnClickListener<SmartDialog<*>> {
                 override fun onBtnClick(p0: SmartDialog<*>?, p1: Int, p2: Any?) {
-                    presenterImpl?.logout()
+                    presenterImpl.logout()
                 }
-
             })
 
     }
@@ -62,19 +57,11 @@ class SetActivity : BaseActivity(), SetContract.ISetView {
             logoutDialog.showInActivity(this)
         }
         tvClearCache.setOnClickListener {
-            CacheDataManager.clearAllCache(this)
-            SmartToast.success("已清除")
-            tvCacheValue.text = ""
+            presenterImpl.clearCache(this)
         }
         tvVersions.setOnClickListener {
             updataDialog.showInActivity(this)
-            doAsync {
-                Thread.sleep(1500)
-                uiThread{
-                    updataDialog.dismiss()
-                    SmartToast.info("已经是最新版本")
-                }
-            }
+            presenterImpl.checkUpdate()
         }
 
     }
@@ -88,6 +75,16 @@ class SetActivity : BaseActivity(), SetContract.ISetView {
         PrefUtils.removeKey(Constants.USERCOININFO)
         EventBus.getDefault().post(LogoutEvent())
         finish()
+    }
+
+    override fun clearCacheSuccess() {
+        SmartToast.success("已清除")
+        tvCacheValue.text = ""
+    }
+
+    override fun checkUpdateSuccess() {
+        updataDialog.dismiss()
+        SmartToast.info("已经是最新版本")
     }
 
     override fun onError(ex: String) {

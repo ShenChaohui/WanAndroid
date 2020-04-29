@@ -1,7 +1,6 @@
 package com.sch.playandroid.ui.main.discover.squrare
 
 import android.util.Log
-import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.util.GsonUtil
 import org.jetbrains.anko.doAsync
@@ -16,25 +15,28 @@ import org.xutils.x
  * Date: 2020/4/21
  * description:
  */
-class SquarePresenterImpl(var view: SquareContract.ISquareView) :
+class SquarePresenterImpl(var view: SquareContract.ISquareView?) :
     SquareContract.ISquarePresenter {
-    override fun getListData(curPage: Int) {
-        val requestParams = RequestParams("https://wanandroid.com/user_article/list/$curPage/json")
+    override fun getArticleData(pageNum: Int) {
+        val requestParams = RequestParams("https://wanandroid.com/user_article/list/$pageNum/json")
         x.http().get(requestParams, object : Callback.CommonCallback<String> {
             override fun onFinished() {
             }
 
             override fun onSuccess(result: String?) {
+                val obj = JSONObject(result)
+                if (obj.getInt("errorCode") != 0) {
+                    view?.onError(obj.getString("errorMsg"))
+                    return
+                }
                 doAsync {
-                    val obj = JSONObject(result)
                     val data = obj.getJSONObject("data")
-
                     val datas = GsonUtil.parseJsonArrayWithGson(
                         data.getString("datas"),
                         ArticleBean::class.java
                     )
                     uiThread {
-                        view?.setListData(datas)
+                        view?.setArticleData(datas)
                     }
                 }
             }
@@ -44,7 +46,7 @@ class SquarePresenterImpl(var view: SquareContract.ISquareView) :
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
                 Log.e("test", ex.toString())
-                view?.setError(ex.toString())
+                view?.onError(ex.toString())
             }
         })
     }
@@ -61,7 +63,7 @@ class SquarePresenterImpl(var view: SquareContract.ISquareView) :
                 if (errorCode == 0) {
                     view?.collectSuccess()
                 } else {
-                    view?.setError(obj.getString("errorMsg"))
+                    view?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -69,7 +71,7 @@ class SquarePresenterImpl(var view: SquareContract.ISquareView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.setError(ex.toString())
+                view?.onError(ex.toString())
             }
 
         })
@@ -87,7 +89,7 @@ class SquarePresenterImpl(var view: SquareContract.ISquareView) :
                 if (errorCode == 0) {
                     view?.unCollectSuccess()
                 } else {
-                    view?.setError(obj.getString("errorMsg"))
+                    view?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -95,7 +97,7 @@ class SquarePresenterImpl(var view: SquareContract.ISquareView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.setError(ex.toString())
+                view?.onError(ex.toString())
 
             }
 

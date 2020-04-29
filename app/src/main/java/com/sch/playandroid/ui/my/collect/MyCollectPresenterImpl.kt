@@ -1,7 +1,9 @@
-package com.sch.playandroid.ui.collect
+package com.sch.playandroid.ui.my.collect
 
 import com.sch.playandroid.entity.CollectBean
 import com.sch.playandroid.util.GsonUtil
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import org.json.JSONObject
 import org.xutils.common.Callback
 import org.xutils.http.RequestParams
@@ -12,7 +14,7 @@ import org.xutils.x
  * Date: 2020/4/28
  * description:
  */
-class MyCollectPresenterImpl(var view: MyCollectContract.IMyCollectView) :
+class MyCollectPresenterImpl(var view: MyCollectContract.IMyCollectView?) :
     MyCollectContract.IMyCollectPresenter {
     override fun getCollectList(pageNum: Int) {
         val params = RequestParams("https://www.wanandroid.com/lg/collect/list/$pageNum/json")
@@ -25,20 +27,26 @@ class MyCollectPresenterImpl(var view: MyCollectContract.IMyCollectView) :
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") != 0) {
                     view?.onError(obj.getString("errorMsg"))
-                } else {
+                    return
+                }
+                doAsync {
                     val data = obj.getJSONObject("data")
                     val datas = GsonUtil.parseJsonArrayWithGson(
                         data.getString("datas"),
                         CollectBean::class.java
                     )
-                    view?.showCollectList(datas)
+                    uiThread {
+                        view?.showCollectList(datas)
+                    }
                 }
+
             }
 
             override fun onCancelled(cex: Callback.CancelledException?) {
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+                view?.onError(ex.toString())
             }
 
         })
@@ -94,6 +102,7 @@ class MyCollectPresenterImpl(var view: MyCollectContract.IMyCollectView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+                view?.onError(ex.toString())
             }
 
         })

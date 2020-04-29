@@ -12,6 +12,7 @@ import android.view.animation.ScaleAnimation
 import android.view.inputmethod.EditorInfo
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.coder.zzq.smartshow.dialog.DialogBtnClickListener
 import com.coder.zzq.smartshow.dialog.EnsureDialog
 import com.coder.zzq.smartshow.dialog.SmartDialog
@@ -37,15 +38,14 @@ import kotlinx.android.synthetic.main.activity_search.smartRefresh
  * description:
  */
 class SearchActivity : BaseActivity(), SearchContract.ISearchView {
-    private val persenter by lazy { SearchPresenterImpl(this) }
+    private val presenterImpl by lazy { SearchPresenterImpl(this) }
     private var keyWord: String? = null
     private var pageNum: Int = 0
     private val articleList by lazy { mutableListOf<ArticleBean>() }
-    private val adapter by lazy { ArticleAdapter() }
+    private val articleAdapter by lazy { ArticleAdapter() }
 
     private val recordList by lazy { mutableListOf<String>() }
     private var collectPosition = 0
-
     /**
      * 点击收藏后将点击事件上锁,等接口有相应结果再解锁
      * 避免重复点击产生的bug  false表示没锁，true表示锁住
@@ -80,8 +80,10 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
         startSearchAnim()
         loadRecord()
         initListener()
-        rvSearch.layoutManager = LinearLayoutManager(this)
-        rvSearch.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = articleAdapter
+        recyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER//取消滑动到顶部边界越界效果
+
     }
 
     private fun initListener() {
@@ -104,9 +106,9 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
         addSearchListener()
         smartRefresh.setOnLoadMoreListener {
             pageNum++
-            keyWord?.let { persenter.getSearchData(it, pageNum) }
+            keyWord?.let { presenterImpl.getSearchData(it, pageNum) }
         }
-        adapter.setOnItemClickListener(object : ArticleAdapter.OnItemClickListener {
+        articleAdapter.setOnItemClickListener(object : ArticleAdapter.OnItemClickListener {
             override fun onClick(position: Int) {
                 intent(Bundle().apply {
                     putString(Constants.WEB_URL, articleList[position].link)
@@ -114,7 +116,7 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
                 }, WebActivity::class.java, false)
             }
         })
-        adapter.setOnCollectClickListener(object : ArticleAdapter.OnCollectClickListener {
+        articleAdapter.setOnCollectClickListener(object : ArticleAdapter.OnCollectClickListener {
             override fun onCollectClick(position: Int) {
                 if (!AppManager.isLogin()) {
                     SmartToast.info("请先登录")
@@ -125,9 +127,9 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
                     collectPosition = position
                     articleList[position].apply {
                         if (!collect) {
-                            persenter?.collect(id)
+                            presenterImpl.collect(id)
                         } else {
-                            persenter?.unCollect(id)
+                            presenterImpl.unCollect(id)
                         }
 
                     }
@@ -160,7 +162,7 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
      * 清除搜索记录
      */
     private fun clearRecord() {
-        recordList?.clear()
+        recordList.clear()
         loadRecord()
     }
 
@@ -207,23 +209,20 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
 
     private fun search() {
         articleList.clear()//清空上一次的结果
-        adapter.updata(articleList)
+        articleAdapter.updata(articleList)
         KeyBoardUtil.closeKeyboard(editText, this)//关闭键盘
         loadingTip.loading()//加载中动画
         rlRecord.visibility = View.GONE//搜索历史关闭
         smartRefresh.visibility = View.VISIBLE//搜索结果显示
         pageNum = 0
-        keyWord?.let { persenter.getSearchData(it, pageNum) }
+        keyWord?.let { presenterImpl.getSearchData(it, pageNum) }
 
     }
 
     private fun startSearchAnim() {
         rlTop.post {//保证加载完view再执行动画
             rlInitWidth = rlTop.measuredWidth
-            Log.e("test", "rlTop.measuredWidth：$rlInitWidth")
-            var left = rlTop.left - UiUtils.dip2px(this, 10f)
-            Log.e("test", "rlTop.left：$left")
-
+            val left = rlTop.left - UiUtils.dip2px(this, 10f)
             val animation = ValueAnimator.ofInt(rlInitWidth, left)
             animation.duration = 300
             animation.interpolator = DecelerateInterpolator()
@@ -295,7 +294,7 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
         dismissRefresh()
         if (datas.isNotEmpty()) {
             articleList.addAll(datas)
-            adapter.updata(articleList)
+            articleAdapter.updata(articleList)
         } else {
             if (articleList.size == 0) loadingTip.showEmpty()
             else SmartToast.info("没有更多数据了")
@@ -317,7 +316,7 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
         lockCollectClick = false
         if (collectPosition < articleList.size) {
             articleList[collectPosition].collect = true
-            adapter.updata(articleList)
+            articleAdapter.updata(articleList)
         }
     }
 
@@ -325,7 +324,7 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
         lockCollectClick = false
         if (collectPosition < articleList.size) {
             articleList[collectPosition].collect = false
-            adapter.updata(articleList)
+            articleAdapter.updata(articleList)
         }
     }
 

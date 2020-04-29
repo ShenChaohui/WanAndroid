@@ -50,16 +50,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            app:srlEnableAutoLoadMore="false"
-            app:srlEnableLoadMore="true"
-            app:srlEnableOverScrollBounce="true"
-            app:srlEnableRefresh="true">
+            app:srlEnableAutoLoadMore="false">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:overScrollMode="never" />
+                android:background="@color/white" />
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
         <com.sch.playandroid.widget.LoadingTip

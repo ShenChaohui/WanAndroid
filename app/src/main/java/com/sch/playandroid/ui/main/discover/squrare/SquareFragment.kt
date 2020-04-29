@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_refresh_list.*
 
 class SquareFragment : LazyFragment(),
     SquareContract.ISquareView {
-    private val adapter by lazy { ArticleAdapter() }
+    private val articleAdapter by lazy { ArticleAdapter() }
     private val presenterImpl by lazy {
         SquarePresenterImpl(
             this
@@ -37,11 +37,24 @@ class SquareFragment : LazyFragment(),
      */
     private var lockCollectClick = false
     override fun lazyInit() {
-        rvList.layoutManager = LinearLayoutManager(context)
-        rvList.adapter = adapter
-        rvList.overScrollMode = RecyclerView.OVER_SCROLL_NEVER//取消滑动到顶部边界越界效果
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = articleAdapter
+        recyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER//取消滑动到顶部边界越界效果
+        initListener()
+        //加载中动画
+        loadingTip.loading()
+        loadData()
+    }
 
-        adapter.setOnItemClickListener(object : ArticleAdapter.OnItemClickListener {
+    private fun loadData() {
+        articleList.clear()
+        articleAdapter.updata(articleList)
+        pageNum = 0
+        presenterImpl.getArticleData(pageNum)
+    }
+
+    private fun initListener() {
+        articleAdapter.setOnItemClickListener(object : ArticleAdapter.OnItemClickListener {
             override fun onClick(position: Int) {
                 intent(Bundle().apply {
                     putString(Constants.WEB_URL, articleList[position].link)
@@ -49,7 +62,7 @@ class SquareFragment : LazyFragment(),
                 }, WebActivity::class.java, false)
             }
         })
-        adapter.setOnCollectClickListener(object : ArticleAdapter.OnCollectClickListener {
+        articleAdapter.setOnCollectClickListener(object : ArticleAdapter.OnCollectClickListener {
             override fun onCollectClick(position: Int) {
                 if (!AppManager.isLogin()) {
                     SmartToast.info("请先登录")
@@ -60,9 +73,9 @@ class SquareFragment : LazyFragment(),
                     collectPosition = position
                     articleList[position].apply {
                         if (!collect) {
-                            presenterImpl?.collect(id)
+                            presenterImpl.collect(id)
                         } else {
-                            presenterImpl?.unCollect(id)
+                            presenterImpl.unCollect(id)
                         }
 
                     }
@@ -70,47 +83,39 @@ class SquareFragment : LazyFragment(),
                 }
             }
         })
-        //加载中动画
-        loadingTip.loading()
         // 设置无网络时重新加载点击事件
         loadingTip.setReloadListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 loadingTip.loading()
-                presenterImpl.getListData(pageNum)
+                loadData()
             }
         })
         //下拉监听
         smartRefresh.setOnRefreshListener {
-            pageNum = 0
-            articleList.clear()
-            adapter.updata(articleList)
-            presenterImpl.getListData(pageNum)
-
+            loadData()
         }
         smartRefresh.setOnLoadMoreListener {
             pageNum++
-            presenterImpl.getListData(pageNum)
+            presenterImpl.getArticleData(pageNum)
 
         }
-        presenterImpl.getListData(pageNum)
     }
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_refresh_list
     }
-
-    override fun setListData(list: MutableList<ArticleBean>) {
+    override fun setArticleData(list: MutableList<ArticleBean>) {
         dismissRefresh()
         if (list.isNotEmpty()) {
             articleList.addAll(list)
-            adapter.updata(articleList)
+            articleAdapter.updata(articleList)
         } else {
             if (articleList.size == 0) loadingTip.showEmpty()
             else SmartToast.info("没有更多数据了")
         }
     }
 
-    override fun setError(ex: String) {
+    override fun onError(ex: String) {
         lockCollectClick = false
         //请求失败将page -1
         if (pageNum > 0) pageNum--
@@ -125,7 +130,7 @@ class SquareFragment : LazyFragment(),
         lockCollectClick = false
         if (collectPosition < articleList.size) {
             articleList[collectPosition].collect = true
-            adapter.updata(articleList)
+            articleAdapter.updata(articleList)
         }
     }
 
@@ -133,7 +138,7 @@ class SquareFragment : LazyFragment(),
         lockCollectClick = false
         if (collectPosition < articleList.size) {
             articleList[collectPosition].collect = false
-            adapter.updata(articleList)
+            articleAdapter.updata(articleList)
         }
     }
 

@@ -3,6 +3,7 @@ package com.sch.playandroid.ui.main.discover.system
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.SystemAdapter
 import com.sch.playandroid.base.LazyFragment
@@ -16,14 +17,22 @@ import kotlinx.android.synthetic.main.fragment_list.*
  */
 
 class SystemFragment : LazyFragment(), SystemContract.ISystemView {
-    private val adapter by lazy { SystemAdapter() }
+    private val systemAdapter by lazy { SystemAdapter() }
     private val systemList by lazy { mutableListOf<SystemBean>() }
-    private val presenter by lazy { SystemPresenterImpl(this) }
+    private val presenterImpl by lazy { SystemPresenterImpl(this) }
     override fun lazyInit() {
-        rvList.layoutManager = LinearLayoutManager(context)
-        rvList.layoutManager
-        rvList.adapter = adapter
-        adapter.setStstemClickListener(object : SystemAdapter.OnSystemClickListener {
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = systemAdapter
+        recyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER//取消滑动到顶部边界越界效果
+
+        initListener()
+        //加载中动画
+        loadingTip.loading()
+        presenterImpl.getSystemData()
+    }
+
+    private fun initListener() {
+        systemAdapter.setStstemClickListener(object : SystemAdapter.OnSystemClickListener {
             override fun onCollectClick(systemPosition: Int, systemChildrenPosition: Int) {
                 intent(Bundle().apply {
                     putInt(
@@ -37,14 +46,11 @@ class SystemFragment : LazyFragment(), SystemContract.ISystemView {
                 }, SystemListActivity::class.java, false)
             }
         })
-        presenter.getSystemData()
-        //加载中动画
-        loadingTip.loading()
         // 设置无网络时重新加载点击事件
         loadingTip.setReloadListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 loadingTip.loading()
-                presenter.getSystemData()
+                presenterImpl.getSystemData()
             }
         })
     }
@@ -57,10 +63,10 @@ class SystemFragment : LazyFragment(), SystemContract.ISystemView {
         loadingTip.dismiss()
         systemList.clear()
         systemList.addAll(list)
-        adapter.updata(systemList)
+        systemAdapter.updata(systemList)
     }
 
-    override fun setError(ex: String) {
+    override fun onError(ex: String) {
         loadingTip.showInternetError()
     }
 }

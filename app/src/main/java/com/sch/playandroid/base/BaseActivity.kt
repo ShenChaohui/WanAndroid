@@ -3,11 +3,12 @@ package com.sch.playandroid.base
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.sch.playandroid.ui.login.LoginActivity
 import com.sch.playandroid.util.AppManager
 import com.sch.playandroid.util.ColorUtils
 import com.sch.playandroid.util.StatusUtils
 
-abstract class BaseActivity: AppCompatActivity(){
+abstract class BaseActivity : AppCompatActivity() {
     protected val TAG = javaClass.name
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,9 +22,9 @@ abstract class BaseActivity: AppCompatActivity(){
 
         init(savedInstanceState)
     }
+
     protected abstract fun init(savedInstanceState: Bundle?)
     protected abstract fun getLayoutId(): Int
-
 
     /**
      * 界面跳转
@@ -32,7 +33,7 @@ abstract class BaseActivity: AppCompatActivity(){
     protected fun intent(clazz: Class<*>, isLogin: Boolean) {
         //需要登录&&未登录
         if (isLogin && !AppManager.isLogin()) {
-//            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
         } else {
             startActivity(Intent(this, clazz))
         }
@@ -45,7 +46,7 @@ abstract class BaseActivity: AppCompatActivity(){
     protected fun intent(bundle: Bundle, clazz: Class<*>, isLogin: Boolean) {
         //需要登录&&未登录
         if (isLogin && !AppManager.isLogin()) {
-//            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
         } else {
             startActivity(Intent(this, clazz).apply {
                 putExtras(bundle)

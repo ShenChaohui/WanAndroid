@@ -1,8 +1,9 @@
-package com.sch.playandroid.ui.rank
+package com.sch.playandroid.ui.my.rank
 
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.coder.zzq.smartshow.toast.SmartToast
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.RankAdapter
@@ -10,7 +11,6 @@ import com.sch.playandroid.base.BaseActivity
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.RankBean
 import com.sch.playandroid.ui.web.WebActivity
-import kotlinx.android.synthetic.main.activity_coin.*
 import kotlinx.android.synthetic.main.activity_rank.*
 import kotlinx.android.synthetic.main.activity_rank.ivBack
 import kotlinx.android.synthetic.main.activity_rank.loadingTip
@@ -21,11 +21,16 @@ import kotlinx.android.synthetic.main.activity_rank.smartRefresh
  * Date: 2020/4/26
  * description:
  */
-class RankActivity : BaseActivity(), RankConstant.IRankView {
-    private val presenterImpl by lazy { RankPresenterImpl(this) }
+class RankActivity : BaseActivity(),
+    RankConstant.IRankView {
+    private val presenterImpl by lazy {
+        RankPresenterImpl(
+            this
+        )
+    }
     private var pageNum = 1
     private val rankList by lazy { mutableListOf<RankBean>() }
-    private val adapter by lazy { RankAdapter() }
+    private val rankAdapter by lazy { RankAdapter() }
 
     /**
      * 我的积分
@@ -40,9 +45,9 @@ class RankActivity : BaseActivity(), RankConstant.IRankView {
         val bundle: Bundle? = intent.extras
         myCoin = bundle?.getInt(Constants.MY_COIN)
         myRank = bundle?.getInt(Constants.MY_RANK)
-        rvList.layoutManager = LinearLayoutManager(this)
-        rvList.adapter = adapter
-
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = rankAdapter
+        recyclerView.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
         initMyRank()
         initListener()
         loadingTip.loading()
@@ -55,7 +60,7 @@ class RankActivity : BaseActivity(), RankConstant.IRankView {
         }
         smartRefresh.setOnLoadMoreListener {
             pageNum++
-            presenterImpl?.getRankList(pageNum)
+            presenterImpl.getRankData(pageNum)
         }
         ivBack.setOnClickListener {
             finish()
@@ -77,9 +82,9 @@ class RankActivity : BaseActivity(), RankConstant.IRankView {
 
     private fun loadData() {
         rankList.clear()
-        adapter?.updata(rankList)
+        rankAdapter.updata(rankList)
         pageNum = 1
-        presenterImpl.getRankList(pageNum)
+        presenterImpl.getRankData(pageNum)
     }
 
     private fun initMyRank() {
@@ -91,11 +96,11 @@ class RankActivity : BaseActivity(), RankConstant.IRankView {
         return R.layout.activity_rank
     }
 
-    override fun showRankList(list: MutableList<RankBean>) {
+    override fun setRankData(list: MutableList<RankBean>) {
         dismissRefresh()
         if (list.isNotEmpty()) {
             rankList.addAll(list)
-            adapter.updata(rankList)
+            rankAdapter.updata(rankList)
         } else {
             if (rankList.size == 0) loadingTip.showEmpty()
             else SmartToast.info("没有更多数据了")
@@ -105,7 +110,7 @@ class RankActivity : BaseActivity(), RankConstant.IRankView {
 
     override fun onError(ex: String) {
         //请求失败将page -1
-        if (pageNum > 0) pageNum--
+        if (pageNum > 1) pageNum--
         dismissRefresh()
         if (rankList.size == 0) {
             loadingTip.showInternetError()

@@ -9,15 +9,15 @@ class HomeContract {
     interface IHomePresenter {
         fun getBannerData()
         fun getTopArticleData()
-        fun getArticleData(index: Int)
+        fun getArticleData(pageNum: Int)
         fun collect(id: Int)
         fun unCollect(id: Int)
     }
 
     interface IHomeView {
-        fun showBanner(list: MutableList<BannerBean>)
-        fun setTopArticleDatas(list: MutableList<ArticleBean>)
-        fun onLoadArticleDatas(list: MutableList<ArticleBean>)
+        fun setBannerData(list: MutableList<BannerBean>)
+        fun setTopArticleData(list: MutableList<ArticleBean>)
+        fun setArticleData(list: MutableList<ArticleBean>)
         fun onError(msg: String)
         fun collectSuccess()
         fun unCollectSuccess()

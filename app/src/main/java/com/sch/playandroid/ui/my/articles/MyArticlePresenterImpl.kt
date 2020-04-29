@@ -1,4 +1,4 @@
-package com.sch.playandroid.ui.articles
+package com.sch.playandroid.ui.my.articles
 
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.util.GsonUtil
@@ -14,18 +14,22 @@ import org.xutils.x
  * Date: 2020/4/21
  * description:
  */
-class MyArticlePresenterImpl(var view: MyArticlesContract.IMyArticlesView) :
+class MyArticlePresenterImpl(var view: MyArticlesContract.IMyArticlesView?) :
     MyArticlesContract.IMyArticlesPresenter {
-    override fun getListData(curPage: Int) {
-        var url: String = "https://wanandroid.com/user/lg/private_articles/$curPage/json"
+    override fun getArticleData(pageNum: Int) {
+        var url: String = "https://wanandroid.com/user/lg/private_articles/$pageNum/json"
         val requestParams = RequestParams(url)
         x.http().get(requestParams, object : Callback.CommonCallback<String> {
             override fun onFinished() {
             }
 
             override fun onSuccess(result: String?) {
+                val obj = JSONObject(result)
+                if (obj.getInt("errorCode") != 0) {
+                    view?.onError(obj.getString("errorMsg"))
+                    return
+                }
                 doAsync {
-                    val obj = JSONObject(result)
                     if (obj.getInt("errorCode") == 0) {
                         val data = obj.getJSONObject("data")
                         val shareArticles = data.getJSONObject("shareArticles")
@@ -34,11 +38,11 @@ class MyArticlePresenterImpl(var view: MyArticlesContract.IMyArticlesView) :
                             ArticleBean::class.java
                         )
                         uiThread {
-                            view?.setListData(datas)
+                            view?.setArticleData(datas)
                         }
                     } else {
                         uiThread {
-                            view?.setError(obj.getString("errorMsg"))
+                            view?.onError(obj.getString("errorMsg"))
                         }
                     }
                 }
@@ -48,7 +52,7 @@ class MyArticlePresenterImpl(var view: MyArticlesContract.IMyArticlesView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.setError(ex.toString())
+                view?.onError(ex.toString())
             }
         })
     }
@@ -63,9 +67,9 @@ class MyArticlePresenterImpl(var view: MyArticlesContract.IMyArticlesView) :
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") == 0) {
-                    view?.deleteSuccess()
+                    view?.deleteArticleSuccess()
                 } else {
-                    view?.setError(obj.getString("errorMsg"))
+                    view?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -73,8 +77,8 @@ class MyArticlePresenterImpl(var view: MyArticlesContract.IMyArticlesView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
+                view?.onError(ex.toString())
             }
-
         })
     }
 
@@ -91,7 +95,7 @@ class MyArticlePresenterImpl(var view: MyArticlesContract.IMyArticlesView) :
                 if (obj.getInt("errorCode") == 0) {
                     view?.addArticleSuccess()
                 } else {
-                    view?.setError(obj.getString("errorMsg"))
+                    view?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -99,7 +103,7 @@ class MyArticlePresenterImpl(var view: MyArticlesContract.IMyArticlesView) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.setError(ex.toString())
+                view?.onError(ex.toString())
 
             }
 
