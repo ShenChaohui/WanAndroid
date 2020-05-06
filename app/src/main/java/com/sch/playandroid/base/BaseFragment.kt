@@ -67,4 +67,8 @@ abstract class BaseFragment<P : IBasePresenter> : Fragment(), IBaseView {
     protected abstract fun createPresenter(): P?
     protected abstract fun init(savedInstanceState: Bundle?)
     protected abstract fun getLayoutId(): Int
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter?.detachView()
+    }
 }

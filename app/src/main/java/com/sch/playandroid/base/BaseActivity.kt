@@ -8,7 +8,7 @@ import com.sch.playandroid.util.AppManager
 import com.sch.playandroid.util.ColorUtils
 import com.sch.playandroid.util.StatusUtils
 
-abstract class BaseActivity<P : IBasePresenter> : AppCompatActivity(),IBaseView{
+abstract class BaseActivity<P : IBasePresenter> : AppCompatActivity(), IBaseView {
     protected val TAG = javaClass.name
     protected var mPresenter: P? = null
 
@@ -73,5 +73,10 @@ abstract class BaseActivity<P : IBasePresenter> : AppCompatActivity(),IBaseView{
     protected open fun setSystemInvadeBlack() {
         //第二个参数是是否沉浸,第三个参数是状态栏字体是否为黑色。
         StatusUtils.setSystemStatus(this, true, true)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter?.detachView()
     }
 }
