@@ -4,7 +4,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
-import com.sch.wanandroid.PlayAndroidApplication
+import com.sch.wanandroid.WanAndroidApplication
 import com.sch.wanandroid.R
 import com.sch.wanandroid.widget.GlideRoundTransform
 
@@ -66,7 +66,7 @@ class ImageLoad{
          * 清除缓存
          */
         fun clearCache(){
-            Glide.get(PlayAndroidApplication.getContext()).clearMemory()
+            Glide.get(WanAndroidApplication.getContext()).clearMemory()
             System.gc()
         }
     }

@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import androidx.core.content.ContextCompat;
 
-import com.sch.wanandroid.PlayAndroidApplication;
+import com.sch.wanandroid.WanAndroidApplication;
 
 /**
  * des 颜色处理工具类
@@ -57,7 +57,7 @@ public class ColorUtils {
      * @return
      */
     public static int parseColor(int color) {
-        return ContextCompat.getColor(PlayAndroidApplication.getContext(),color);
+        return ContextCompat.getColor(WanAndroidApplication.getContext(),color);
     }
 
     /**

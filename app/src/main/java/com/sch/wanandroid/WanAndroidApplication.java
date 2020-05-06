@@ -18,7 +18,7 @@ import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 
 import org.xutils.x;
 
-public class PlayAndroidApplication extends Application {
+public class WanAndroidApplication extends Application {
     private static Application baseApplication;
 
     //static 代码段可以防止内存泄露
