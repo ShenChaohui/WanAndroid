@@ -139,7 +139,7 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.sch.playandroid.widget.LoadingTip
+    <com.sch.wanandroid.widget.LoadingTip
         android:id="@+id/loadingTip"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

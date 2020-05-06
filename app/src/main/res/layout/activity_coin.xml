@@ -132,7 +132,7 @@
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    <com.sch.playandroid.widget.LoadingTip
+    <com.sch.wanandroid.widget.LoadingTip
         android:id="@+id/loadingTip"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

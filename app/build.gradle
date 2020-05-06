@@ -8,7 +8,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
     defaultConfig {
-        applicationId "com.sch.playandroid"
+        applicationId "com.sch.wanandroid"
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
@@ -62,4 +62,6 @@ dependencies {
     implementation 'com.github.the-pig-of-jungle.smart-show:dialog:2.8.3'
 
     implementation 'org.greenrobot:eventbus:3.2.0'
+
+    debugImplementation'com.squareup.leakcanary:leakcanary-android:2.2'
 }

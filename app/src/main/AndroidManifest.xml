@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sch.playandroid">
+    package="com.sch.wanandroid">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.sch.playandroid.PlayAndroidApplication"
+        android:name=".PlayAndroidApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -31,7 +31,7 @@
         <activity android:name=".ui.regist.RegistActivity" />
         <activity android:name=".ui.set.SetActivity" />
         <activity android:name=".ui.my.rank.RankActivity" />
-        <activity android:name="com.sch.playandroid.ui.my.coin.CoinActivity" />
+        <activity android:name=".ui.my.coin.CoinActivity" />
         <activity android:name=".ui.issue.IssueActivity" />
         <activity android:name=".ui.my.collect.MyCollectActivity" />
         <activity android:name=".ui.my.articles.MyArticlesActivity" />
