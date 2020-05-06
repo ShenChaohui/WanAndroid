@@ -2,6 +2,7 @@ package com.sch.playandroid.ui.set
 
 import android.content.Context
 import com.coder.zzq.smartshow.toast.SmartToast
+import com.sch.playandroid.base.BasePresenter
 import com.sch.playandroid.util.CacheDataManager
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -15,7 +16,7 @@ import org.xutils.x
  * Date: 2020/4/27
  * description:
  */
-class SetPresenterImpl(var view: SetContract.ISetView?) : SetContract.ISetPresenter {
+class SetPresenterImpl:BasePresenter<SetContract.IView>(), SetContract.IPresenter {
     override fun logout() {
         val params = RequestParams("https://www.wanandroid.com/user/logout/json")
         x.http().get(params, object : Callback.CommonCallback<String> {
@@ -27,9 +28,9 @@ class SetPresenterImpl(var view: SetContract.ISetView?) : SetContract.ISetPresen
                 val obj = JSONObject(result)
                 val errorCode = obj.getInt("errorCode")
                 if (errorCode == 0) {
-                    view?.logoutSuccess()
+                    getView()?.logoutSuccess()
                 } else {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -38,7 +39,7 @@ class SetPresenterImpl(var view: SetContract.ISetView?) : SetContract.ISetPresen
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
 
         })
@@ -46,14 +47,14 @@ class SetPresenterImpl(var view: SetContract.ISetView?) : SetContract.ISetPresen
 
     override fun clearCache(context: Context) {
         CacheDataManager.clearAllCache(context)
-        view?.clearCacheSuccess()
+        getView()?.clearCacheSuccess()
     }
 
     override fun checkUpdate() {
         doAsync {
             Thread.sleep(1500)
             uiThread {
-                view?.checkUpdateSuccess()
+                getView()?.checkUpdateSuccess()
             }
         }
     }

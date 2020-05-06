@@ -1,5 +1,7 @@
 package com.sch.playandroid.ui.issue
 
+import com.sch.playandroid.base.IBasePresenter
+import com.sch.playandroid.base.IBaseView
 import com.sch.playandroid.entity.ArticleBean
 
 /**
@@ -8,14 +10,13 @@ import com.sch.playandroid.entity.ArticleBean
  * description:
  */
 class IssueContract {
-    interface IIssuePresenter{
+    interface IPresenter:IBasePresenter{
         fun getArticleData(pageNum: Int)
         fun collect(id: Int)
         fun unCollect(id: Int)
     }
-    interface IIssueView{
+    interface IView:IBaseView{
         fun setArticleData(list: MutableList<ArticleBean>)
-        fun onError(ex: String)
         fun collectSuccess()
         fun unCollectSuccess()
     }

@@ -22,8 +22,7 @@ import kotlinx.android.synthetic.main.activity_coin.smartRefresh
  * Date: 2020/4/26
  * description:积分页面
  */
-class CoinActivity : BaseActivity(), CoinConstant.ICoinView {
-    private val presenterImpl by lazy { CoinPresenterImpl(this) }
+class CoinActivity : BaseActivity<CoinConstant.IPresenter>(), CoinConstant.IView {
     private val coinRecordList by lazy { mutableListOf<CoinRecordBean>() }
     private val coinRecordAdapter by lazy { CoinRecordAdapter() }
     private var pageNum: Int = 1
@@ -43,13 +42,13 @@ class CoinActivity : BaseActivity(), CoinConstant.ICoinView {
         coinRecordList.clear()
         coinRecordAdapter.updata(coinRecordList)
         pageNum = 1
-        presenterImpl.getCoinData(pageNum)
+        mPresenter?.getCoinData(pageNum)
     }
 
     private fun initListener() {
         smartRefresh.setOnLoadMoreListener {
             pageNum++
-            presenterImpl.getCoinData(pageNum)
+            mPresenter?.getCoinData(pageNum)
         }
         ivBack.setOnClickListener {
             finish()
@@ -102,6 +101,7 @@ class CoinActivity : BaseActivity(), CoinConstant.ICoinView {
         }
         SmartToast.error(ex)
     }
+
     /**
      * 隐藏刷新加载
      */
@@ -111,5 +111,9 @@ class CoinActivity : BaseActivity(), CoinConstant.ICoinView {
             smartRefresh.finishLoadMore()
             smartRefresh.finishRefresh()
         }
+    }
+
+    override fun createPresenter(): CoinConstant.IPresenter? {
+        return CoinPresenterImpl()
     }
 }

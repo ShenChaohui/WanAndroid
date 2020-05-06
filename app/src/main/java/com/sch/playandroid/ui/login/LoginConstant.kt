@@ -1,17 +1,19 @@
 package com.sch.playandroid.ui.login
 
+import com.sch.playandroid.base.IBasePresenter
+import com.sch.playandroid.base.IBaseView
+
 /**
  * Created by Sch.
  * Date: 2020/4/24
  * description:
  */
 class LoginConstant {
-    interface ILoginPresenter {
+    interface IPresenter: IBasePresenter {
         fun doLogin(username: String, password: String)
     }
 
-    interface ILoginView {
+    interface IView: IBaseView {
         fun loginSuccess()
-        fun onError(ex:String)
     }
 }

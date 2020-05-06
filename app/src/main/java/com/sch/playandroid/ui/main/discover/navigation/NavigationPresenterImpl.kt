@@ -1,5 +1,6 @@
 package com.sch.playandroid.ui.main.discover.navigation
 
+import com.sch.playandroid.base.BasePresenter
 import com.sch.playandroid.entity.NavigationBean
 import com.sch.playandroid.util.GsonUtil
 import org.jetbrains.anko.doAsync
@@ -14,8 +15,8 @@ import org.xutils.x
  * Date: 2020/4/23
  * description:
  */
-class NavigationPresenterImpl(val view: NavigationContract.INavigationView?) :
-    NavigationContract.INavigationPresenter {
+class NavigationPresenterImpl:BasePresenter<NavigationContract.IView>(),
+    NavigationContract.IPresenter {
     override fun getNavigationData() {
         val params = RequestParams("https://www.wanandroid.com/navi/json")
         x.http().get(params, object : Callback.CommonCallback<String> {
@@ -25,7 +26,7 @@ class NavigationPresenterImpl(val view: NavigationContract.INavigationView?) :
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") != 0) {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                     return
                 }
                 doAsync {
@@ -34,7 +35,7 @@ class NavigationPresenterImpl(val view: NavigationContract.INavigationView?) :
                         NavigationBean::class.java
                     )
                     uiThread {
-                        view?.setNavigationData(data)
+                        getView()?.setNavigationData(data)
                     }
                 }
             }
@@ -43,7 +44,7 @@ class NavigationPresenterImpl(val view: NavigationContract.INavigationView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
         })
     }

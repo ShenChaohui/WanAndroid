@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import com.sch.lolcosmos.base.BaseFragment
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.DiscoverFragmentAdapter
+import com.sch.playandroid.base.IBasePresenter
 import com.sch.playandroid.ui.main.discover.navigation.NavigationFragment
 import com.sch.playandroid.ui.main.discover.squrare.SquareFragment
 import com.sch.playandroid.ui.main.discover.system.SystemFragment
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_discover.*
  * Date: 2020/4/22
  * description:发现页
  */
-class DiscoverFragment : BaseFragment() {
+class DiscoverFragment : BaseFragment<IBasePresenter>() {
     private val fragmentList by lazy { ArrayList<Fragment>() }
 
     override fun init(savedInstanceState: Bundle?) {
@@ -29,5 +30,12 @@ class DiscoverFragment : BaseFragment() {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_discover
+    }
+
+    override fun onError(ex: String) {
+    }
+
+    override fun createPresenter(): IBasePresenter? {
+        return null
     }
 }

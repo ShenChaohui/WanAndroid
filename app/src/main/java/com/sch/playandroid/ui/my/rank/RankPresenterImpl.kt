@@ -1,5 +1,6 @@
 package com.sch.playandroid.ui.my.rank
 
+import com.sch.playandroid.base.BasePresenter
 import com.sch.playandroid.entity.RankBean
 import com.sch.playandroid.util.GsonUtil
 import org.jetbrains.anko.doAsync
@@ -14,8 +15,8 @@ import org.xutils.x
  * Date: 2020/4/26
  * description:
  */
-class RankPresenterImpl(var view: RankConstant.IRankView?) :
-    RankConstant.IRankPresenter {
+class RankPresenterImpl:BasePresenter<RankConstant.IView>(),
+    RankConstant.IPresenter {
     override fun getRankData(pageNum: Int) {
         val params = RequestParams("https://www.wanandroid.com/coin/rank/$pageNum/json")
         x.http().get(params, object : Callback.CommonCallback<String> {
@@ -25,7 +26,7 @@ class RankPresenterImpl(var view: RankConstant.IRankView?) :
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") != 0) {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                     return
                 }
                 doAsync {
@@ -36,7 +37,7 @@ class RankPresenterImpl(var view: RankConstant.IRankView?) :
                             RankBean::class.java
                         )
                     uiThread {
-                        view?.setRankData(datas)
+                        getView()?.setRankData(datas)
                     }
                 }
             }
@@ -45,7 +46,7 @@ class RankPresenterImpl(var view: RankConstant.IRankView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
 
         })

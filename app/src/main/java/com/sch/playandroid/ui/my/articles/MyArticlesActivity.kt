@@ -26,14 +26,9 @@ import kotlinx.android.synthetic.main.activity_myarticles.*
  * Date: 2020/4/28
  * description:
  */
-class MyArticlesActivity : BaseActivity(),
-    MyArticlesContract.IMyArticlesView {
+class MyArticlesActivity : BaseActivity<MyArticlesContract.IPresenter>(),
+    MyArticlesContract.IView {
     private val myArticleAdapter by lazy { MyArticleAdapter() }
-    private val presenterImpl by lazy {
-        MyArticlePresenterImpl(
-            this
-        )
-    }
     private var pageNum = 1
     private val articleList by lazy { mutableListOf<ArticleBean>() }
     private var addArticleDialog: Dialog? = null
@@ -45,7 +40,7 @@ class MyArticlesActivity : BaseActivity(),
             .confirmBtn("确定", object : DialogBtnClickListener<SmartDialog<*>> {
                 override fun onBtnClick(p0: SmartDialog<*>?, p1: Int, p2: Any?) {
                     p0?.dismiss()
-                    presenterImpl.deleteArticle(articleList[delatePosition].id)
+                    mPresenter?.deleteArticle(articleList[delatePosition].id)
                 }
             })
     }
@@ -65,7 +60,7 @@ class MyArticlesActivity : BaseActivity(),
         articleList.clear()
         myArticleAdapter.updata(articleList)
         pageNum = 1
-        presenterImpl.getArticleData(pageNum)
+        mPresenter?.getArticleData(pageNum)
     }
 
     private fun initAddArticleDialog() {
@@ -87,7 +82,7 @@ class MyArticlesActivity : BaseActivity(),
                 else -> {
                     etTitle.setText("")
                     etLink.setText("")
-                    presenterImpl.addArticle(title, link)
+                    mPresenter?.addArticle(title, link)
                     addArticleDialog?.dismiss()
                 }
             }
@@ -130,7 +125,7 @@ class MyArticlesActivity : BaseActivity(),
         }
         smartRefresh.setOnLoadMoreListener {
             pageNum++
-            presenterImpl.getArticleData(pageNum)
+            mPresenter?.getArticleData(pageNum)
         }
     }
 
@@ -168,7 +163,7 @@ class MyArticlesActivity : BaseActivity(),
     override fun addArticleSuccess() {
         loadingTip.loading()
         pageNum = 0
-        presenterImpl.getArticleData(pageNum)
+        mPresenter?.getArticleData(pageNum)
     }
 
     /**
@@ -180,5 +175,9 @@ class MyArticlesActivity : BaseActivity(),
             smartRefresh.finishLoadMore()
             smartRefresh.finishRefresh()
         }
+    }
+
+    override fun createPresenter(): MyArticlesContract.IPresenter? {
+        return MyArticlePresenterImpl()
     }
 }

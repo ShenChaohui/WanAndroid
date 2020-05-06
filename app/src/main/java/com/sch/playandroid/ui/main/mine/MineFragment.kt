@@ -2,6 +2,7 @@ package com.sch.playandroid.ui.main.mine
 
 import android.os.Bundle
 import com.coder.zzq.smartshow.toast.SmartToast
+import com.sch.lolcosmos.base.BaseFragment
 import com.sch.playandroid.R
 import com.sch.playandroid.base.LazyFragment
 import com.sch.playandroid.constants.Constants
@@ -21,20 +22,19 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class MineFragment : LazyFragment(), MineContract.IMineView {
-    val presenterImpl by lazy { MinePresenterImpl(this) }
+class MineFragment : BaseFragment<MineContract.IPresenter>(), MineContract.IView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         EventBus.getDefault().register(this)
     }
 
-    override fun lazyInit() {
+    override fun init(savedInstanceState: Bundle?) {
         if (AppManager.isLogin()) {
             UserCoinInfo.getUserCoinInfo()?.let {
                 setUserCoinInfo(it)
             }
-            presenterImpl.getUserCoinInfo()
+            mPresenter?.getUserCoinInfo()
         }
         initListener()
     }
@@ -101,7 +101,7 @@ class MineFragment : LazyFragment(), MineContract.IMineView {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public fun loginEvent(loginEvent: LoginEvent) {
-        presenterImpl.getUserCoinInfo()
+        mPresenter?.getUserCoinInfo()
     }
 
     /**
@@ -113,5 +113,9 @@ class MineFragment : LazyFragment(), MineContract.IMineView {
         tvId.text = "--"
         tvRank.text = "0"
         tvCoinCount.text = "0"
+    }
+
+    override fun createPresenter(): MineContract.IPresenter? {
+        return MinePresenterImpl()
     }
 }

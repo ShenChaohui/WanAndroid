@@ -1,6 +1,8 @@
 package com.sch.playandroid.ui.my.articles
 
 import android.icu.text.CaseMap
+import com.sch.playandroid.base.IBasePresenter
+import com.sch.playandroid.base.IBaseView
 import com.sch.playandroid.entity.ArticleBean
 
 /**
@@ -9,15 +11,14 @@ import com.sch.playandroid.entity.ArticleBean
  * description:
  */
 class MyArticlesContract {
-    interface IMyArticlesPresenter {
+    interface IPresenter:IBasePresenter {
         fun getArticleData(pageNum: Int)
         fun deleteArticle(id: Int)
         fun addArticle(title: String, link: String)
     }
 
-    interface IMyArticlesView {
+    interface IView :IBaseView{
         fun setArticleData(list: MutableList<ArticleBean>)
-        fun onError(ex: String)
         fun deleteArticleSuccess()
         fun addArticleSuccess()
     }

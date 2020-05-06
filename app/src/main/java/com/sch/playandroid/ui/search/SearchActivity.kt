@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.ScaleAnimation
@@ -28,17 +27,13 @@ import com.sch.playandroid.util.KeyBoardUtil
 import com.sch.playandroid.util.PrefUtils
 import com.sch.playandroid.util.UiUtils
 import kotlinx.android.synthetic.main.activity_search.*
-import kotlinx.android.synthetic.main.activity_search.ivBack
-import kotlinx.android.synthetic.main.activity_search.loadingTip
-import kotlinx.android.synthetic.main.activity_search.smartRefresh
 
 /**
  * Created by Sch.
  * Date: 2020/4/23
  * description:
  */
-class SearchActivity : BaseActivity(), SearchContract.ISearchView {
-    private val presenterImpl by lazy { SearchPresenterImpl(this) }
+class SearchActivity : BaseActivity<SearchContract.IPresenter>(), SearchContract.IView {
     private var keyWord: String? = null
     private var pageNum: Int = 0
     private val articleList by lazy { mutableListOf<ArticleBean>() }
@@ -106,7 +101,7 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
         addSearchListener()
         smartRefresh.setOnLoadMoreListener {
             pageNum++
-            keyWord?.let { presenterImpl.getSearchData(it, pageNum) }
+            keyWord?.let { mPresenter?.getSearchData(it, pageNum) }
         }
         articleAdapter.setOnItemClickListener(object : ArticleAdapter.OnItemClickListener {
             override fun onClick(position: Int) {
@@ -127,9 +122,9 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
                     collectPosition = position
                     articleList[position].apply {
                         if (!collect) {
-                            presenterImpl.collect(id)
+                            mPresenter?.collect(id)
                         } else {
-                            presenterImpl.unCollect(id)
+                            mPresenter?.unCollect(id)
                         }
 
                     }
@@ -215,7 +210,7 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
         rlRecord.visibility = View.GONE//搜索历史关闭
         smartRefresh.visibility = View.VISIBLE//搜索结果显示
         pageNum = 0
-        keyWord?.let { presenterImpl.getSearchData(it, pageNum) }
+        keyWord?.let { mPresenter?.getSearchData(it, pageNum) }
 
     }
 
@@ -301,7 +296,7 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
         }
     }
 
-    override fun setError(ex: String) {
+    override fun onError(ex: String) {
         lockCollectClick = false
         //请求失败将page -1
         if (pageNum > 0) pageNum--
@@ -337,5 +332,9 @@ class SearchActivity : BaseActivity(), SearchContract.ISearchView {
             smartRefresh.finishLoadMore()
             smartRefresh.finishRefresh()
         }
+    }
+
+    override fun createPresenter(): SearchContract.IPresenter? {
+        return SearchPresenterImpl()
     }
 }

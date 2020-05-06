@@ -1,5 +1,6 @@
 package com.sch.playandroid.ui.main.home
 
+import com.sch.playandroid.base.BasePresenter
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.entity.BannerBean
 import com.sch.playandroid.util.GsonUtil
@@ -10,8 +11,8 @@ import org.xutils.common.Callback
 import org.xutils.http.RequestParams
 import org.xutils.x
 
-class HomePresenterImpl(var view: HomeContract.IHomeView?) :
-    HomeContract.IHomePresenter {
+class HomePresenterImpl:BasePresenter<HomeContract.IView>(),
+    HomeContract.IPresenter {
 
     override fun getBannerData() {
         val params = RequestParams("https://www.wanandroid.com/banner/json")
@@ -19,7 +20,7 @@ class HomePresenterImpl(var view: HomeContract.IHomeView?) :
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") != 0) {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                     return
                 }
                 doAsync {
@@ -29,13 +30,13 @@ class HomePresenterImpl(var view: HomeContract.IHomeView?) :
                             BannerBean::class.java
                         )
                     uiThread {
-                        view?.setBannerData(bannerList)
+                        getView()?.setBannerData(bannerList)
                     }
                 }
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
 
             override fun onFinished() {
@@ -59,7 +60,7 @@ class HomePresenterImpl(var view: HomeContract.IHomeView?) :
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") != 0) {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                     return
                 }
                 doAsync {
@@ -69,7 +70,7 @@ class HomePresenterImpl(var view: HomeContract.IHomeView?) :
                             ArticleBean::class.java
                         )
                     uiThread {
-                        view?.setTopArticleData(list)
+                        getView()?.setTopArticleData(list)
                     }
                 }
 
@@ -79,7 +80,7 @@ class HomePresenterImpl(var view: HomeContract.IHomeView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
 
         })
@@ -94,7 +95,7 @@ class HomePresenterImpl(var view: HomeContract.IHomeView?) :
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") != 0) {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                     return
                 }
                 doAsync {
@@ -104,7 +105,7 @@ class HomePresenterImpl(var view: HomeContract.IHomeView?) :
                             ArticleBean::class.java
                         )
                     uiThread {
-                        view?.setArticleData(list)
+                        getView()?.setArticleData(list)
                     }
                 }
             }
@@ -113,7 +114,7 @@ class HomePresenterImpl(var view: HomeContract.IHomeView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
 
         })
@@ -128,9 +129,9 @@ class HomePresenterImpl(var view: HomeContract.IHomeView?) :
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") == 0) {
-                    view?.collectSuccess()
+                    getView()?.collectSuccess()
                 } else {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -138,7 +139,7 @@ class HomePresenterImpl(var view: HomeContract.IHomeView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
 
             }
 
@@ -154,9 +155,9 @@ class HomePresenterImpl(var view: HomeContract.IHomeView?) :
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") == 0) {
-                    view?.unCollectSuccess()
+                    getView()?.unCollectSuccess()
                 } else {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -164,7 +165,7 @@ class HomePresenterImpl(var view: HomeContract.IHomeView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
 
         })

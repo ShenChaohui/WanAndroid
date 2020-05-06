@@ -14,9 +14,7 @@ import kotlinx.android.synthetic.main.activity_regist.*
  * Date: 2020/4/24
  * description:
  */
-class RegistActivity : BaseActivity(), RegisterConstant.IRegisterView {
-    private val presenter by lazy { RegisterPresenterImpl(this) }
-
+class RegistActivity : BaseActivity<RegisterConstant.IPresenter>(), RegisterConstant.IView {
     /**
      * 密码是否显示明文
      */
@@ -72,7 +70,7 @@ class RegistActivity : BaseActivity(), RegisterConstant.IRegisterView {
                 password != rePassword -> SmartToast.error("两次密码不一致")
                 else -> {
                     setViewStatus(false)
-                    presenter.doRegister(username, password, rePassword)
+                    mPresenter?.doRegister(username, password, rePassword)
                 }
             }
         }
@@ -110,5 +108,9 @@ class RegistActivity : BaseActivity(), RegisterConstant.IRegisterView {
     override fun onError(ex: String) {
         setViewStatus(true)
         SmartToast.error(ex)
+    }
+
+    override fun createPresenter(): RegisterConstant.IPresenter? {
+        return RegisterPresenterImpl()
     }
 }

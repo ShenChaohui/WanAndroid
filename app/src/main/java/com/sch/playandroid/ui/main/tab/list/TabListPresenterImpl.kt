@@ -1,6 +1,7 @@
 package com.sch.playandroid.ui.main.tab.list
 
 import android.util.Log
+import com.sch.playandroid.base.BasePresenter
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.util.GsonUtil
@@ -16,8 +17,8 @@ import org.xutils.x
  * Date: 2020/4/21
  * description:
  */
-class TabListPresenterImpl(var view: TabListContract.ITabListView?) :
-    TabListContract.ITabListPresenter {
+class TabListPresenterImpl:BasePresenter<TabListContract.IView>(),
+    TabListContract.IPresenter{
     override fun getArticleData(type: Int, pageNum: Int, cid: Int) {
         var url: String
         if (type == Constants.PROJECT_TYPE) {
@@ -34,7 +35,7 @@ class TabListPresenterImpl(var view: TabListContract.ITabListView?) :
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") != 0) {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                     return
                 }
                 doAsync {
@@ -44,7 +45,7 @@ class TabListPresenterImpl(var view: TabListContract.ITabListView?) :
                         ArticleBean::class.java
                     )
                     uiThread {
-                        view?.setArticleData(datas)
+                        getView()?.setArticleData(datas)
                     }
                 }
             }
@@ -54,7 +55,7 @@ class TabListPresenterImpl(var view: TabListContract.ITabListView?) :
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
                 Log.e("test", ex.toString())
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
         })
     }
@@ -69,9 +70,9 @@ class TabListPresenterImpl(var view: TabListContract.ITabListView?) :
                 val obj = JSONObject(result)
                 val errorCode = obj.getInt("errorCode")
                 if (errorCode == 0) {
-                    view?.collectSuccess()
+                    getView()?.collectSuccess()
                 } else {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -79,7 +80,7 @@ class TabListPresenterImpl(var view: TabListContract.ITabListView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
 
         })
@@ -95,9 +96,9 @@ class TabListPresenterImpl(var view: TabListContract.ITabListView?) :
                 val obj = JSONObject(result)
                 val errorCode = obj.getInt("errorCode")
                 if (errorCode == 0) {
-                    view?.unCollectSuccess()
+                    getView()?.unCollectSuccess()
                 } else {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -105,7 +106,7 @@ class TabListPresenterImpl(var view: TabListContract.ITabListView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
 
             }
 

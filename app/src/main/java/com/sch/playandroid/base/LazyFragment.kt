@@ -8,7 +8,7 @@ import com.sch.lolcosmos.base.BaseFragment
  * Date: 2020/4/22
  * description:
  */
-abstract class LazyFragment : BaseFragment() {
+abstract class LazyFragment<P : IBasePresenter> : BaseFragment<P>() {
     private var isLoaded = false
     override fun onResume() {
         super.onResume()

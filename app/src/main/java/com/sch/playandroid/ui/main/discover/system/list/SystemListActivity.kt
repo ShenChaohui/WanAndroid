@@ -20,15 +20,15 @@ import kotlinx.android.synthetic.main.activity_system_list.loadingTip
  * Date: 2020/4/23
  * description:
  */
-class SystemListActivity : BaseActivity(), SystemListContract.ISystemListView {
+class SystemListActivity : BaseActivity<SystemListContract.IPresenter>(), SystemListContract.IView {
     private var title: String? = null
     private var cid: Int? = null
     private val articleAdapter by lazy { ArticleAdapter() }
-    private val presenterImpl by lazy { SystemListPresenterImpl(this) }
     private var pageNum = 0
     val articleList by lazy { mutableListOf<ArticleBean>() }
 
     private var collectPosition = 0
+
     /**
      * 点击收藏后将点击事件上锁,等接口有相应结果再解锁
      * 避免重复点击产生的bug  false表示没锁，true表示锁住
@@ -55,7 +55,7 @@ class SystemListActivity : BaseActivity(), SystemListContract.ISystemListView {
         articleList.clear()
         articleAdapter.updata(articleList)
         pageNum = 0
-        cid?.let { presenterImpl.getArticleData(pageNum, it) }
+        cid?.let { mPresenter?.getArticleData(pageNum, it) }
     }
 
     private fun initListener() {
@@ -78,9 +78,9 @@ class SystemListActivity : BaseActivity(), SystemListContract.ISystemListView {
                     collectPosition = position
                     articleList[position].apply {
                         if (!collect) {
-                            presenterImpl.collect(id)
+                            mPresenter?.collect(id)
                         } else {
-                            presenterImpl.unCollect(id)
+                            mPresenter?.unCollect(id)
                         }
 
                     }
@@ -101,7 +101,7 @@ class SystemListActivity : BaseActivity(), SystemListContract.ISystemListView {
         }
         smartRefresh.setOnLoadMoreListener {
             pageNum++
-            cid?.let { it1 -> presenterImpl.getArticleData(pageNum, it1) }
+            cid?.let { it1 -> mPresenter?.getArticleData(pageNum, it1) }
         }
     }
 
@@ -146,6 +146,7 @@ class SystemListActivity : BaseActivity(), SystemListContract.ISystemListView {
             articleAdapter.updata(articleList)
         }
     }
+
     /**
      * 隐藏刷新加载
      */
@@ -155,5 +156,9 @@ class SystemListActivity : BaseActivity(), SystemListContract.ISystemListView {
             smartRefresh.finishLoadMore()
             smartRefresh.finishRefresh()
         }
+    }
+
+    override fun createPresenter(): SystemListContract.IPresenter? {
+        return SystemListPresenterImpl()
     }
 }

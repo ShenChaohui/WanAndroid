@@ -1,5 +1,7 @@
 package com.sch.playandroid.ui.main.tab
 
+import com.sch.playandroid.base.IBasePresenter
+import com.sch.playandroid.base.IBaseView
 import com.sch.playandroid.entity.TabTypeBean
 
 /**
@@ -8,12 +10,11 @@ import com.sch.playandroid.entity.TabTypeBean
  * description:
  */
 class TabContract {
-    interface ITabPresenter {
+    interface IPresenter :IBasePresenter{
         fun getTabListData(type: Int)
     }
 
-    interface ITabView {
+    interface IView :IBaseView{
         fun setTabListData(list: MutableList<TabTypeBean>)
-        fun onError(ex: String)
     }
 }

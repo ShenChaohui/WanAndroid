@@ -1,5 +1,6 @@
 package com.sch.playandroid.ui.search
 
+import com.sch.playandroid.base.BasePresenter
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.util.GsonUtil
 import org.jetbrains.anko.doAsync
@@ -14,22 +15,26 @@ import org.xutils.x
  * Date: 2020/4/23
  * description:
  */
-class SearchPresenterImpl(var view: SearchContract.ISearchView?) : SearchContract.ISearchPresenter {
+class SearchPresenterImpl : BasePresenter<SearchContract.IView>(), SearchContract.IPresenter {
     override fun getSearchData(keyWord: String, pageNum: Int) {
         val params = RequestParams("https://www.wanandroid.com/article/query/$pageNum/json")
         params.addParameter("k", keyWord)
         x.http().post(params, object : Callback.CommonCallback<String> {
             override fun onFinished() {}
             override fun onSuccess(result: String?) {
+                val obj = JSONObject(result)
+                if (obj.getInt("errorCode") != 0) {
+                    getView()?.onError(obj.getString("errorMsg"))
+                    return
+                }
                 doAsync {
-                    val obj = JSONObject(result)
                     val data = obj.getJSONObject("data")
                     val datas = GsonUtil.parseJsonArrayWithGson(
                         data.getString("datas"),
                         ArticleBean::class.java
                     )
                     uiThread {
-                        view?.setSearchResultData(datas)
+                        getView()?.setSearchResultData(datas)
                     }
                 }
             }
@@ -38,11 +43,12 @@ class SearchPresenterImpl(var view: SearchContract.ISearchView?) : SearchContrac
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.setError(ex.toString())
+                getView()?.onError(ex.toString())
             }
 
         })
     }
+
     override fun collect(id: Int) {
         val params = RequestParams("https://www.wanandroid.com/lg/collect/$id/json")
         x.http().post(params, object : Callback.CommonCallback<String> {
@@ -53,9 +59,9 @@ class SearchPresenterImpl(var view: SearchContract.ISearchView?) : SearchContrac
                 val obj = JSONObject(result)
                 val errorCode = obj.getInt("errorCode")
                 if (errorCode == 0) {
-                    view?.collectSuccess()
+                    getView()?.collectSuccess()
                 } else {
-                    view?.setError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -63,7 +69,7 @@ class SearchPresenterImpl(var view: SearchContract.ISearchView?) : SearchContrac
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.setError(ex.toString())
+                getView()?.onError(ex.toString())
 
             }
 
@@ -80,9 +86,9 @@ class SearchPresenterImpl(var view: SearchContract.ISearchView?) : SearchContrac
                 val obj = JSONObject(result)
                 val errorCode = obj.getInt("errorCode")
                 if (errorCode == 0) {
-                    view?.unCollectSuccess()
+                    getView()?.unCollectSuccess()
                 } else {
-                    view?.setError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -90,7 +96,7 @@ class SearchPresenterImpl(var view: SearchContract.ISearchView?) : SearchContrac
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.setError(ex.toString())
+                getView()?.onError(ex.toString())
 
             }
 

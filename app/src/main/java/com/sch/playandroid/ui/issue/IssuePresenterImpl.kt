@@ -1,5 +1,6 @@
 package com.sch.playandroid.ui.issue
 
+import com.sch.playandroid.base.BasePresenter
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.util.GsonUtil
 import org.jetbrains.anko.doAsync
@@ -14,8 +15,8 @@ import org.xutils.x
  * Date: 2020/4/21
  * description:
  */
-class IssuePresenterImpl(var view: IssueContract.IIssueView?) :
-    IssueContract.IIssuePresenter {
+class IssuePresenterImpl : BasePresenter<IssueContract.IView>(),
+    IssueContract.IPresenter {
     override fun getArticleData(pageNum: Int) {
         val requestParams = RequestParams("https://wanandroid.com/wenda/list/$pageNum/json ")
         x.http().get(requestParams, object : Callback.CommonCallback<String> {
@@ -25,7 +26,7 @@ class IssuePresenterImpl(var view: IssueContract.IIssueView?) :
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") != 0) {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                     return
                 }
                 doAsync {
@@ -35,7 +36,7 @@ class IssuePresenterImpl(var view: IssueContract.IIssueView?) :
                         ArticleBean::class.java
                     )
                     uiThread {
-                        view?.setArticleData(datas)
+                        getView()?.setArticleData(datas)
                     }
                 }
             }
@@ -44,7 +45,7 @@ class IssuePresenterImpl(var view: IssueContract.IIssueView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
         })
     }
@@ -59,9 +60,9 @@ class IssuePresenterImpl(var view: IssueContract.IIssueView?) :
                 val obj = JSONObject(result)
                 val errorCode = obj.getInt("errorCode")
                 if (errorCode == 0) {
-                    view?.collectSuccess()
+                    getView()?.collectSuccess()
                 } else {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -69,7 +70,7 @@ class IssuePresenterImpl(var view: IssueContract.IIssueView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
 
             }
 
@@ -86,9 +87,9 @@ class IssuePresenterImpl(var view: IssueContract.IIssueView?) :
                 val obj = JSONObject(result)
                 val errorCode = obj.getInt("errorCode")
                 if (errorCode == 0) {
-                    view?.unCollectSuccess()
+                    getView()?.unCollectSuccess()
                 } else {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -96,7 +97,7 @@ class IssuePresenterImpl(var view: IssueContract.IIssueView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
 
             }
 

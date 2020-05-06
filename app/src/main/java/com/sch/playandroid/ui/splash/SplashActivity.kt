@@ -8,12 +8,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
 class SplashActivity :
-    BaseActivity(), SplashPresenterConstant.ISplashView {
-    val persenterImpl by lazy {
-        SplashPresenterImpl(
-            this
-        )
-    }
+    BaseActivity<SplashConstant.IPresenter>(), SplashConstant.IView {
 
     override fun getLayoutId(): Int {
         return R.layout.activity_splash
@@ -21,7 +16,7 @@ class SplashActivity :
 
     override fun init(savedInstanceState: Bundle?) {
         //请求权限
-        persenterImpl.requestPermission(this)
+        mPresenter?.requestPermission(this)
     }
 
     /**
@@ -39,7 +34,7 @@ class SplashActivity :
     /**
      * 权限请求失败
      */
-    override fun onFail() {
+    override fun onError(ex: String) {
         doAsync {
             Thread.sleep(1500)
             uiThread {
@@ -47,6 +42,9 @@ class SplashActivity :
                 finish()
             }
         }
+    }
+    override fun createPresenter(): SplashConstant.IPresenter? {
+        return SplashPresenterImpl()
     }
 
 }

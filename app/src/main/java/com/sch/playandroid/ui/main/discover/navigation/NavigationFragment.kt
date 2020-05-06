@@ -16,10 +16,9 @@ import kotlinx.android.synthetic.main.fragment_list.*
  * 导航
  */
 
-class NavigationFragment : LazyFragment(), NavigationContract.INavigationView {
+class NavigationFragment : LazyFragment<NavigationContract.IPresenter>(), NavigationContract.IView {
     private val navigationAdapter by lazy { NavigationAdapter() }
     private val navigationList by lazy { mutableListOf<NavigationBean>() }
-    private val presenterImpl by lazy { NavigationPresenterImpl(this) }
 
     override fun lazyInit() {
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -29,7 +28,7 @@ class NavigationFragment : LazyFragment(), NavigationContract.INavigationView {
         initListener()
         //加载中动画
         loadingTip.loading()
-        presenterImpl.getNavigationData()
+        mPresenter?.getNavigationData()
     }
 
     private fun initListener() {
@@ -52,7 +51,7 @@ class NavigationFragment : LazyFragment(), NavigationContract.INavigationView {
         loadingTip.setReloadListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 loadingTip.loading()
-                presenterImpl.getNavigationData()
+                mPresenter?.getNavigationData()
             }
         })
 
@@ -72,6 +71,10 @@ class NavigationFragment : LazyFragment(), NavigationContract.INavigationView {
 
     override fun onError(ex: String) {
         loadingTip.showInternetError()
+    }
+
+    override fun createPresenter(): NavigationContract.IPresenter? {
+        return NavigationPresenterImpl()
     }
 
 }

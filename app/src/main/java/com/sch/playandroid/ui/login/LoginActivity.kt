@@ -19,8 +19,7 @@ import org.greenrobot.eventbus.EventBus
  * Date: 2020/4/24
  * description:
  */
-class LoginActivity : BaseActivity(), LoginConstant.ILoginView {
-    private val presenterImpl by lazy { LoginPresenterImpl(this) }
+class LoginActivity : BaseActivity<LoginConstant.IPresenter>(), LoginConstant.IView {
 
     /**
      * 是否显示明文
@@ -44,7 +43,7 @@ class LoginActivity : BaseActivity(), LoginConstant.ILoginView {
                 }
                 else -> {
                     setViewStatus(false)
-                    presenterImpl.doLogin(userName, passWord)
+                    mPresenter?.doLogin(userName, passWord)
                 }
             }
         }
@@ -108,5 +107,9 @@ class LoginActivity : BaseActivity(), LoginConstant.ILoginView {
     override fun onError(ex: String) {
         setViewStatus(true)
         SmartToast.fail(ex)
+    }
+
+    override fun createPresenter(): LoginConstant.IPresenter? {
+        return LoginPresenterImpl()
     }
 }

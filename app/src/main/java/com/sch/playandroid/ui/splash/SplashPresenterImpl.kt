@@ -1,18 +1,19 @@
 package com.sch.playandroid.ui.splash
 
 import android.content.Context
+import com.sch.playandroid.base.BasePresenter
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.runtime.Permission
 
-class SplashPresenterImpl(var view: SplashPresenterConstant.ISplashView?) :
-    SplashPresenterConstant.ISplashPresenter {
+class SplashPresenterImpl:BasePresenter<SplashConstant.IView>(),
+    SplashConstant.IPresenter {
     override fun requestPermission(context: Context) {
         AndPermission.with(context).runtime().permission(Permission.Group.STORAGE)
             .onGranted {
-                view?.onSuccess()
+                getView()?.onSuccess()
             }
             .onDenied {
-                view?.onFail()
+                getView()?.onError("用户拒绝")
             }
             .start()
     }

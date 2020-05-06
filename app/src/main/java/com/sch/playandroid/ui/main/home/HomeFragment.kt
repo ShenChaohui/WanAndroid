@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.bingoogolapple.bgabanner.BGABanner
 import com.bumptech.glide.Glide
 import com.coder.zzq.smartshow.toast.SmartToast
+import com.sch.lolcosmos.base.BaseFragment
 import com.sch.playandroid.R
 import com.sch.playandroid.adapter.ArticleAdapter
 import com.sch.playandroid.base.LazyFragment
@@ -23,12 +24,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.loadingTip
 
 
-class HomeFragment : LazyFragment(), HomeContract.IHomeView {
-    private val presenterImpl by lazy {
-        HomePresenterImpl(
-            this
-        )
-    }
+class HomeFragment : BaseFragment<HomeContract.IPresenter>(), HomeContract.IView {
 
     //文章适配器
     private val articleAdapter by lazy { ArticleAdapter() }
@@ -55,7 +51,7 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
         return R.layout.fragment_home
     }
 
-    override fun lazyInit() {
+    override fun init(savedInstanceState: Bundle?) {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = articleAdapter
         //取消滑动越界效果
@@ -73,13 +69,13 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
     private fun loadData() {
         //banner只加载一次
         if (bannerList.size == 0) {
-            presenterImpl.getBannerData()
+            mPresenter?.getBannerData()
         }
         articleList.clear()
         articleAdapter.updata(articleList)
-        presenterImpl.getTopArticleData()
+        mPresenter?.getTopArticleData()
         pageNum = 0
-        presenterImpl.getArticleData(pageNum)
+        mPresenter?.getArticleData(pageNum)
     }
 
 
@@ -118,9 +114,9 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
                     //判断当前文章是否被收藏，如果收藏过，则调用取消收藏
                     articleList[position].apply {
                         if (!collect) {
-                            presenterImpl.collect(id)
+                            mPresenter?.collect(id)
                         } else {
-                            presenterImpl.unCollect(id)
+                            mPresenter?.unCollect(id)
                         }
 
                     }
@@ -134,7 +130,7 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
         }
         smartRefresh.setOnLoadMoreListener {
             pageNum++
-            presenterImpl.getArticleData(pageNum)
+            mPresenter?.getArticleData(pageNum)
         }
         //NestedScrollView 滑动监听
         nestedView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
@@ -281,5 +277,9 @@ class HomeFragment : LazyFragment(), HomeContract.IHomeView {
             smartRefresh.finishLoadMore()
             smartRefresh.finishRefresh()
         }
+    }
+
+    override fun createPresenter(): HomeContract.IPresenter? {
+        return HomePresenterImpl()
     }
 }

@@ -13,8 +13,7 @@ import kotlinx.android.synthetic.main.fragment_tab.*
 /**
  * 项目页和公众号 共用
  */
-class TabFragment : BaseFragment(), TabContract.ITabView {
-    private val presenterImpl by lazy { TabPresenterImpl(this) }
+class TabFragment : BaseFragment<TabContract.IPresenter>(), TabContract.IView {
     private val fragmentList by lazy { mutableListOf<Fragment>() }
     private val tabList by lazy { mutableListOf<TabTypeBean>() }
     private val fragmentAdapter by lazy {
@@ -36,7 +35,7 @@ class TabFragment : BaseFragment(), TabContract.ITabView {
         type?.let {
             //获取tab分类数据
             loadingTip.loading()
-            presenterImpl.getTabListData(it)
+            mPresenter?.getTabListData(it)
         }
     }
 
@@ -46,7 +45,7 @@ class TabFragment : BaseFragment(), TabContract.ITabView {
             override fun onClick(v: View?) {
                 loadingTip.loading()
                 type?.let {
-                    presenterImpl.getTabListData(it)
+                    mPresenter?.getTabListData(it)
                 }
             }
         })
@@ -80,5 +79,9 @@ class TabFragment : BaseFragment(), TabContract.ITabView {
 
     override fun onError(ex: String) {
         loadingTip.showInternetError()
+    }
+
+    override fun createPresenter(): TabContract.IPresenter? {
+        return TabPresenterImpl()
     }
 }

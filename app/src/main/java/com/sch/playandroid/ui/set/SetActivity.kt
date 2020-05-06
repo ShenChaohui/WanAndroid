@@ -23,8 +23,7 @@ import org.jetbrains.anko.uiThread
  * Date: 2020/4/26
  * description:
  */
-class SetActivity : BaseActivity(), SetContract.ISetView {
-    private val presenterImpl by lazy { SetPresenterImpl(this) }
+class SetActivity : BaseActivity<SetContract.IPresenter>(), SetContract.IView {
     private val updataDialog by lazy {
         LoadingDialog()
             .large()
@@ -37,7 +36,7 @@ class SetActivity : BaseActivity(), SetContract.ISetView {
             .cancelBtn("取消")
             .confirmBtn("确定", object : DialogBtnClickListener<SmartDialog<*>> {
                 override fun onBtnClick(p0: SmartDialog<*>?, p1: Int, p2: Any?) {
-                    presenterImpl.logout()
+                    mPresenter?.logout()
                 }
             })
 
@@ -57,11 +56,11 @@ class SetActivity : BaseActivity(), SetContract.ISetView {
             logoutDialog.showInActivity(this)
         }
         tvClearCache.setOnClickListener {
-            presenterImpl.clearCache(this)
+            mPresenter?.clearCache(this)
         }
         tvVersions.setOnClickListener {
             updataDialog.showInActivity(this)
-            presenterImpl.checkUpdate()
+            mPresenter?.checkUpdate()
         }
 
     }
@@ -89,6 +88,10 @@ class SetActivity : BaseActivity(), SetContract.ISetView {
 
     override fun onError(ex: String) {
         SmartToast.error(ex)
+    }
+
+    override fun createPresenter(): SetContract.IPresenter? {
+        return SetPresenterImpl()
     }
 
 }

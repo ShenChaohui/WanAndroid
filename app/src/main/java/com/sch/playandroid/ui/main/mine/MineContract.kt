@@ -1,5 +1,7 @@
 package com.sch.playandroid.ui.main.mine
 
+import com.sch.playandroid.base.IBasePresenter
+import com.sch.playandroid.base.IBaseView
 import com.sch.playandroid.entity.UserCoinInfo
 
 /**
@@ -8,13 +10,12 @@ import com.sch.playandroid.entity.UserCoinInfo
  * description:
  */
 class MineContract {
-    interface IMinePresenter {
+    interface IPresenter:IBasePresenter {
         fun getUserCoinInfo()
 
     }
 
-    interface IMineView {
+    interface IView :IBaseView{
         fun setUserCoinInfo(userCoinInfo: UserCoinInfo)
-        fun onError(ex: String)
     }
 }

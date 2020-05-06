@@ -1,5 +1,6 @@
 package com.sch.playandroid.ui.main.discover.system.list
 
+import com.sch.playandroid.base.BasePresenter
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.util.GsonUtil
 import org.jetbrains.anko.doAsync
@@ -14,11 +15,11 @@ import org.xutils.x
  * Date: 2020/4/21
  * description:
  */
-class SystemListPresenterImpl(var view: SystemListContract.ISystemListView?) :
-    SystemListContract.ISystemListPresenter {
+class SystemListPresenterImpl : BasePresenter<SystemListContract.IView>(),
+    SystemListContract.IPresenter {
     override fun getArticleData(pageNum: Int, cid: Int) {
-        var url: String = "https://www.wanandroid.com/article/list/$pageNum/json?cid=$cid"
-        val requestParams = RequestParams(url)
+        val requestParams =
+            RequestParams("https://www.wanandroid.com/article/list/$pageNum/json?cid=$cid")
         x.http().get(requestParams, object : Callback.CommonCallback<String> {
             override fun onFinished() {
             }
@@ -26,7 +27,7 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView?) :
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") != 0) {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                     return
                 }
                 doAsync {
@@ -36,7 +37,7 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView?) :
                         ArticleBean::class.java
                     )
                     uiThread {
-                        view?.setArticleData(datas)
+                        getView()?.setArticleData(datas)
                     }
                 }
             }
@@ -45,10 +46,11 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
         })
     }
+
     override fun collect(id: Int) {
         val params = RequestParams("https://www.wanandroid.com/lg/collect/$id/json")
         x.http().post(params, object : Callback.CommonCallback<String> {
@@ -59,9 +61,9 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView?) :
                 val obj = JSONObject(result)
                 val errorCode = obj.getInt("errorCode")
                 if (errorCode == 0) {
-                    view?.collectSuccess()
+                    getView()?.collectSuccess()
                 } else {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -69,7 +71,7 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
 
             }
 
@@ -86,9 +88,9 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView?) :
                 val obj = JSONObject(result)
                 val errorCode = obj.getInt("errorCode")
                 if (errorCode == 0) {
-                    view?.unCollectSuccess()
+                    getView()?.unCollectSuccess()
                 } else {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -96,7 +98,7 @@ class SystemListPresenterImpl(var view: SystemListContract.ISystemListView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
 
             }
 

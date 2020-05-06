@@ -1,5 +1,6 @@
 package com.sch.playandroid.ui.main.tab
 
+import com.sch.playandroid.base.BasePresenter
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.TabTypeBean
 import com.sch.playandroid.util.GsonUtil
@@ -15,14 +16,14 @@ import org.xutils.x
  * Date: 2020/4/21
  * description:
  */
-class TabPresenterImpl(var view: TabContract.ITabView?) : TabContract.ITabPresenter {
+class TabPresenterImpl : BasePresenter<TabContract.IView>(), TabContract.IPresenter {
     override fun getTabListData(type: Int) {
-        var url: String
-        if (type == Constants.PROJECT_TYPE) {
-            url = "https://www.wanandroid.com/project/tree/json"
-        } else {
-            url = "https://wanandroid.com/wxarticle/chapters/json"
-        }
+        val url: String =
+            if (type == Constants.PROJECT_TYPE) {
+                "https://www.wanandroid.com/project/tree/json"
+            } else {
+                "https://wanandroid.com/wxarticle/chapters/json"
+            }
         val params = RequestParams(url)
         x.http().get(params, object : Callback.CommonCallback<String> {
             override fun onFinished() {
@@ -31,7 +32,7 @@ class TabPresenterImpl(var view: TabContract.ITabView?) : TabContract.ITabPresen
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") != 0) {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                     return
                 }
                 doAsync {
@@ -41,7 +42,7 @@ class TabPresenterImpl(var view: TabContract.ITabView?) : TabContract.ITabPresen
                             TabTypeBean::class.java
                         )
                     uiThread {
-                        view?.setTabListData(data)
+                        getView()?.setTabListData(data)
                     }
                 }
             }
@@ -50,7 +51,7 @@ class TabPresenterImpl(var view: TabContract.ITabView?) : TabContract.ITabPresen
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
 
         })

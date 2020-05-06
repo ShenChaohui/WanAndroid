@@ -1,5 +1,6 @@
 package com.sch.playandroid.ui.my.articles
 
+import com.sch.playandroid.base.BasePresenter
 import com.sch.playandroid.entity.ArticleBean
 import com.sch.playandroid.util.GsonUtil
 import org.jetbrains.anko.doAsync
@@ -14,11 +15,11 @@ import org.xutils.x
  * Date: 2020/4/21
  * description:
  */
-class MyArticlePresenterImpl(var view: MyArticlesContract.IMyArticlesView?) :
-    MyArticlesContract.IMyArticlesPresenter {
+class MyArticlePresenterImpl : BasePresenter<MyArticlesContract.IView>(),
+    MyArticlesContract.IPresenter {
     override fun getArticleData(pageNum: Int) {
-        var url: String = "https://wanandroid.com/user/lg/private_articles/$pageNum/json"
-        val requestParams = RequestParams(url)
+        val requestParams =
+            RequestParams("https://wanandroid.com/user/lg/private_articles/$pageNum/json")
         x.http().get(requestParams, object : Callback.CommonCallback<String> {
             override fun onFinished() {
             }
@@ -26,7 +27,7 @@ class MyArticlePresenterImpl(var view: MyArticlesContract.IMyArticlesView?) :
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") != 0) {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                     return
                 }
                 doAsync {
@@ -38,11 +39,11 @@ class MyArticlePresenterImpl(var view: MyArticlesContract.IMyArticlesView?) :
                             ArticleBean::class.java
                         )
                         uiThread {
-                            view?.setArticleData(datas)
+                            getView()?.setArticleData(datas)
                         }
                     } else {
                         uiThread {
-                            view?.onError(obj.getString("errorMsg"))
+                            getView()?.onError(obj.getString("errorMsg"))
                         }
                     }
                 }
@@ -52,14 +53,13 @@ class MyArticlePresenterImpl(var view: MyArticlesContract.IMyArticlesView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
         })
     }
 
     override fun deleteArticle(id: Int) {
-        var url: String = "https://wanandroid.com/lg/user_article/delete/$id/json"
-        val requestParams = RequestParams(url)
+        val requestParams = RequestParams("https://wanandroid.com/lg/user_article/delete/$id/json")
         x.http().post(requestParams, object : Callback.CommonCallback<String> {
             override fun onFinished() {
             }
@@ -67,9 +67,9 @@ class MyArticlePresenterImpl(var view: MyArticlesContract.IMyArticlesView?) :
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") == 0) {
-                    view?.deleteArticleSuccess()
+                    getView()?.deleteArticleSuccess()
                 } else {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -77,7 +77,7 @@ class MyArticlePresenterImpl(var view: MyArticlesContract.IMyArticlesView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
         })
     }
@@ -93,9 +93,9 @@ class MyArticlePresenterImpl(var view: MyArticlesContract.IMyArticlesView?) :
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") == 0) {
-                    view?.addArticleSuccess()
+                    getView()?.addArticleSuccess()
                 } else {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -103,7 +103,7 @@ class MyArticlePresenterImpl(var view: MyArticlesContract.IMyArticlesView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
 
             }
 

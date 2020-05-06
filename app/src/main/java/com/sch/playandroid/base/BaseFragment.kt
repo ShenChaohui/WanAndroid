@@ -6,15 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.sch.playandroid.base.IBasePresenter
+import com.sch.playandroid.base.IBaseView
 import com.sch.playandroid.ui.login.LoginActivity
 import com.sch.playandroid.util.AppManager
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment<P : IBasePresenter> : Fragment(), IBaseView {
     protected var TAG = javaClass.name
-    var contentView: View? = null
-
+    protected var mPresenter: P? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mPresenter = createPresenter()
+        mPresenter?.let {
+            mPresenter?.attachView(this)
+        }
     }
 
     override fun onCreateView(
@@ -22,8 +27,7 @@ abstract class BaseFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        contentView = inflater.inflate(getLayoutId(), null)
-        return contentView
+        return inflater.inflate(getLayoutId(), null)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -60,6 +64,7 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
+    protected abstract fun createPresenter(): P?
     protected abstract fun init(savedInstanceState: Bundle?)
     protected abstract fun getLayoutId(): Int
 }

@@ -1,5 +1,6 @@
 package com.sch.playandroid.ui.main.discover.system
 
+import com.sch.playandroid.base.BasePresenter
 import com.sch.playandroid.entity.SystemBean
 import com.sch.playandroid.util.GsonUtil
 import org.jetbrains.anko.doAsync
@@ -14,7 +15,7 @@ import org.xutils.x
  * Date: 2020/4/23
  * description:
  */
-class SystemPresenterImpl(val view: SystemContract.ISystemView?) : SystemContract.ISystemPresenter {
+class SystemPresenterImpl : BasePresenter<SystemContract.IView>(), SystemContract.IPresenter {
     override fun getSystemData() {
         val params = RequestParams("https://www.wanandroid.com/tree/json")
         x.http().get(params, object : Callback.CommonCallback<String> {
@@ -24,7 +25,7 @@ class SystemPresenterImpl(val view: SystemContract.ISystemView?) : SystemContrac
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") != 0) {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                     return
                 }
                 doAsync {
@@ -33,7 +34,7 @@ class SystemPresenterImpl(val view: SystemContract.ISystemView?) : SystemContrac
                         SystemBean::class.java
                     )
                     uiThread {
-                        view?.setSystemData(data)
+                        getView()?.setSystemData(data)
                     }
                 }
             }
@@ -42,7 +43,7 @@ class SystemPresenterImpl(val view: SystemContract.ISystemView?) : SystemContrac
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
         })
     }

@@ -1,5 +1,7 @@
 package com.sch.playandroid.ui.main.tab.list
 
+import com.sch.playandroid.base.IBasePresenter
+import com.sch.playandroid.base.IBaseView
 import com.sch.playandroid.entity.ArticleBean
 
 
@@ -9,15 +11,14 @@ import com.sch.playandroid.entity.ArticleBean
  * description:
  */
 class TabListContract {
-    interface ITabListPresenter {
+    interface IPresenter : IBasePresenter {
         fun getArticleData(type: Int, pageNum: Int, cid: Int)
         fun collect(id: Int)
         fun unCollect(id: Int)
     }
 
-    interface ITabListView {
+    interface IView : IBaseView {
         fun setArticleData(list: MutableList<ArticleBean>)
-        fun onError(ex: String)
         fun collectSuccess()
         fun unCollectSuccess()
     }

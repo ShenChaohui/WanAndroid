@@ -8,11 +8,16 @@ import com.sch.playandroid.util.AppManager
 import com.sch.playandroid.util.ColorUtils
 import com.sch.playandroid.util.StatusUtils
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity<P : IBasePresenter> : AppCompatActivity(),IBaseView{
     protected val TAG = javaClass.name
+    protected var mPresenter: P? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mPresenter = createPresenter()
+        mPresenter?.let {
+            mPresenter?.attachView(this)
+        }
         val layoutId = getLayoutId()
         if (layoutId != 0) {
             setContentView(layoutId)
@@ -23,8 +28,9 @@ abstract class BaseActivity : AppCompatActivity() {
         init(savedInstanceState)
     }
 
-    protected abstract fun init(savedInstanceState: Bundle?)
+    protected abstract fun createPresenter(): P?
     protected abstract fun getLayoutId(): Int
+    protected abstract fun init(savedInstanceState: Bundle?)
 
     /**
      * 界面跳转

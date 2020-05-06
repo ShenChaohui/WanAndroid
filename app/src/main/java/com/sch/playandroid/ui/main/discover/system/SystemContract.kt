@@ -1,5 +1,7 @@
 package com.sch.playandroid.ui.main.discover.system
 
+import com.sch.playandroid.base.IBasePresenter
+import com.sch.playandroid.base.IBaseView
 import com.sch.playandroid.entity.SystemBean
 
 /**
@@ -8,12 +10,11 @@ import com.sch.playandroid.entity.SystemBean
  * description:
  */
 class SystemContract {
-    interface ISystemPresenter {
+    interface IPresenter : IBasePresenter {
         fun getSystemData()
     }
 
-    interface ISystemView {
+    interface IView : IBaseView {
         fun setSystemData(list: MutableList<SystemBean>)
-        fun onError(ex: String)
     }
 }

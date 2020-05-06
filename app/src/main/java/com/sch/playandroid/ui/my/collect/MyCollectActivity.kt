@@ -24,13 +24,8 @@ import kotlinx.android.synthetic.main.activity_collect.*
  * Date: 2020/4/28
  * description: 我的收藏页面
  */
-class MyCollectActivity : BaseActivity(),
-    MyCollectContract.IMyCollectView {
-    private val presenterImpl by lazy {
-        MyCollectPresenterImpl(
-            this
-        )
-    }
+class MyCollectActivity : BaseActivity<MyCollectContract.IPresenter>(),
+    MyCollectContract.IView {
     private var pageNum: Int = 0
     private val myCollectAdapter by lazy { MyCollectAdapter() }
     private val collectList by lazy { mutableListOf<CollectBean>() }
@@ -74,7 +69,7 @@ class MyCollectActivity : BaseActivity(),
                     etTitle.setText("")
                     etLink.setText("")
                     etAuthor.setText("")
-                    presenterImpl.addCollect(title, author, link)
+                    mPresenter?.addCollect(title, author, link)
                     addCollectDialog?.dismiss()
                 }
             }
@@ -87,7 +82,7 @@ class MyCollectActivity : BaseActivity(),
         collectList.clear()
         myCollectAdapter.updata(collectList)
         pageNum = 1
-        presenterImpl.getCollectList(pageNum)
+        mPresenter?.getCollectList(pageNum)
     }
 
     private fun initListener() {
@@ -101,18 +96,18 @@ class MyCollectActivity : BaseActivity(),
         loadingTip.setReloadListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 loadingTip.loading()
-                presenterImpl.getCollectList(pageNum)
+                mPresenter?.getCollectList(pageNum)
             }
         })
         smartRefresh.setOnRefreshListener {
             pageNum = 0
             collectList.clear()
             myCollectAdapter.updata(collectList)
-            presenterImpl.getCollectList(pageNum)
+            mPresenter?.getCollectList(pageNum)
         }
         smartRefresh.setOnLoadMoreListener {
             pageNum++
-            presenterImpl.getCollectList(pageNum)
+            mPresenter?.getCollectList(pageNum)
         }
         myCollectAdapter.setOnCollectClickListener(object : MyCollectAdapter.OnCollectClickListener {
             override fun onCollectClick(position: Int) {
@@ -123,7 +118,7 @@ class MyCollectActivity : BaseActivity(),
                 if (position < collectList.size && !lockCollectClick) {
                     lockCollectClick = true
                     collectPosition = position
-                    presenterImpl.unCollect(
+                    mPresenter?.unCollect(
                         collectList[position].id,
                         collectList[position].originId
                     )
@@ -187,7 +182,11 @@ class MyCollectActivity : BaseActivity(),
     override fun addCollectSuccess() {
         loadingTip.loading()
         pageNum = 0
-        presenterImpl.getCollectList(pageNum)
+        mPresenter?.getCollectList(pageNum)
 
+    }
+
+    override fun createPresenter(): MyCollectContract.IPresenter? {
+        return MyCollectPresenterImpl()
     }
 }

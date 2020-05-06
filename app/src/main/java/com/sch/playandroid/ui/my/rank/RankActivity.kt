@@ -21,13 +21,8 @@ import kotlinx.android.synthetic.main.activity_rank.smartRefresh
  * Date: 2020/4/26
  * description:
  */
-class RankActivity : BaseActivity(),
-    RankConstant.IRankView {
-    private val presenterImpl by lazy {
-        RankPresenterImpl(
-            this
-        )
-    }
+class RankActivity : BaseActivity<RankConstant.IPresenter>(),
+    RankConstant.IView {
     private var pageNum = 1
     private val rankList by lazy { mutableListOf<RankBean>() }
     private val rankAdapter by lazy { RankAdapter() }
@@ -60,7 +55,7 @@ class RankActivity : BaseActivity(),
         }
         smartRefresh.setOnLoadMoreListener {
             pageNum++
-            presenterImpl.getRankData(pageNum)
+            mPresenter?.getRankData(pageNum)
         }
         ivBack.setOnClickListener {
             finish()
@@ -84,7 +79,7 @@ class RankActivity : BaseActivity(),
         rankList.clear()
         rankAdapter.updata(rankList)
         pageNum = 1
-        presenterImpl.getRankData(pageNum)
+        mPresenter?.getRankData(pageNum)
     }
 
     private fun initMyRank() {
@@ -127,5 +122,9 @@ class RankActivity : BaseActivity(),
             smartRefresh.finishLoadMore()
             smartRefresh.finishRefresh()
         }
+    }
+
+    override fun createPresenter(): RankConstant.IPresenter? {
+        return RankPresenterImpl()
     }
 }

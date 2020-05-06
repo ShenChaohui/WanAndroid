@@ -1,5 +1,6 @@
 package com.sch.playandroid.ui.my.collect
 
+import com.sch.playandroid.base.BasePresenter
 import com.sch.playandroid.entity.CollectBean
 import com.sch.playandroid.util.GsonUtil
 import org.jetbrains.anko.doAsync
@@ -14,8 +15,8 @@ import org.xutils.x
  * Date: 2020/4/28
  * description:
  */
-class MyCollectPresenterImpl(var view: MyCollectContract.IMyCollectView?) :
-    MyCollectContract.IMyCollectPresenter {
+class MyCollectPresenterImpl : BasePresenter<MyCollectContract.IView>(),
+    MyCollectContract.IPresenter {
     override fun getCollectList(pageNum: Int) {
         val params = RequestParams("https://www.wanandroid.com/lg/collect/list/$pageNum/json")
         x.http().get(params, object : Callback.CommonCallback<String> {
@@ -26,7 +27,7 @@ class MyCollectPresenterImpl(var view: MyCollectContract.IMyCollectView?) :
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") != 0) {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                     return
                 }
                 doAsync {
@@ -36,7 +37,7 @@ class MyCollectPresenterImpl(var view: MyCollectContract.IMyCollectView?) :
                         CollectBean::class.java
                     )
                     uiThread {
-                        view?.showCollectList(datas)
+                        getView()?.showCollectList(datas)
                     }
                 }
 
@@ -46,7 +47,7 @@ class MyCollectPresenterImpl(var view: MyCollectContract.IMyCollectView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
 
         })
@@ -63,9 +64,9 @@ class MyCollectPresenterImpl(var view: MyCollectContract.IMyCollectView?) :
                 val obj = JSONObject(result)
                 val errorCode = obj.getInt("errorCode")
                 if (errorCode == 0) {
-                    view?.unCollectSuccess()
+                    getView()?.unCollectSuccess()
                 } else {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -73,7 +74,7 @@ class MyCollectPresenterImpl(var view: MyCollectContract.IMyCollectView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
 
             }
 
@@ -92,9 +93,9 @@ class MyCollectPresenterImpl(var view: MyCollectContract.IMyCollectView?) :
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") == 0) {
-                    view?.addCollectSuccess()
+                    getView()?.addCollectSuccess()
                 } else {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -102,7 +103,7 @@ class MyCollectPresenterImpl(var view: MyCollectContract.IMyCollectView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
 
         })

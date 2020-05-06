@@ -8,10 +8,11 @@ import android.webkit.*
 import androidx.core.text.HtmlCompat
 import com.sch.playandroid.R
 import com.sch.playandroid.base.BaseActivity
+import com.sch.playandroid.base.IBasePresenter
 import com.sch.playandroid.constants.Constants
 import kotlinx.android.synthetic.main.activity_web.*
 
-class WebActivity : BaseActivity() {
+class WebActivity : BaseActivity<IBasePresenter>() {
     private var loadUrl: String? = null
     private var title: String? = null
 
@@ -77,5 +78,13 @@ class WebActivity : BaseActivity() {
         }
         //退出H5界面
         return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onError(ex: String) {
+
+    }
+
+    override fun createPresenter(): IBasePresenter? {
+        return null
     }
 }

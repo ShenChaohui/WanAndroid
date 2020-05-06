@@ -19,9 +19,8 @@ import kotlinx.android.synthetic.main.activity_issue.*
  * Date: 2020/4/27
  * description:
  */
-class IssueActivity : BaseActivity(), IssueContract.IIssueView {
+class IssueActivity : BaseActivity<IssueContract.IPresenter>(), IssueContract.IView {
     private val articleAdapter by lazy { ArticleAdapter() }
-    private val presenterImpl by lazy { IssuePresenterImpl(this) }
     private var pageNum = 1
     val articleList by lazy { mutableListOf<ArticleBean>() }
     private var collectPosition = 0
@@ -49,7 +48,7 @@ class IssueActivity : BaseActivity(), IssueContract.IIssueView {
         articleList.clear()
         articleAdapter.updata(articleList)
         pageNum = 1
-        presenterImpl.getArticleData(pageNum)
+        mPresenter?.getArticleData(pageNum)
     }
 
     private fun initListener() {
@@ -66,7 +65,7 @@ class IssueActivity : BaseActivity(), IssueContract.IIssueView {
         }
         smartRefresh.setOnLoadMoreListener {
             pageNum++
-            presenterImpl.getArticleData(pageNum)
+            mPresenter?.getArticleData(pageNum)
         }
         articleAdapter.setOnItemClickListener(object : ArticleAdapter.OnItemClickListener {
             override fun onClick(position: Int) {
@@ -87,9 +86,9 @@ class IssueActivity : BaseActivity(), IssueContract.IIssueView {
                     collectPosition = position
                     articleList[position].apply {
                         if (!collect) {
-                            presenterImpl.collect(id)
+                            mPresenter?.collect(id)
                         } else {
-                            presenterImpl.unCollect(id)
+                            mPresenter?.unCollect(id)
                         }
 
                     }
@@ -150,5 +149,9 @@ class IssueActivity : BaseActivity(), IssueContract.IIssueView {
             smartRefresh.finishLoadMore()
             smartRefresh.finishRefresh()
         }
+    }
+
+    override fun createPresenter(): IssueContract.IPresenter? {
+        return IssuePresenterImpl()
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.sch.playandroid.R
 import com.sch.playandroid.base.BaseActivity
+import com.sch.playandroid.base.IBasePresenter
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.ui.main.discover.DiscoverFragment
 import com.sch.playandroid.ui.main.home.HomeFragment
@@ -11,7 +12,7 @@ import com.sch.playandroid.ui.main.mine.MineFragment
 import com.sch.playandroid.ui.main.tab.TabFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity<IBasePresenter>() {
     private var lastIndex = 0 //上一次切换的fragment下标
     private val fragmentList by lazy { mutableListOf<Fragment>() }//切换的fragment集合
 
@@ -22,6 +23,10 @@ class MainActivity : BaseActivity() {
     override fun init(savedInstanceState: Bundle?) {
         initFragment()
         initBottom()
+    }
+
+    override fun onError(ex: String) {
+
     }
 
     /**
@@ -88,6 +93,10 @@ class MainActivity : BaseActivity() {
         //展示当前fragment
         ft.show(currentFragment)
         ft.commit()
+    }
+
+    override fun createPresenter(): IBasePresenter? {
+        return null
     }
 
 }

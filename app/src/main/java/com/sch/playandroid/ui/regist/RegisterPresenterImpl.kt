@@ -1,6 +1,7 @@
 package com.sch.playandroid.ui.regist
 
 import android.util.Log
+import com.sch.playandroid.base.BasePresenter
 import org.json.JSONObject
 import org.xutils.common.Callback
 import org.xutils.http.RequestParams
@@ -11,8 +12,8 @@ import org.xutils.x
  * Date: 2020/4/24
  * description:
  */
-class RegisterPresenterImpl(var view: RegisterConstant.IRegisterView?) :
-    RegisterConstant.IRegisterPresenter {
+class RegisterPresenterImpl:BasePresenter<RegisterConstant.IView>(),
+    RegisterConstant.IPresenter {
     override fun doRegister(username: String, password: String, rePassword: String) {
         val params = RequestParams("https://www.wanandroid.com/user/register")
         params.addParameter("username", username)
@@ -28,9 +29,9 @@ class RegisterPresenterImpl(var view: RegisterConstant.IRegisterView?) :
                 val obj = JSONObject(result)
                 val errorCode = obj.getInt("errorCode")
                 if (errorCode == 0) {
-                    view?.registerSuccess()
+                    getView()?.registerSuccess()
                 } else {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                 }
 
             }
@@ -39,8 +40,7 @@ class RegisterPresenterImpl(var view: RegisterConstant.IRegisterView?) :
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
-
+                getView()?.onError(ex.toString())
             }
 
         })

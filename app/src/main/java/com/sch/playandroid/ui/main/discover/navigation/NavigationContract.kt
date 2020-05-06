@@ -1,5 +1,7 @@
 package com.sch.playandroid.ui.main.discover.navigation
 
+import com.sch.playandroid.base.IBasePresenter
+import com.sch.playandroid.base.IBaseView
 import com.sch.playandroid.entity.NavigationBean
 import com.sch.playandroid.entity.SystemBean
 
@@ -10,12 +12,11 @@ import com.sch.playandroid.entity.SystemBean
  * description:
  */
 class NavigationContract {
-    interface INavigationPresenter {
+    interface IPresenter : IBasePresenter {
         fun getNavigationData()
     }
 
-    interface INavigationView {
+    interface IView : IBaseView {
         fun setNavigationData(list: MutableList<NavigationBean>)
-        fun onError(ex: String)
     }
 }

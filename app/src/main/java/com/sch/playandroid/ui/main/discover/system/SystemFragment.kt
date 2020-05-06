@@ -16,10 +16,9 @@ import kotlinx.android.synthetic.main.fragment_list.*
  * 体系
  */
 
-class SystemFragment : LazyFragment(), SystemContract.ISystemView {
+class SystemFragment : LazyFragment<SystemContract.IPresenter>(), SystemContract.IView {
     private val systemAdapter by lazy { SystemAdapter() }
     private val systemList by lazy { mutableListOf<SystemBean>() }
-    private val presenterImpl by lazy { SystemPresenterImpl(this) }
     override fun lazyInit() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = systemAdapter
@@ -28,7 +27,7 @@ class SystemFragment : LazyFragment(), SystemContract.ISystemView {
         initListener()
         //加载中动画
         loadingTip.loading()
-        presenterImpl.getSystemData()
+        mPresenter?.getSystemData()
     }
 
     private fun initListener() {
@@ -50,7 +49,7 @@ class SystemFragment : LazyFragment(), SystemContract.ISystemView {
         loadingTip.setReloadListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 loadingTip.loading()
-                presenterImpl.getSystemData()
+                mPresenter?.getSystemData()
             }
         })
     }
@@ -68,5 +67,9 @@ class SystemFragment : LazyFragment(), SystemContract.ISystemView {
 
     override fun onError(ex: String) {
         loadingTip.showInternetError()
+    }
+
+    override fun createPresenter(): SystemContract.IPresenter? {
+        return SystemPresenterImpl()
     }
 }

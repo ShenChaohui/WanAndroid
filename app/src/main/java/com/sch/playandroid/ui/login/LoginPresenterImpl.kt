@@ -1,6 +1,7 @@
 package com.sch.playandroid.ui.login
 
 import android.util.Log
+import com.sch.playandroid.base.BasePresenter
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.util.PrefUtils
 import org.json.JSONObject
@@ -13,7 +14,7 @@ import org.xutils.x
  * Date: 2020/4/24
  * description:
  */
-class LoginPresenterImpl(var view: LoginConstant.ILoginView?) : LoginConstant.ILoginPresenter {
+class LoginPresenterImpl: BasePresenter<LoginConstant.IView>(),LoginConstant.IPresenter {
     override fun doLogin(username: String, password: String) {
         val params = RequestParams("https://www.wanandroid.com/user/login")
         params.addParameter("username", username)
@@ -26,9 +27,9 @@ class LoginPresenterImpl(var view: LoginConstant.ILoginView?) : LoginConstant.IL
                 val obj = JSONObject(result)
                 val errorCode = obj.getInt("errorCode")
                 if (errorCode == 0) {
-                    view?.loginSuccess()
+                    getView()?.loginSuccess()
                 } else {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                 }
             }
 
@@ -36,7 +37,7 @@ class LoginPresenterImpl(var view: LoginConstant.ILoginView?) : LoginConstant.IL
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
 
         })

@@ -18,14 +18,9 @@ import kotlinx.android.synthetic.main.fragment_refresh_list.*
  * 广场
  */
 
-class SquareFragment : LazyFragment(),
-    SquareContract.ISquareView {
+class SquareFragment : LazyFragment<SquareContract.IPresenter>(),
+    SquareContract.IView {
     private val articleAdapter by lazy { ArticleAdapter() }
-    private val presenterImpl by lazy {
-        SquarePresenterImpl(
-            this
-        )
-    }
     private var pageNum = 0
     val articleList by lazy { mutableListOf<ArticleBean>() }
 
@@ -50,7 +45,7 @@ class SquareFragment : LazyFragment(),
         articleList.clear()
         articleAdapter.updata(articleList)
         pageNum = 0
-        presenterImpl.getArticleData(pageNum)
+        mPresenter?.getArticleData(pageNum)
     }
 
     private fun initListener() {
@@ -73,9 +68,9 @@ class SquareFragment : LazyFragment(),
                     collectPosition = position
                     articleList[position].apply {
                         if (!collect) {
-                            presenterImpl.collect(id)
+                            mPresenter?.collect(id)
                         } else {
-                            presenterImpl.unCollect(id)
+                            mPresenter?.unCollect(id)
                         }
 
                     }
@@ -96,8 +91,7 @@ class SquareFragment : LazyFragment(),
         }
         smartRefresh.setOnLoadMoreListener {
             pageNum++
-            presenterImpl.getArticleData(pageNum)
-
+            mPresenter?.getArticleData(pageNum)
         }
     }
 
@@ -151,5 +145,9 @@ class SquareFragment : LazyFragment(),
             smartRefresh.finishLoadMore()
             smartRefresh.finishRefresh()
         }
+    }
+
+    override fun createPresenter(): SquareContract.IPresenter? {
+        return SquarePresenterImpl()
     }
 }

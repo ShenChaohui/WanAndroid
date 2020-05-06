@@ -1,5 +1,7 @@
 package com.sch.playandroid.ui.main.discover.system.list
 
+import com.sch.playandroid.base.IBasePresenter
+import com.sch.playandroid.base.IBaseView
 import com.sch.playandroid.entity.ArticleBean
 
 /**
@@ -8,14 +10,13 @@ import com.sch.playandroid.entity.ArticleBean
  * description:
  */
 class SystemListContract {
-    interface ISystemListPresenter{
+    interface IPresenter:IBasePresenter{
         fun getArticleData(pageNum: Int, cid: Int)
         fun collect(id: Int)
         fun unCollect(id: Int)
     }
-    interface ISystemListView{
+    interface IView:IBaseView{
         fun setArticleData(list: MutableList<ArticleBean>)
-        fun onError(ex: String)
         fun collectSuccess()
         fun unCollectSuccess()
     }

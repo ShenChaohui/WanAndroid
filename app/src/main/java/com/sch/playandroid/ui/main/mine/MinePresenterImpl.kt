@@ -1,5 +1,6 @@
 package com.sch.playandroid.ui.main.mine
 
+import com.sch.playandroid.base.BasePresenter
 import com.sch.playandroid.constants.Constants
 import com.sch.playandroid.entity.UserCoinInfo
 import com.sch.playandroid.util.GsonUtil
@@ -17,7 +18,7 @@ import org.xutils.x
  * Date: 2020/4/26
  * description:
  */
-class MinePresenterImpl(var view: MineContract.IMineView?) : MineContract.IMinePresenter {
+class MinePresenterImpl : BasePresenter<MineContract.IView>(), MineContract.IPresenter {
     override fun getUserCoinInfo() {
         val params = RequestParams("https://www.wanandroid.com/lg/coin/userinfo/json")
         x.http().get(params, object : Callback.CommonCallback<String> {
@@ -27,7 +28,7 @@ class MinePresenterImpl(var view: MineContract.IMineView?) : MineContract.IMineP
             override fun onSuccess(result: String?) {
                 val obj = JSONObject(result)
                 if (obj.getInt("errorCode") != 0) {
-                    view?.onError(obj.getString("errorMsg"))
+                    getView()?.onError(obj.getString("errorMsg"))
                     return
                 }
                 doAsync {
@@ -36,7 +37,7 @@ class MinePresenterImpl(var view: MineContract.IMineView?) : MineContract.IMineP
                         GsonUtil.parseJsonWithGson(userCoinInfoStr, UserCoinInfo::class.java)
                     PrefUtils.setString(Constants.USERCOININFO, userCoinInfoStr)
                     uiThread {
-                        view?.setUserCoinInfo(userCoinInfo)
+                        getView()?.setUserCoinInfo(userCoinInfo)
                     }
                 }
             }
@@ -46,7 +47,7 @@ class MinePresenterImpl(var view: MineContract.IMineView?) : MineContract.IMineP
             }
 
             override fun onError(ex: Throwable?, isOnCallback: Boolean) {
-                view?.onError(ex.toString())
+                getView()?.onError(ex.toString())
             }
 
         })

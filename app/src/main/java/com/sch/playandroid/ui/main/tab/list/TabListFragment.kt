@@ -19,11 +19,10 @@ import kotlinx.android.synthetic.main.fragment_refresh_list.*
  * Date: 2020/4/21
  * description:
  */
-class TabListFragment : LazyFragment(), TabListContract.ITabListView {
+class TabListFragment : LazyFragment<TabListContract.IPresenter>(), TabListContract.IView {
     private var cid: Int = 0
     private var type: Int = 0
     private val articleAdapter by lazy { ArticleAdapter() }
-    private val presenterImpl by lazy { TabListPresenterImpl(this) }
     private var pageNum = 1 //公众号和项目数据都是从第1页开始
     private val articleList by lazy { mutableListOf<ArticleBean>() }
     private var collectPosition = 0
@@ -49,7 +48,7 @@ class TabListFragment : LazyFragment(), TabListContract.ITabListView {
         articleList.clear()
         articleAdapter.updata(articleList)
         pageNum = 1
-        presenterImpl.getArticleData(type, pageNum, cid)
+        mPresenter?.getArticleData(type, pageNum, cid)
     }
 
     private fun initListener() {
@@ -72,9 +71,9 @@ class TabListFragment : LazyFragment(), TabListContract.ITabListView {
                     collectPosition = position
                     articleList[position].apply {
                         if (!collect) {
-                            presenterImpl.collect(id)
+                            mPresenter?.collect(id)
                         } else {
-                            presenterImpl.unCollect(id)
+                            mPresenter?.unCollect(id)
                         }
 
                     }
@@ -95,7 +94,7 @@ class TabListFragment : LazyFragment(), TabListContract.ITabListView {
         }
         smartRefresh.setOnLoadMoreListener {
             pageNum++
-            presenterImpl.getArticleData(type, pageNum, cid)
+            mPresenter?.getArticleData(type, pageNum, cid)
         }
     }
 
@@ -150,5 +149,9 @@ class TabListFragment : LazyFragment(), TabListContract.ITabListView {
             smartRefresh.finishLoadMore()
             smartRefresh.finishRefresh()
         }
+    }
+
+    override fun createPresenter(): TabListContract.IPresenter? {
+        return TabListPresenterImpl()
     }
 }

@@ -1,6 +1,8 @@
 package com.sch.playandroid.ui.set
 
 import android.content.Context
+import com.sch.playandroid.base.IBasePresenter
+import com.sch.playandroid.base.IBaseView
 
 /**
  * Created by Sch.
@@ -8,16 +10,15 @@ import android.content.Context
  * description:
  */
 class SetContract {
-    interface ISetPresenter {
+    interface IPresenter:IBasePresenter {
         fun logout()
         fun clearCache(context: Context)
         fun checkUpdate()
     }
 
-    interface ISetView {
+    interface IView :IBaseView{
         fun logoutSuccess()
         fun clearCacheSuccess()
         fun checkUpdateSuccess()
-        fun onError(ex: String)
     }
 }

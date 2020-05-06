@@ -1,5 +1,7 @@
 package com.sch.playandroid.ui.my.coin
 
+import com.sch.playandroid.base.IBasePresenter
+import com.sch.playandroid.base.IBaseView
 import com.sch.playandroid.entity.CoinRecordBean
 
 /**
@@ -8,12 +10,11 @@ import com.sch.playandroid.entity.CoinRecordBean
  * description:
  */
 class CoinConstant {
-    interface ICoinPresenter {
+    interface IPresenter : IBasePresenter {
         fun getCoinData(pageNum: Int)
     }
 
-    interface ICoinView {
+    interface IView : IBaseView {
         fun setCoinData(list: MutableList<CoinRecordBean>)
-        fun onError(ex: String)
     }
 }

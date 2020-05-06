@@ -1,5 +1,7 @@
 package com.sch.playandroid.ui.search
 
+import com.sch.playandroid.base.IBasePresenter
+import com.sch.playandroid.base.IBaseView
 import com.sch.playandroid.entity.ArticleBean
 
 /**
@@ -8,15 +10,14 @@ import com.sch.playandroid.entity.ArticleBean
  * description:
  */
 class SearchContract {
-    interface ISearchPresenter {
+    interface IPresenter:IBasePresenter {
         fun getSearchData(keyWord: String, pageNum: Int)
         fun collect(id: Int)
         fun unCollect(id: Int)
     }
 
-    interface ISearchView {
+    interface IView :IBaseView{
         fun setSearchResultData(datas: MutableList<ArticleBean>)
-        fun setError(ex: String)
         fun collectSuccess()
         fun unCollectSuccess()
     }
