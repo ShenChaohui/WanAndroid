@@ -108,7 +108,7 @@ class MineFragment : BaseFragment<MineContract.IPresenter>(), MineContract.IView
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public fun logoutEvent(loginEvent: LogoutEvent) {
-        tvUserName.text = "请先登录"
+        tvUserName.text = "请先登录 "
         tvId.text = "--"
         tvRank.text = "0"
         tvCoinCount.text = "0"
