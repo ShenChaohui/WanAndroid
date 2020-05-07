@@ -64,9 +64,7 @@ class LoginActivity : BaseActivity<LoginConstant.IPresenter>(), LoginConstant.IV
             }
             etPassword.setSelection(etPassword.text.length)
         }
-        tvCancleLogin.setOnClickListener {
-            finish()
-        }
+
         tvRegistAccont.setOnClickListener {
             intent(RegistActivity::class.java, false)
         }

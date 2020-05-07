@@ -39,9 +39,18 @@
             android:layout_alignLeft="@+id/tvUserName"
             android:layout_marginTop="5dp"
             android:text="id:---"
-            android:textColor="@color/text_1"
+            android:textColor="@color/text_2"
             android:textSize="13dp" />
-
+        <TextView
+            android:id="@+id/tvLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvId"
+            android:layout_alignLeft="@+id/tvUserName"
+            android:layout_marginTop="3dp"
+            android:text="等级:0"
+            android:textColor="@color/text_2"
+            android:textSize="13dp" />
         <LinearLayout
             android:id="@+id/llCoinInfo"
             android:layout_width="match_parent"
@@ -203,7 +212,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
                 android:background="@color/division_line_thickening" />
+            <LinearLayout
+                android:id="@+id/llWebsite"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/ripple_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/set_padding"
+                android:paddingRight="@dimen/set_padding">
 
+                <ImageView
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:src="@drawable/ic_website" />
+
+                <TextView
+                    style="@style/text_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:drawableRight="@drawable/ic_arrow_right"
+                    android:gravity="center_vertical"
+                    android:text="网站"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/division_line_thickening" />
             <LinearLayout
                 android:id="@+id/llSet"
                 android:layout_width="match_parent"
@@ -217,7 +254,7 @@
                 <ImageView
                     android:layout_width="27dp"
                     android:layout_height="27dp"
-                    android:src="@mipmap/set" />
+                    android:src="@drawable/ic_set" />
 
                 <TextView
                     style="@style/text_1"

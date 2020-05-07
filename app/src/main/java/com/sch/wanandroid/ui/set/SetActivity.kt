@@ -1,8 +1,12 @@
 package com.sch.wanandroid.ui.set
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.TextView
 import com.coder.zzq.smartshow.dialog.DialogBtnClickListener
 import com.coder.zzq.smartshow.dialog.EnsureDialog
 import com.coder.zzq.smartshow.dialog.LoadingDialog
@@ -11,6 +15,7 @@ import com.coder.zzq.smartshow.toast.SmartToast
 import com.sch.wanandroid.R
 import com.sch.wanandroid.base.BaseActivity
 import com.sch.wanandroid.constants.Constants
+import com.sch.wanandroid.ui.web.WebActivity
 import com.sch.wanandroid.util.AppManager
 import com.sch.wanandroid.util.CacheDataManager
 import com.sch.wanandroid.util.PrefUtils
@@ -41,11 +46,55 @@ class SetActivity : BaseActivity<SetContract.IPresenter>(), SetContract.IView {
             })
 
     }
+    private var copyrightDialog:Dialog? = null
+
+    private var appAuthorInfoDialog: Dialog? = null
 
     override fun init(savedInstanceState: Bundle?) {
         initListener()
+        initAppAuthorInfoDialog()
+        initCopyrightInfoDialog()
         tvCacheValue.text = CacheDataManager.getTotalCacheSize(this)
-        tvVersionsValue.text = AppManager.getVersionName(this)
+        tvVersionsValue.text = "v ${AppManager.getVersionName(this)}"
+    }
+
+    private fun initAppAuthorInfoDialog() {
+        val builder = AlertDialog.Builder(this)
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_app_author_info, null)
+        val tvConfirm = view.findViewById<TextView>(R.id.tvConfirm)
+        tvConfirm.setOnClickListener {
+            appAuthorInfoDialog?.dismiss()
+        }
+        val tvWx = view.findViewById<TextView>(R.id.tvWx)
+        val tvEmail = view.findViewById<TextView>(R.id.tvEmail)
+        val tvJianShu = view.findViewById<TextView>(R.id.tvJianShu)
+        tvWx.setOnClickListener {
+            AppManager.copy(this, this.getString(R.string.AppAuthorWX))
+            appAuthorInfoDialog?.dismiss()
+
+        }
+        tvEmail.setOnClickListener {
+            AppManager.copy(this, this.getString(R.string.AppAuthorEmail))
+            appAuthorInfoDialog?.dismiss()
+
+        }
+        tvJianShu.setOnClickListener {
+            AppManager.copy(this, this.getString(R.string.AppAuthorJanshu))
+            appAuthorInfoDialog?.dismiss()
+
+        }
+        builder.setView(view)
+        appAuthorInfoDialog = builder.create()
+    }
+    private fun initCopyrightInfoDialog() {
+        val builder = AlertDialog.Builder(this)
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_copyright_info, null)
+        val tvConfirm = view.findViewById<TextView>(R.id.tvConfirm)
+        tvConfirm.setOnClickListener {
+            copyrightDialog?.dismiss()
+        }
+        builder.setView(view)
+        copyrightDialog = builder.create()
     }
 
     private fun initListener() {
@@ -63,10 +112,16 @@ class SetActivity : BaseActivity<SetContract.IPresenter>(), SetContract.IView {
             mPresenter?.checkUpdate()
         }
         tvProject.setOnClickListener {
-            val intent = Intent()
-            intent.setData(Uri.parse("https://github.com/ShenChaohui/WanAndroid"))
-            intent.setAction(Intent.ACTION_VIEW)
-            startActivity(intent)
+            intent(Bundle().apply {
+                putString(Constants.WEB_URL, getString(R.string.AppAuthorGithub))
+                putString(Constants.WEB_TITLE, getString(R.string.app_name))
+            }, WebActivity::class.java, false)
+        }
+        tvAuthor.setOnClickListener {
+            appAuthorInfoDialog?.show()
+        }
+        tvCopyright.setOnClickListener {
+            copyrightDialog?.show()
         }
     }
 

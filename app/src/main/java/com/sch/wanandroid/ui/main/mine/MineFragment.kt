@@ -13,6 +13,7 @@ import com.sch.wanandroid.ui.issue.IssueActivity
 import com.sch.wanandroid.ui.login.LoginActivity
 import com.sch.wanandroid.ui.my.rank.RankActivity
 import com.sch.wanandroid.ui.set.SetActivity
+import com.sch.wanandroid.ui.web.WebActivity
 import com.sch.wanandroid.util.AppManager
 import com.zs.wanandroid.event.LoginEvent
 import com.zs.wanandroid.event.LogoutEvent
@@ -70,7 +71,12 @@ class MineFragment : BaseFragment<MineContract.IPresenter>(), MineContract.IView
         llMyArticle.setOnClickListener {
             intent(MyArticlesActivity::class.java, true)
         }
-
+        llWebsite.setOnClickListener {
+            intent(Bundle().apply {
+                putString(Constants.WEB_URL, getString(R.string.WanAndroidUrl))
+                putString(Constants.WEB_TITLE, "WanAndroid")
+            }, WebActivity::class.java, false)
+        }
     }
 
     override fun getLayoutId(): Int {
@@ -80,9 +86,10 @@ class MineFragment : BaseFragment<MineContract.IPresenter>(), MineContract.IView
     override fun setUserCoinInfo(userCoinInfo: UserCoinInfo) {
         userCoinInfo.apply {
             tvUserName.text = username
-            tvId.text = "$userId"
+            tvId.text = "id：$userId"
             tvRank.text = "$rank"
             tvCoinCount.text = "$coinCount"
+            tvLevel.text = "等级：$level"
         }
     }
 
@@ -109,9 +116,11 @@ class MineFragment : BaseFragment<MineContract.IPresenter>(), MineContract.IView
     @Subscribe(threadMode = ThreadMode.MAIN)
     public fun logoutEvent(loginEvent: LogoutEvent) {
         tvUserName.text = "请先登录"
-        tvId.text = "--"
+        tvId.text = "id：--"
         tvRank.text = "0"
         tvCoinCount.text = "0"
+        tvLevel.text = "等级：0"
+
     }
 
     override fun createPresenter(): MineContract.IPresenter? {

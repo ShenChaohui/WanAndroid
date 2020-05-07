@@ -10,6 +10,8 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
+        android:padding="12dp"
+
         android:background="@drawable/ripple_circle_bg"
         android:src="@drawable/ic_arrow_left" />
 

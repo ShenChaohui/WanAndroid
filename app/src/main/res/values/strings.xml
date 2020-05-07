@@ -12,4 +12,11 @@
     <string name="share_information_4">目前处于测试阶段，如果你发现500等错误，可以向我提交日志，让我们一起使网站变得更好。</string>
     <string name="share_information_5">由于本站只有一个人开发与维护，会尽力保证24小时内审核，当然有可能哪天太累，会延期，请保持佛系...</string>
 
+    <string name="AppAuthorName">ShenChaohui</string>
+    <string name="AppAuthorWX">shenchaohui1314</string>
+    <string name="AppAuthorEmail">s_chaohui@163.com</string>
+    <string name="AppAuthorJanshu">https://www.jianshu.com/u/677624f4e46f</string>
+    <string name="AppAuthorGithub">https://github.com/ShenChaohui/WanAndroid</string>
+    <string name="copyright">本APP中所有API均由WanAndroid官网提供，仅可作为学习参考，禁止商业用途，谢谢</string>
+    <string name="WanAndroidUrl">https://www.wanandroid.com/</string>
 </resources>

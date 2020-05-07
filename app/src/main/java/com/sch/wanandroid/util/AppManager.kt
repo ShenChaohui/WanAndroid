@@ -1,6 +1,9 @@
 package com.sch.wanandroid.util
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
+import com.coder.zzq.smartshow.toast.SmartToast
 import com.sch.wanandroid.constants.Constants
 import java.lang.Exception
 
@@ -52,6 +55,14 @@ class AppManager {
                 e.printStackTrace()
             }
             return versionCode
+        }
+        /**
+         * 复制剪切板
+         */
+        fun copy(context: Context,msg:String){
+            var clip = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            clip?.setPrimaryClip(ClipData.newPlainText(null,msg))
+            SmartToast.show("已复制")
         }
     }
 }

@@ -19,6 +19,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/ripple_circle_bg"
+            android:padding="12dp"
             android:src="@drawable/ic_arrow_left" />
 
         <TextView
@@ -55,10 +56,7 @@
             android:layout_alignBottom="@id/tvClearCache"
             android:layout_alignParentRight="true"
             android:layout_marginRight="50dp"
-            android:gravity="center_vertical"
-            android:text="1.23M"
-
-            />
+            android:gravity="center_vertical" />
 
         <TextView
             android:id="@+id/tvVersions"
@@ -83,10 +81,7 @@
             android:layout_alignBottom="@id/tvVersions"
             android:layout_alignParentRight="true"
             android:layout_marginRight="50dp"
-            android:gravity="center_vertical"
-            android:text="1.0.1"
-
-            />
+            android:gravity="center_vertical" />
 
         <TextView
             android:id="@+id/tvAuthor"
@@ -111,7 +106,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="50dp"
             android:gravity="center_vertical"
-            android:text="ShenChaoHui" />
+            android:text="@string/AppAuthorName" />
 
         <TextView
             android:id="@+id/tvProject"

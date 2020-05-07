@@ -19,6 +19,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/ripple_circle_bg"
+            android:padding="12dp"
+
             android:src="@drawable/ic_arrow_left" />
 
         <TextView
@@ -37,7 +39,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:background="@drawable/ripple_circle_bg"
-            android:padding="13dp"
+            android:padding="12dp"
             android:src="@drawable/ic_info" />
     </RelativeLayout>
 

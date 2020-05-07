@@ -26,7 +26,7 @@ class RegistActivity : BaseActivity<RegisterConstant.IPresenter>(), RegisterCons
     private var isRePasswordShow = false
 
     override fun init(savedInstanceState: Bundle?) {
-        tvClose.setOnClickListener {
+        ivBack.setOnClickListener {
             finish()
         }
         ivClearUserName.setOnClickListener {
