@@ -1,5 +1,7 @@
 package com.sch.wanandroid.ui.set
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import com.coder.zzq.smartshow.dialog.DialogBtnClickListener
 import com.coder.zzq.smartshow.dialog.EnsureDialog
@@ -60,7 +62,12 @@ class SetActivity : BaseActivity<SetContract.IPresenter>(), SetContract.IView {
             updataDialog.showInActivity(this)
             mPresenter?.checkUpdate()
         }
-
+        tvProject.setOnClickListener {
+            val intent = Intent()
+            intent.setData(Uri.parse("https://github.com/ShenChaohui/WanAndroid"))
+            intent.setAction(Intent.ACTION_VIEW)
+            startActivity(intent)
+        }
     }
 
     override fun getLayoutId(): Int {

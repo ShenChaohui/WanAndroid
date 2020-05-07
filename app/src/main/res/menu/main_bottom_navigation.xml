@@ -3,22 +3,22 @@
     <item
         android:id="@+id/menu_home"
         android:checked="true"
-        android:icon="@mipmap/home"
+        android:icon="@drawable/ic_home"
         android:title="@string/tab_1" />
     <item
         android:id="@+id/menu_project"
-        android:icon="@mipmap/project"
+        android:icon="@drawable/ic_project"
         android:title="@string/tab_2" />
     <item
-        android:id="@+id/menu_square"
-        android:icon="@mipmap/square"
+        android:id="@+id/menu_discover"
+        android:icon="@drawable/ic_discover"
         android:title="@string/tab_3" />
     <item
         android:id="@+id/menu_official_account"
-        android:icon="@mipmap/official_account"
+        android:icon="@drawable/ic_official_account"
         android:title="@string/tab_4" />
     <item
         android:id="@+id/menu_mine"
-        android:icon="@mipmap/mine"
+        android:icon="@drawable/ic_mine"
         android:title="@string/tab_5" />
 </menu>

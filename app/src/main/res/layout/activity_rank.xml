@@ -19,8 +19,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/ripple_circle_bg"
-            android:padding="10dp"
-            android:src="@mipmap/back" />
+            android:src="@drawable/ic_arrow_left" />
 
         <TextView
             style="@style/text_title"
@@ -39,7 +38,7 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/ripple_circle_bg"
             android:padding="13dp"
-            android:src="@mipmap/detail" />
+            android:src="@drawable/ic_info" />
     </RelativeLayout>
 
     <RelativeLayout

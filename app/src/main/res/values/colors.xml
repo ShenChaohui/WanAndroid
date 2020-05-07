@@ -12,8 +12,6 @@
     <color name="black">#111111</color>
     <color name="red">#F60B0B</color>
     <color name="transparent">#00FFFFFF</color>
-    <color name="BtnCancel">#eeeeee</color>
-    <color name="BtnConfirm">#3498db</color>
     <!--    分割线颜色-->
     <color name="division_line">#EDEDED</color>
     <color name="division_line_thickening">#F8F8F8</color>

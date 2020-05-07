@@ -49,7 +49,7 @@
         android:layout_alignTop="@+id/tvNameData"
         android:layout_alignParentRight="true"
         android:paddingLeft="10dp"
-        android:src="@mipmap/article_un_collect"
+        android:src="@drawable/ic_heart_normal"
         android:paddingTop="10dp" />
 
     <View

@@ -59,7 +59,7 @@
         android:layout_alignTop="@+id/tvChapterName"
         android:layout_alignParentRight="true"
         android:padding="5dp"
-        android:src="@mipmap/article_un_collect" />
+        android:src="@drawable/ic_heart_normal" />
 
     <View
         android:layout_width="match_parent"

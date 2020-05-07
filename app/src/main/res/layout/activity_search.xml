@@ -11,8 +11,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/ripple_circle_bg"
-        android:padding="10dp"
-        android:src="@mipmap/back" />
+        android:src="@drawable/ic_arrow_left" />
 
     <RelativeLayout
         android:id="@+id/rlTop"
@@ -28,11 +27,11 @@
 
         <ImageView
             android:id="@+id/imgSearch"
-            android:layout_width="40dp"
+            android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_centerVertical="true"
-            android:padding="7dp"
-            android:src="@mipmap/home_search" />
+            android:padding="3dp"
+            android:src="@drawable/ic_search" />
 
         <EditText
             android:id="@+id/editText"

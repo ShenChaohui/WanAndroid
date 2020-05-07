@@ -81,7 +81,7 @@ class MyCollectAdapter : RecyclerView.Adapter<MyCollectAdapter.CollectViewHolder
             setOnClickListener {
                 onCollectClickListener?.onCollectClick(position)
             }
-            setImageResource(R.mipmap.article_collect)
+            setImageResource(R.drawable.ic_heart_red)
         }
     }
 

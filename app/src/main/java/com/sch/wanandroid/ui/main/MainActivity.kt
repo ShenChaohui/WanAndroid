@@ -38,7 +38,7 @@ class MainActivity : BaseActivity<IBasePresenter>() {
                 when (it.itemId) {
                     R.id.menu_home -> setFragmentPosition(0)
                     R.id.menu_project -> setFragmentPosition(1)
-                    R.id.menu_square -> setFragmentPosition(2)
+                    R.id.menu_discover -> setFragmentPosition(2)
                     R.id.menu_official_account -> setFragmentPosition(3)
                     R.id.menu_mine -> setFragmentPosition(4)
                 }

@@ -126,7 +126,7 @@
                 <ImageView
                     android:layout_width="27dp"
                     android:layout_height="27dp"
-                    android:src="@mipmap/collect" />
+                    android:src="@drawable/ic_heart_red" />
 
                 <TextView
                     style="@style/text_1"

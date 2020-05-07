@@ -57,7 +57,7 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (list.get(position).envelopePic != null && list.get(position).envelopePic.length > 0) {//有图片
+        if (list.get(position).envelopePic.length > 0) {//有图片
             return TYPE_HAVE_IMAGE
         } else {
             return TYPE_NO_IMAGE
@@ -99,9 +99,9 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     onCollectClickListener?.onCollectClick(position)
                 }
                 if (data.collect) {
-                    setImageResource(R.mipmap.article_collect)
+                    setImageResource(R.drawable.ic_heart_red)
                 } else {
-                    setImageResource(R.mipmap.article_un_collect)
+                    setImageResource(R.drawable.ic_heart_normal)
                 }
             }
         } else {
@@ -117,9 +117,9 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     onCollectClickListener?.onCollectClick(position)
                 }
                 if (data.collect) {
-                    setImageResource(R.mipmap.article_collect)
+                    setImageResource(R.drawable.ic_heart_red)
                 } else {
-                    setImageResource(R.mipmap.article_un_collect)
+                    setImageResource(R.drawable.ic_heart_normal)
                 }
             }
         }
