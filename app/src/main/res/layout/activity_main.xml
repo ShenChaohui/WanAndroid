@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/theme_1"
     tools:context=".ui.main.MainActivity">
 
     <FrameLayout
@@ -17,7 +18,7 @@
         android:id="@+id/btmNavigation"
         android:layout_width="match_parent"
         android:layout_height="@dimen/qb_px_54"
-        android:background="@color/white"
+        android:background="@color/theme_1"
         app:itemIconTint="@drawable/bottom_navigation_item_selector"
         app:itemTextColor="@drawable/bottom_navigation_item_selector"
         app:labelVisibilityMode="labeled"

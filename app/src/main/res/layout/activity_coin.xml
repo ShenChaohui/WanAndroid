@@ -3,14 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/theme_1"
     android:fitsSystemWindows="true">
 
     <LinearLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/qb_px_55"
-        android:background="@color/white"
         android:elevation="2dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -103,7 +102,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/qb_px_42"
-                        android:background="@color/white"
+                        android:background="@color/theme_1"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -125,7 +124,7 @@
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/white" />
+                        android:background="@color/theme_1" />
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 

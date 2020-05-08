@@ -31,7 +31,7 @@ import kotlinx.android.synthetic.main.activity_search.*
 /**
  * Created by Sch.
  * Date: 2020/4/23
- * description:
+ * description:搜索
  */
 class SearchActivity : BaseActivity<SearchContract.IPresenter>(), SearchContract.IView {
     private var keyWord: String? = null

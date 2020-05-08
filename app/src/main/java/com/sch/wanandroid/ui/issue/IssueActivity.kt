@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_issue.*
 /**
  * Created by Sch.
  * Date: 2020/4/27
- * description:
+ * description: 问答页面
  */
 class IssueActivity : BaseActivity<IssueContract.IPresenter>(), IssueContract.IView {
     private val articleAdapter by lazy { ArticleAdapter() }

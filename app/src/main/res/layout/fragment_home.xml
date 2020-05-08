@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
+android:background="@color/theme_1"
     android:focusableInTouchMode="true">
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/smartRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         app:srlEnableAutoLoadMore="false"
         app:srlEnableLoadMore="true"
         app:srlEnableOverScrollBounce="true"
@@ -79,7 +79,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/qb_px_42"
-                        android:background="@color/white"
+                        android:background="@color/theme_1"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -101,7 +101,7 @@
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white" />
+                         />
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 
@@ -114,7 +114,7 @@
         android:layout_height="@dimen/qb_px_84"
         android:elevation="2dp"
         android:alpha="0"
-        android:background="@color/white">
+        android:background="@color/theme_1">
 
         <TextView
             style="@style/text_title"

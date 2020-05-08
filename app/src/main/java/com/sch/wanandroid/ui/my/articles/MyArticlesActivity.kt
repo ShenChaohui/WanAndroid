@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.activity_myarticles.*
 /**
  * Created by Sch.
  * Date: 2020/4/28
- * description:
+ * description:我的文章
  */
 class MyArticlesActivity : BaseActivity<MyArticlesContract.IPresenter>(),
     MyArticlesContract.IView {

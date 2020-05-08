@@ -12,7 +12,7 @@ import com.sch.wanandroid.entity.RankBean
 /**
  * Created by Sch.
  * Date: 2020/4/26
- * description:
+ * description:排行榜列表适配器
  */
 class RankAdapter : RecyclerView.Adapter<RankAdapter.RankViewHolder>() {
     val list = mutableListOf<RankBean>()

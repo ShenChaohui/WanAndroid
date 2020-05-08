@@ -17,7 +17,7 @@ import org.greenrobot.eventbus.EventBus
 /**
  * Created by Sch.
  * Date: 2020/4/24
- * description:
+ * description:登录
  */
 class LoginActivity : BaseActivity<LoginConstant.IPresenter>(), LoginConstant.IView {
 

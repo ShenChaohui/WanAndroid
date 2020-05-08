@@ -7,6 +7,9 @@ import com.sch.wanandroid.ui.main.MainActivity
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
+/**
+ * 欢迎
+ */
 class SplashActivity :
     BaseActivity<SplashConstant.IPresenter>(), SplashConstant.IView {
 

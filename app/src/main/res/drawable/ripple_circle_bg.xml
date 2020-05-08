@@ -7,7 +7,7 @@
     </item>
     <!-- 未单击时的背景颜色 -->
     <item
-        android:drawable="@color/white"
+        android:drawable="@color/theme_1"
         android:state_pressed="false">
     </item>
 </selector>

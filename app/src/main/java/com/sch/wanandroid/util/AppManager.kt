@@ -9,10 +9,7 @@ import java.lang.Exception
 
 
 /**
- * des app管理类
- *
- * @author zs
- * @date 2020-03-12
+ * app管理类
  */
 class AppManager {
     companion object {

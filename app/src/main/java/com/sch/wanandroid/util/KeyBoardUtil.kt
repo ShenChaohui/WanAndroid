@@ -7,7 +7,7 @@ import android.widget.EditText
 /**
  * Created by Sch.
  * Date: 2020/4/23
- * description:
+ * description:软键盘
  */
 class KeyBoardUtil private constructor() {
     companion object {

@@ -9,7 +9,7 @@ import java.math.BigDecimal
 /**
  * Created by Sch.
  * Date: 2020/4/27
- * description:
+ * description: 清除缓存
  */
 object CacheDataManager {
     fun getTotalCacheSize(context: Context): String {

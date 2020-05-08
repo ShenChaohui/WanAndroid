@@ -22,6 +22,9 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
+/**
+ * 我的
+ */
 class MineFragment : BaseFragment<MineContract.IPresenter>(), MineContract.IView {
 
     override fun onCreate(savedInstanceState: Bundle?) {

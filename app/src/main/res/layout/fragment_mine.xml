@@ -2,7 +2,7 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/theme_1"
     android:overScrollMode="never">
 
     <RelativeLayout
@@ -27,9 +27,7 @@
             android:layout_marginTop="@dimen/qb_px_10"
             android:layout_toRightOf="@+id/ivHead"
             android:text="请先登录"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_title"
-            android:textStyle="bold" />
+            style="@style/text_1" />
 
         <TextView
             android:id="@+id/tvId"
@@ -72,9 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_1"
-                    android:textStyle="bold" />
+                    style="@style/text_1" />
 
                 <TextView
                     style="@style/text_2"
@@ -97,9 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_1"
-                    android:textStyle="bold" />
+                    style="@style/text_1" />
 
                 <TextView
                     style="@style/text_2"
@@ -118,7 +112,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/qb_px_8"
-                android:background="@color/division_line_thickening" />
+                android:background="@color/division_line" />
 
             <LinearLayout
                 android:id="@+id/llMyCollect"
@@ -148,7 +142,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/qb_px_1"
-                android:background="@color/division_line_thickening" />
+                android:background="@color/division_line" />
 
             <LinearLayout
                 android:id="@+id/llMyArticle"
@@ -178,7 +172,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/qb_px_1"
-                android:background="@color/division_line_thickening" />
+                android:background="@color/division_line" />
 
             <LinearLayout
                 android:id="@+id/llIssue"
@@ -209,7 +203,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/qb_px_8"
-                android:background="@color/division_line_thickening" />
+                android:background="@color/division_line" />
             <LinearLayout
                 android:id="@+id/llWebsite"
                 android:layout_width="match_parent"
@@ -238,7 +232,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/qb_px_1"
-                android:background="@color/division_line_thickening" />
+                android:background="@color/division_line" />
             <LinearLayout
                 android:id="@+id/llSet"
                 android:layout_width="match_parent"
@@ -267,7 +261,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/qb_px_1"
-                android:background="@color/division_line_thickening" />
+                android:background="@color/division_line" />
         </LinearLayout>
     </RelativeLayout>
 </androidx.core.widget.NestedScrollView>

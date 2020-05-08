@@ -22,6 +22,9 @@ import com.sch.wanandroid.util.AppManager
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.loadingTip
 
+/**
+ * 主页
+ */
 
 class HomeFragment : BaseFragment<HomeContract.IPresenter>(), HomeContract.IView {
 

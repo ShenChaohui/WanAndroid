@@ -12,6 +12,9 @@ import com.sch.wanandroid.R
 import com.sch.wanandroid.entity.ArticleBean
 import com.sch.wanandroid.util.ImageLoad
 
+/**
+ * 文章适配器
+ */
 class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     //设置类型标志
     private val TYPE_HAVE_IMAGE = 0x00

@@ -13,7 +13,7 @@ import com.sch.wanandroid.entity.CollectBean
 /**
  * Created by Sch.
  * Date: 2020/4/26
- * description:
+ * description:我的收藏列表适配器
  */
 class MyCollectAdapter : RecyclerView.Adapter<MyCollectAdapter.CollectViewHolder>() {
     val list = mutableListOf<CollectBean>()

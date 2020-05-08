@@ -3,9 +3,12 @@ package com.sch.wanandroid.base
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import com.sch.wanandroid.constants.Constants
 import com.sch.wanandroid.ui.login.LoginActivity
 import com.sch.wanandroid.util.AppManager
 import com.sch.wanandroid.util.ColorUtils
+import com.sch.wanandroid.util.PrefUtils
 import com.sch.wanandroid.util.StatusUtils
 
 abstract class BaseActivity<P : IBasePresenter> : AppCompatActivity(), IBaseView {
@@ -14,6 +17,11 @@ abstract class BaseActivity<P : IBasePresenter> : AppCompatActivity(), IBaseView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (PrefUtils.getBoolean(Constants.NIGHT_MODEL, false)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
         mPresenter = createPresenter()
         mPresenter?.let {
             mPresenter?.attachView(this)

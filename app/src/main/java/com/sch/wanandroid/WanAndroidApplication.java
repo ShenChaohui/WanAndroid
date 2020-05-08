@@ -2,11 +2,15 @@ package com.sch.wanandroid;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.coder.zzq.smartshow.core.SmartShow;
+import com.sch.wanandroid.constants.Constants;
 import com.sch.wanandroid.util.ColorUtils;
+import com.sch.wanandroid.util.PrefUtils;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -23,6 +27,7 @@ public class WanAndroidApplication extends Application {
 
     //static 代码段可以防止内存泄露
     static {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         //设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
             @NonNull
@@ -40,7 +45,7 @@ public class WanAndroidApplication extends Application {
                 //指定为经典Footer，默认是 BallPulseFooter
                 BallPulseFooter footer = new BallPulseFooter(context);
                 footer.setAnimatingColor(ColorUtils.parseColor(R.color.colorPrimary));
-                footer.setBackgroundColor(ColorUtils.parseColor(R.color.white));
+                footer.setBackgroundColor(ColorUtils.parseColor(R.color.theme_1));
                 return footer;
             }
         });
@@ -52,6 +57,7 @@ public class WanAndroidApplication extends Application {
         x.Ext.init(this);
         baseApplication = this;
         SmartShow.init(this);
+
     }
 
     public static Context getContext() {

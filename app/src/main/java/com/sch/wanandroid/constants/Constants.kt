@@ -57,4 +57,6 @@ object Constants {
      * 我的积分
      */
     const val MY_COIN = "myCoin"
+
+    const val NIGHT_MODEL  = "nightModel"
 }

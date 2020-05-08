@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_rank.smartRefresh
 /**
  * Created by Sch.
  * Date: 2020/4/26
- * description:
+ * description: 排行榜
  */
 class RankActivity : BaseActivity<RankConstant.IPresenter>(),
     RankConstant.IView {

@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_regist.*
 /**
  * Created by Sch.
  * Date: 2020/4/24
- * description:
+ * description:注册
  */
 class RegistActivity : BaseActivity<RegisterConstant.IPresenter>(), RegisterConstant.IView {
     /**

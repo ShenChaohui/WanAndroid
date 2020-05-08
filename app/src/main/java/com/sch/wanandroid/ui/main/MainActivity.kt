@@ -1,20 +1,43 @@
 package com.sch.wanandroid.ui.main
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import com.coder.zzq.smartshow.toast.SmartToast
 import com.sch.wanandroid.R
 import com.sch.wanandroid.base.BaseActivity
 import com.sch.wanandroid.base.IBasePresenter
 import com.sch.wanandroid.constants.Constants
+import com.sch.wanandroid.event.NightModel
 import com.sch.wanandroid.ui.main.discover.DiscoverFragment
 import com.sch.wanandroid.ui.main.home.HomeFragment
 import com.sch.wanandroid.ui.main.mine.MineFragment
 import com.sch.wanandroid.ui.main.tab.TabFragment
+import com.sch.wanandroid.util.PrefUtils
+import com.zs.wanandroid.event.LoginEvent
 import kotlinx.android.synthetic.main.activity_main.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class MainActivity : BaseActivity<IBasePresenter>() {
     private var lastIndex = 0 //上一次切换的fragment下标
     private val fragmentList by lazy { mutableListOf<Fragment>() }//切换的fragment集合
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        EventBus.getDefault().register(this)
+        val temp = savedInstanceState?.getInt("lastIndex")
+        temp?.let {
+            lastIndex = it
+            setFragmentPosition(lastIndex)
+        }
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("lastIndex", lastIndex)
+        super.onSaveInstanceState(outState)
+    }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
@@ -71,7 +94,7 @@ class MainActivity : BaseActivity<IBasePresenter>() {
         //添加我的页面
         fragmentList.add(MineFragment())
         //默认展示第0个页面
-        setFragmentPosition(0)
+        setFragmentPosition(lastIndex)
     }
 
     private fun setFragmentPosition(position: Int) {
@@ -99,4 +122,26 @@ class MainActivity : BaseActivity<IBasePresenter>() {
         return null
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
+
+    /**
+     * 夜间模式
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public fun nightModelEvent(nightModel: NightModel) {
+        recreate()
+    }
+    var lastTime: Long = 0
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() - this.lastTime > 2000L) {
+            SmartToast.show("再按一次退出程序")
+            this.lastTime = System.currentTimeMillis()
+            return
+        } else {
+            super.onBackPressed()
+        }
+    }
 }

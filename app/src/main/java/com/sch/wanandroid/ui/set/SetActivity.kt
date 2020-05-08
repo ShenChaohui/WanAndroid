@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import com.coder.zzq.smartshow.dialog.DialogBtnClickListener
 import com.coder.zzq.smartshow.dialog.EnsureDialog
 import com.coder.zzq.smartshow.dialog.LoadingDialog
@@ -15,6 +16,8 @@ import com.coder.zzq.smartshow.toast.SmartToast
 import com.sch.wanandroid.R
 import com.sch.wanandroid.base.BaseActivity
 import com.sch.wanandroid.constants.Constants
+import com.sch.wanandroid.event.NightModel
+import com.sch.wanandroid.ui.main.MainActivity
 import com.sch.wanandroid.ui.web.WebActivity
 import com.sch.wanandroid.util.AppManager
 import com.sch.wanandroid.util.CacheDataManager
@@ -22,11 +25,13 @@ import com.sch.wanandroid.util.PrefUtils
 import com.zs.wanandroid.event.LogoutEvent
 import kotlinx.android.synthetic.main.activity_set.*
 import org.greenrobot.eventbus.EventBus
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 /**
  * Created by Sch.
  * Date: 2020/4/26
- * description:
+ * description:设置
  */
 class SetActivity : BaseActivity<SetContract.IPresenter>(), SetContract.IView {
     private val updataDialog by lazy {
@@ -46,7 +51,7 @@ class SetActivity : BaseActivity<SetContract.IPresenter>(), SetContract.IView {
             })
 
     }
-    private var copyrightDialog:Dialog? = null
+    private var copyrightDialog: Dialog? = null
 
     private var appAuthorInfoDialog: Dialog? = null
 
@@ -56,6 +61,7 @@ class SetActivity : BaseActivity<SetContract.IPresenter>(), SetContract.IView {
         initCopyrightInfoDialog()
         tvCacheValue.text = CacheDataManager.getTotalCacheSize(this)
         tvVersionsValue.text = "v ${AppManager.getVersionName(this)}"
+        switchNightModel.isChecked = PrefUtils.getBoolean(Constants.NIGHT_MODEL, false)
     }
 
     private fun initAppAuthorInfoDialog() {
@@ -86,6 +92,7 @@ class SetActivity : BaseActivity<SetContract.IPresenter>(), SetContract.IView {
         builder.setView(view)
         appAuthorInfoDialog = builder.create()
     }
+
     private fun initCopyrightInfoDialog() {
         val builder = AlertDialog.Builder(this)
         val view = LayoutInflater.from(this).inflate(R.layout.dialog_copyright_info, null)
@@ -122,6 +129,22 @@ class SetActivity : BaseActivity<SetContract.IPresenter>(), SetContract.IView {
         }
         tvCopyright.setOnClickListener {
             copyrightDialog?.show()
+        }
+        tvNightModel.setOnClickListener {
+            if (switchNightModel.isChecked) {
+                switchNightModel.isChecked = false
+                PrefUtils.setBoolean(Constants.NIGHT_MODEL, false)
+
+            } else {
+                switchNightModel.isChecked = true
+                PrefUtils.setBoolean(Constants.NIGHT_MODEL, true)
+
+            }
+            window.setWindowAnimations(R.style.NightModelAnim)
+            switchNightModel.postDelayed(Runnable {
+                EventBus.getDefault().post(NightModel())
+                recreate()
+            },200)
         }
     }
 

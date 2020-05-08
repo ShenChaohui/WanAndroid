@@ -11,9 +11,7 @@ import com.sch.wanandroid.widget.GlideRoundTransform
 
 /**
  * des 图片加载代理类
- *
- * @author zs
- * @date 2020-03-14
+
  */
 class ImageLoad{
     companion object{

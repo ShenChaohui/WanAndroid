@@ -4,26 +4,26 @@
     <color name="colorPrimaryDark">@color/theme_2</color>
     <color name="colorAccent">@color/theme_2</color>
     <!--    #F60B0B-->
-    <color name="theme">#F60B0B</color>
-    <color name="theme_1">#fff</color>
-    <color name="theme_2">#00CAAE</color>
+    <color name="theme">#ED775F</color>
+    <color name="theme_1">#241f1b</color>
+    <color name="theme_2">#4195bb</color>
 
-    <color name="normal_color">#bfbfbf</color>
-    <color name="icon">#333</color>
+    <color name="normal_color">#666</color>
+    <color name="icon">#999</color>
 
     <color name="transparent">#00FFFFFF</color>
     <!--    分割线颜色-->
-    <color name="division_line">#EDEDED</color>
+    <color name="division_line">#322</color>
 
     <!--    点击波纹效果颜色-->
     <color name="ripple_gray">#D1D1D1</color>
 
-    <color name="search_bg_gray">#F7F7F7</color>
+    <color name="search_bg_gray">#888</color>
 
     <!--    一级标题颜色-->
-    <color name="text_1">#333333</color>
+    <color name="text_1">#753e2c</color>
     <!--    二级标题颜色-->
-    <color name="text_2">#999999</color>
+    <color name="text_2">#76423f</color>
     <!--    三级标题颜色-->
-    <color name="text_3">#bbbbbb</color>
+    <color name="text_3">#7a5837</color>
 </resources>

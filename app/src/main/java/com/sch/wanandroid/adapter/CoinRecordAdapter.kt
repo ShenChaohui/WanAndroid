@@ -11,7 +11,7 @@ import com.sch.wanandroid.entity.CoinRecordBean
 /**
  * Created by Sch.
  * Date: 2020/4/26
- * description:
+ * description:我的积分列表适配器
  */
 class CoinRecordAdapter : RecyclerView.Adapter<CoinRecordAdapter.CoinRecordViewHolder>() {
     val list = mutableListOf<CoinRecordBean>()

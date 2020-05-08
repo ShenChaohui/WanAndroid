@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@color/theme_1"
     android:padding="@dimen/padding">
 
     <TextView
@@ -27,6 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            style="@style/text_2"
             android:paddingTop="@dimen/qb_px_5"
             android:paddingBottom="@dimen/qb_px_5"
             android:text="@string/AppAuthorWX" />
@@ -48,6 +50,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            style="@style/text_2"
+
             android:paddingTop="@dimen/qb_px_5"
             android:paddingBottom="@dimen/qb_px_5"
             android:text="@string/AppAuthorEmail" />
@@ -69,8 +73,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ellipsize="end"
-            android:maxLines="1"
+            style="@style/text_2"
             android:paddingTop="@dimen/qb_px_5"
             android:paddingBottom="@dimen/qb_px_5"
             android:text="@string/AppAuthorJanshu" />
