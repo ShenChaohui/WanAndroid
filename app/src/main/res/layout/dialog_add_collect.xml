@@ -20,16 +20,16 @@
 
         <ImageView
             android:id="@+id/ivAddCollect"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/qb_px_50"
+            android:layout_height="@dimen/qb_px_50"
             android:background="@drawable/ripple_circle_bg"
-            android:padding="8dp"
+            android:padding="@dimen/qb_px_8"
             android:src="@mipmap/ic_add_collect" />
     </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/qb_px_50"
         android:hint="*请输入标题">
 
         <EditText
@@ -44,13 +44,13 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/qb_px_1"
         android:background="@color/division_line" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="@dimen/qb_px_50"
+        android:layout_marginTop="@dimen/qb_px_10"
         android:hint="请输入作者">
 
         <EditText
@@ -65,13 +65,13 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/qb_px_1"
         android:background="@color/division_line" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="@dimen/qb_px_50"
+        android:layout_marginTop="@dimen/qb_px_10"
         android:hint="*请输入链接地址">
 
         <EditText
@@ -85,6 +85,6 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/qb_px_1"
         android:background="@color/division_line" />
 </LinearLayout>

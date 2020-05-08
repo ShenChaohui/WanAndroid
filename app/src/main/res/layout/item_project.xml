@@ -11,15 +11,15 @@
     <ImageView
         android:id="@+id/ivTitle"
         android:scaleType="center"
-        android:layout_width="95dp"
-        android:layout_height="95dp" />
+        android:layout_width="@dimen/qb_px_95"
+        android:layout_height="@dimen/qb_px_95" />
 
     <TextView
         android:id="@+id/tvTitle"
         style="@style/text_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="@dimen/qb_px_10"
         android:layout_toRightOf="@+id/ivTitle"
         android:textStyle="bold" />
 
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
         android:layout_alignLeft="@+id/tvTitle"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/qb_px_10"
         android:maxLines="2" />
 
     <TextView
@@ -40,17 +40,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvDes"
         android:layout_alignLeft="@+id/tvTitle"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="@dimen/qb_px_10" />
 
     <ImageView
         android:id="@+id/ivCollect"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="@dimen/qb_px_30"
+        android:layout_height="@dimen/qb_px_30"
         android:layout_alignTop="@+id/tvNameData"
         android:layout_alignParentRight="true"
-        android:paddingLeft="10dp"
+        android:paddingLeft="@dimen/qb_px_10"
         android:src="@drawable/ic_heart_normal"
-        android:paddingTop="10dp" />
+        android:paddingTop="@dimen/qb_px_10" />
 
     <View
         android:layout_width="match_parent"

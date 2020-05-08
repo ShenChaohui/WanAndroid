@@ -14,7 +14,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="@dimen/qb_px_20">
 
         <TextView
             style="@style/text_1"
@@ -24,18 +24,18 @@
 
         <TextView
             android:id="@+id/tvWx"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:paddingTop="@dimen/qb_px_5"
+            android:paddingBottom="@dimen/qb_px_5"
             android:text="@string/AppAuthorWX" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="@dimen/qb_px_20">
 
         <TextView
             style="@style/text_1"
@@ -45,18 +45,18 @@
 
         <TextView
             android:id="@+id/tvEmail"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:paddingTop="@dimen/qb_px_5"
+            android:paddingBottom="@dimen/qb_px_5"
             android:text="@string/AppAuthorEmail" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="@dimen/qb_px_20">
 
         <TextView
             style="@style/text_1"
@@ -71,8 +71,8 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:paddingTop="@dimen/qb_px_5"
+            android:paddingBottom="@dimen/qb_px_5"
             android:text="@string/AppAuthorJanshu" />
     </LinearLayout>
 
@@ -81,9 +81,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/qb_px_20"
         android:background="@drawable/ripple_bg"
-        android:padding="5dp"
+        android:padding="@dimen/qb_px_5"
         android:text="确定"
         android:textColor="@color/theme_2" />
 </LinearLayout>

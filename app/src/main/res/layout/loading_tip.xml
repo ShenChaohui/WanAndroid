@@ -10,28 +10,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="@dimen/qb_px_180"
         android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/qb_px_100"
+            android:layout_height="@dimen/qb_px_100"
             android:src="@mipmap/null_data" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/qb_px_10"
             android:text="无数据"
-            android:textColor="@color/text_2"
-            android:textSize="16dp" />
+            style="@style/text_2" />
     </LinearLayout>
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/indicatorView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/qb_px_50"
+        android:layout_height="@dimen/qb_px_50"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:visibility="gone"
@@ -51,15 +50,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="网络异常"
-            android:textColor="@color/text_2"
-            android:textSize="16dp" />
+            style="@style/text_2" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="请点击刷新"
             android:textColor="@color/theme"
-            android:textSize="16dp" />
+            android:textSize="@dimen/qb_px_16" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -6,10 +6,10 @@
 
     <ImageView
         android:id="@+id/ivLogo"
-        android:layout_width="200dp"
+        android:layout_width="@dimen/qb_px_200"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="170dp"
+        android:layout_marginTop="@dimen/qb_px_170"
         android:src="@mipmap/logo" />
 
     <TextView
@@ -17,9 +17,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginTop="@dimen/qb_px_20"
+        android:layout_marginBottom="@dimen/qb_px_80"
         android:text="一个专业的Android社区"
         android:textColor="#999999"
-        android:textSize="20sp" />
+        android:textSize="@dimen/qb_px_20" />
 </RelativeLayout>

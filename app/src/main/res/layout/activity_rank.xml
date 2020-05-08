@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="@dimen/qb_px_55"
         android:background="@color/white"
         android:elevation="2dp"
         android:gravity="center_vertical"
@@ -16,30 +16,30 @@
 
         <ImageView
             android:id="@+id/ivBack"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/qb_px_50"
+            android:layout_height="@dimen/qb_px_50"
             android:background="@drawable/ripple_circle_bg"
-            android:padding="12dp"
+            android:padding="@dimen/qb_px_12"
 
             android:src="@drawable/ic_arrow_left" />
 
         <TextView
             style="@style/text_title"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
+            android:layout_height="@dimen/qb_px_50"
+            android:layout_marginLeft="@dimen/qb_px_10"
             android:layout_toRightOf="@+id/ivBack"
             android:gravity="center_vertical"
             android:text="排名" />
 
         <ImageView
             android:id="@+id/ivDetail"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/qb_px_50"
+            android:layout_height="@dimen/qb_px_50"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="@dimen/qb_px_10"
             android:background="@drawable/ripple_circle_bg"
-            android:padding="12dp"
+            android:padding="@dimen/qb_px_12"
             android:src="@drawable/ic_info" />
     </RelativeLayout>
 
@@ -72,23 +72,23 @@
         <RelativeLayout
             android:id="@+id/llMyRank"
             android:layout_width="match_parent"
-            android:layout_height="54dp"
+            android:layout_height="@dimen/qb_px_54"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
             android:elevation="3dp">
 
             <ImageView
-                android:layout_width="54dp"
-                android:layout_height="54dp"
-                android:layout_marginLeft="10dp"
-                android:padding="5dp"
+                android:layout_width="@dimen/qb_px_54"
+                android:layout_height="@dimen/qb_px_54"
+                android:layout_marginLeft="@dimen/qb_px_10"
+                android:padding="@dimen/qb_px_5"
                 android:src="@mipmap/logo_green" />
 
             <TextView
                 android:id="@+id/tvRank"
                 android:layout_width="wrap_content"
-                android:layout_height="54dp"
-                android:layout_marginLeft="70dp"
+                android:layout_height="@dimen/qb_px_54"
+                android:layout_marginLeft="@dimen/qb_px_70"
                 android:gravity="center_vertical"
                 android:textColor="@color/text_2"
                 android:textSize="@dimen/text_1"
@@ -97,7 +97,7 @@
             <TextView
                 android:id="@+id/tvCoinCount"
                 android:layout_width="wrap_content"
-                android:layout_height="54dp"
+                android:layout_height="@dimen/qb_px_54"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/padding"
                 android:gravity="center_vertical"

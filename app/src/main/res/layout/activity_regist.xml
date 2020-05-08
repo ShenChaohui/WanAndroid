@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="@dimen/qb_px_55"
         android:background="@color/white"
         android:elevation="2dp"
         android:gravity="center_vertical"
@@ -17,17 +17,17 @@
 
         <ImageView
             android:id="@+id/ivBack"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/qb_px_50"
+            android:layout_height="@dimen/qb_px_50"
             android:background="@drawable/ripple_circle_bg"
-            android:padding="12dp"
+            android:padding="@dimen/qb_px_12"
             android:src="@drawable/ic_arrow_left" />
 
         <TextView
             style="@style/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="@dimen/qb_px_10"
             android:text="注册" />
     </LinearLayout>
 
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="@dimen/qb_px_70"
         android:src="@mipmap/logo" />
 
     <LinearLayout
@@ -44,9 +44,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivLogo"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="@dimen/qb_px_20"
+        android:layout_marginTop="@dimen/qb_px_80"
+        android:layout_marginRight="@dimen/qb_px_20"
         android:orientation="horizontal">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -58,28 +58,28 @@
             <EditText
                 android:id="@+id/etUsername"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/qb_px_40"
                 android:background="@null"
                 android:inputType="phone" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
             android:id="@+id/ivClearUserName"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/qb_px_40"
+            android:layout_height="@dimen/qb_px_40"
             android:layout_gravity="bottom"
             android:background="@drawable/ripple_circle_bg"
-            android:padding="10dp"
+            android:padding="@dimen/qb_px_10"
             android:src="@drawable/ic_close" />
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/qb_px_1"
         android:layout_below="@+id/ll_name"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="@dimen/padding"
+        android:layout_marginRight="@dimen/padding"
         android:background="@color/division_line" />
 
     <LinearLayout
@@ -87,9 +87,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_name"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="@dimen/padding"
+        android:layout_marginTop="@dimen/qb_px_5"
+        android:layout_marginRight="@dimen/padding"
         android:orientation="horizontal">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -101,27 +101,27 @@
             <EditText
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/qb_px_40"
                 android:background="@null"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
             android:id="@+id/ivPasswordVisibility"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/qb_px_40"
+            android:layout_height="@dimen/qb_px_40"
             android:layout_gravity="bottom"
             android:background="@drawable/ripple_circle_bg"
-            android:padding="10dp"
+            android:padding="@dimen/qb_px_10"
             android:src="@mipmap/password_hide" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/qb_px_1"
         android:layout_below="@+id/ll_password"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="@dimen/padding"
+        android:layout_marginRight="@dimen/padding"
         android:background="@color/division_line" />
 
     <LinearLayout
@@ -129,9 +129,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_password"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="@dimen/padding"
+        android:layout_marginTop="@dimen/qb_px_5"
+        android:layout_marginRight="@dimen/padding"
         android:orientation="horizontal">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -143,37 +143,37 @@
             <EditText
                 android:id="@+id/etRePassword"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/qb_px_40"
                 android:background="@null"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
             android:id="@+id/ivRePasswordVisibility"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/qb_px_40"
+            android:layout_height="@dimen/qb_px_40"
             android:layout_gravity="bottom"
             android:background="@drawable/ripple_circle_bg"
-            android:padding="10dp"
+            android:padding="@dimen/qb_px_10"
             android:src="@mipmap/password_hide" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/qb_px_1"
         android:layout_below="@+id/ll_repassword"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="@dimen/padding"
+        android:layout_marginRight="@dimen/padding"
         android:background="@color/division_line" />
 
     <RelativeLayout
         android:id="@+id/llRegister"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/qb_px_40"
         android:layout_below="@id/ll_repassword"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="@dimen/padding"
+        android:layout_marginTop="@dimen/qb_px_30"
+        android:layout_marginRight="@dimen/padding"
         android:background="@color/theme">
 
         <TextView
@@ -188,8 +188,8 @@
 
         <com.wang.avi.AVLoadingIndicatorView
             android:id="@+id/indicatorView"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/qb_px_30"
+            android:layout_height="@dimen/qb_px_30"
             android:layout_centerInParent="true"
             android:visibility="gone"
             app:indicatorColor="@color/white"

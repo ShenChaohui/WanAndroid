@@ -11,10 +11,10 @@
 
         <ImageView
             android:id="@+id/ivHead"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginLeft="@dimen/set_padding"
-            android:layout_marginTop="80dp"
+            android:layout_width="@dimen/qb_px_75"
+            android:layout_height="@dimen/qb_px_75"
+            android:layout_marginLeft="@dimen/padding"
+            android:layout_marginTop="@dimen/qb_px_80"
             android:scaleType="centerCrop"
             android:src="@mipmap/logo_green" />
 
@@ -23,12 +23,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/ivHead"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="@dimen/qb_px_10"
+            android:layout_marginTop="@dimen/qb_px_10"
             android:layout_toRightOf="@+id/ivHead"
             android:text="请先登录"
             android:textColor="@color/black"
-            android:textSize="17dp"
+            android:textSize="@dimen/text_title"
             android:textStyle="bold" />
 
         <TextView
@@ -37,28 +37,26 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvUserName"
             android:layout_alignLeft="@+id/tvUserName"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/qb_px_5"
             android:text="id:---"
-            android:textColor="@color/text_2"
-            android:textSize="13dp" />
+            style="@style/text_2" />
         <TextView
             android:id="@+id/tvLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvId"
             android:layout_alignLeft="@+id/tvUserName"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="@dimen/qb_px_3"
             android:text="等级:0"
-            android:textColor="@color/text_2"
-            android:textSize="13dp" />
+            style="@style/text_2"  />
         <LinearLayout
             android:id="@+id/llCoinInfo"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_below="@+id/ivHead"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/set_padding"
-            android:paddingRight="@dimen/set_padding">
+            android:paddingLeft="@dimen/padding"
+            android:paddingRight="@dimen/padding">
 
             <LinearLayout
                 android:id="@+id/llCoin"
@@ -119,29 +117,29 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
+                android:layout_height="@dimen/qb_px_8"
                 android:background="@color/division_line_thickening" />
 
             <LinearLayout
                 android:id="@+id/llMyCollect"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="@dimen/qb_px_60"
                 android:background="@drawable/ripple_bg"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/set_padding"
-                android:paddingRight="@dimen/set_padding">
+                android:paddingLeft="@dimen/padding"
+                android:paddingRight="@dimen/padding">
 
                 <ImageView
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
+                    android:layout_width="@dimen/qb_px_27"
+                    android:layout_height="@dimen/qb_px_27"
                     android:src="@drawable/ic_heart_red" />
 
                 <TextView
                     style="@style/text_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="13dp"
+                    android:layout_marginLeft="@dimen/qb_px_13"
                     android:drawableRight="@drawable/ic_arrow_right"
                     android:gravity="center_vertical"
                     android:text="我的收藏"
@@ -149,29 +147,29 @@
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/qb_px_1"
                 android:background="@color/division_line_thickening" />
 
             <LinearLayout
                 android:id="@+id/llMyArticle"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="@dimen/qb_px_60"
                 android:background="@drawable/ripple_bg"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/set_padding"
-                android:paddingRight="@dimen/set_padding">
+                android:paddingLeft="@dimen/padding"
+                android:paddingRight="@dimen/padding">
 
                 <ImageView
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
+                    android:layout_width="@dimen/qb_px_27"
+                    android:layout_height="@dimen/qb_px_27"
                     android:src="@mipmap/my_article" />
 
                 <TextView
                     style="@style/text_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="13dp"
+                    android:layout_marginLeft="@dimen/qb_px_13"
                     android:drawableRight="@drawable/ic_arrow_right"
                     android:gravity="center_vertical"
                     android:text="我的文章"
@@ -179,29 +177,29 @@
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/qb_px_1"
                 android:background="@color/division_line_thickening" />
 
             <LinearLayout
                 android:id="@+id/llIssue"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="@dimen/qb_px_60"
                 android:background="@drawable/ripple_bg"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/set_padding"
-                android:paddingRight="@dimen/set_padding">
+                android:paddingLeft="@dimen/padding"
+                android:paddingRight="@dimen/padding">
 
                 <ImageView
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
+                    android:layout_width="@dimen/qb_px_27"
+                    android:layout_height="@dimen/qb_px_27"
                     android:src="@mipmap/ic_issue" />
 
                 <TextView
                     style="@style/text_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="13dp"
+                    android:layout_marginLeft="@dimen/qb_px_13"
                     android:drawableRight="@drawable/ic_arrow_right"
                     android:gravity="center_vertical"
                     android:text="问答"
@@ -210,28 +208,28 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
+                android:layout_height="@dimen/qb_px_8"
                 android:background="@color/division_line_thickening" />
             <LinearLayout
                 android:id="@+id/llWebsite"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="@dimen/qb_px_60"
                 android:background="@drawable/ripple_bg"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/set_padding"
-                android:paddingRight="@dimen/set_padding">
+                android:paddingLeft="@dimen/padding"
+                android:paddingRight="@dimen/padding">
 
                 <ImageView
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
+                    android:layout_width="@dimen/qb_px_27"
+                    android:layout_height="@dimen/qb_px_27"
                     android:src="@drawable/ic_website" />
 
                 <TextView
                     style="@style/text_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="13dp"
+                    android:layout_marginLeft="@dimen/qb_px_13"
                     android:drawableRight="@drawable/ic_arrow_right"
                     android:gravity="center_vertical"
                     android:text="网站"
@@ -239,28 +237,28 @@
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/qb_px_1"
                 android:background="@color/division_line_thickening" />
             <LinearLayout
                 android:id="@+id/llSet"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="@dimen/qb_px_60"
                 android:background="@drawable/ripple_bg"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/set_padding"
-                android:paddingRight="@dimen/set_padding">
+                android:paddingLeft="@dimen/padding"
+                android:paddingRight="@dimen/padding">
 
                 <ImageView
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
+                    android:layout_width="@dimen/qb_px_27"
+                    android:layout_height="@dimen/qb_px_27"
                     android:src="@drawable/ic_set" />
 
                 <TextView
                     style="@style/text_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="13dp"
+                    android:layout_marginLeft="@dimen/qb_px_13"
                     android:drawableRight="@drawable/ic_arrow_right"
                     android:gravity="center_vertical"
                     android:text="设置"
@@ -268,9 +266,8 @@
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/qb_px_1"
                 android:background="@color/division_line_thickening" />
-
         </LinearLayout>
     </RelativeLayout>
 </androidx.core.widget.NestedScrollView>

@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvDate"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/qb_px_10"
         android:maxLines="3"
         tools:text="分布式协调工具之zookeeper使用篇-Zookeeper系统核心模型" />
 
@@ -49,21 +49,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/qb_px_10"
         tools:text="开发环境" />
 
     <ImageView
         android:id="@+id/ivCollect"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="@dimen/qb_px_30"
+        android:layout_height="@dimen/qb_px_30"
         android:layout_alignTop="@+id/tvChapterName"
         android:layout_alignParentRight="true"
-        android:padding="5dp"
+        android:padding="@dimen/qb_px_5"
         android:src="@drawable/ic_heart_normal" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/qb_px_1"
         android:layout_below="@+id/tvChapterName"
         android:layout_marginTop="@dimen/padding"
         android:background="@color/division_line" />

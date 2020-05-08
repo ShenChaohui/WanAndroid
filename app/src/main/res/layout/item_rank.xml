@@ -7,16 +7,16 @@
 
     <ImageView
         android:id="@+id/ivRank"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="@dimen/qb_px_30"
+        android:layout_height="@dimen/qb_px_30"
         android:src="@mipmap/gold_crown" />
 
     <TextView
         android:id="@+id/tvRank"
         style="@style/text_2"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginLeft="10dp"
+        android:layout_height="@dimen/qb_px_30"
+        android:layout_marginLeft="@dimen/qb_px_10"
         android:gravity="center"
         android:textSize="@dimen/text_1"
         android:textStyle="bold"
@@ -26,15 +26,15 @@
         android:id="@+id/tvName"
         style="@style/text_1"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginLeft="40dp"
+        android:layout_height="@dimen/qb_px_30"
+        android:layout_marginLeft="@dimen/qb_px_40"
         android:layout_toRightOf="@+id/tvRank"
         android:gravity="center" />
 
     <TextView
         android:id="@+id/tvCoin"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="@dimen/qb_px_30"
         android:layout_alignParentRight="true"
         android:gravity="center"
         android:textColor="@color/theme"

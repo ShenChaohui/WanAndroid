@@ -23,7 +23,7 @@
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appBar"
                 android:layout_width="match_parent"
-                android:layout_height="215dp"
+                android:layout_height="@dimen/qb_px_215"
                 android:background="@color/transparent">
 
                 <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -45,15 +45,15 @@
             <cn.bingoogolapple.bgabanner.BGABanner
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="@dimen/qb_px_250"
                 app:banner_indicatorGravity="left"
                 app:banner_pageChangeDuration="1000"
                 app:banner_pointAutoPlayAble="true"
                 app:banner_pointAutoPlayInterval="3000"
                 app:banner_pointContainerBackground="@color/transparent"
-                app:banner_pointContainerLeftRightPadding="@dimen/padding_left"
+                app:banner_pointContainerLeftRightPadding="@dimen/padding"
                 app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
-                app:banner_pointTopBottomMargin="20dp" />
+                app:banner_pointTopBottomMargin="@dimen/qb_px_20" />
 
 
             <androidx.core.widget.NestedScrollView
@@ -67,32 +67,32 @@
                     android:id="@+id/llRadius"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/qb_px_5"
                     android:background="@drawable/home_top_bg"
                     android:orientation="vertical">
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="16dp"
+                        android:layout_height="@dimen/qb_px_16"
                         android:background="@drawable/home_top_bg" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="42dp"
+                        android:layout_height="@dimen/qb_px_42"
                         android:background="@color/white"
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
-                            android:layout_marginLeft="10dp"
-                            android:padding="8dp"
+                            android:layout_width="@dimen/qb_px_42"
+                            android:layout_height="@dimen/qb_px_42"
+                            android:layout_marginLeft="@dimen/qb_px_10"
+                            android:padding="@dimen/qb_px_8"
                             android:src="@mipmap/article_logo" />
 
                         <TextView
                             style="@style/text_title"
                             android:layout_width="match_parent"
-                            android:layout_height="42dp"
+                            android:layout_height="@dimen/qb_px_42"
                             android:gravity="center_vertical"
                             android:text="文章列表" />
                     </LinearLayout>
@@ -111,7 +111,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rlSearch"
         android:layout_width="match_parent"
-        android:layout_height="84dp"
+        android:layout_height="@dimen/qb_px_84"
         android:elevation="2dp"
         android:alpha="0"
         android:background="@color/white">
@@ -120,20 +120,20 @@
             style="@style/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/set_padding"
-            android:layout_marginTop="40dp"
+            android:layout_marginLeft="@dimen/padding"
+            android:layout_marginTop="@dimen/qb_px_40"
             android:text="首页"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/ivSearch"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="38dp"
+            android:layout_width="@dimen/qb_px_32"
+            android:layout_height="@dimen/qb_px_32"
+            android:layout_marginTop="@dimen/qb_px_38"
             android:layout_marginRight="@dimen/padding"
             android:background="@drawable/search_bg_radius"
-            android:padding="3dp"
+            android:padding="@dimen/qb_px_3"
             android:src="@drawable/ic_search"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -7,15 +7,15 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="@dimen/qb_px_75"
         android:layout_gravity="bottom">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/qb_px_40"
             android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="@dimen/qb_px_5"
             app:tabRippleColor ="@color/transparent"
             app:tabIndicatorAnimationDuration="@android:integer/config_longAnimTime"
             app:tabIndicatorColor="@color/colorPrimary"

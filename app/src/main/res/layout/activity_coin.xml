@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="@dimen/qb_px_55"
         android:background="@color/white"
         android:elevation="2dp"
         android:gravity="center_vertical"
@@ -17,24 +17,24 @@
 
         <ImageView
             android:id="@+id/ivBack"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/qb_px_50"
+            android:layout_height="@dimen/qb_px_50"
             android:background="@drawable/ripple_circle_bg"
-            android:padding="12dp"
+            android:padding="@dimen/qb_px_12"
             android:src="@drawable/ic_arrow_left" />
 
         <TextView
             style="@style/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="@dimen/qb_px_10"
             android:text="积分" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_my_coin"
         android:layout_width="match_parent"
-        android:layout_height="215dp"
+        android:layout_height="@dimen/qb_px_215"
         android:layout_below="@+id/title"
         android:gravity="center"
         android:orientation="vertical">
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:text="0"
             android:textColor="@color/theme"
-            android:textSize="60dp" />
+            android:textSize="@dimen/qb_px_60" />
 
         <TextView
             style="@style/text_1"
@@ -68,7 +68,7 @@
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="215dp"
+                android:layout_height="@dimen/qb_px_215"
                 android:background="@color/transparent">
 
                 <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -90,33 +90,33 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/qb_px_5"
                     android:background="@drawable/home_top_bg"
                     android:elevation="10dp"
                     android:orientation="vertical">
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="16dp"
+                        android:layout_height="@dimen/qb_px_16"
                         android:background="@drawable/home_top_bg" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="42dp"
+                        android:layout_height="@dimen/qb_px_42"
                         android:background="@color/white"
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
-                            android:layout_marginLeft="10dp"
-                            android:padding="10dp"
+                            android:layout_width="@dimen/qb_px_42"
+                            android:layout_height="@dimen/qb_px_42"
+                            android:layout_marginLeft="@dimen/qb_px_10"
+                            android:padding="@dimen/qb_px_10"
                             android:src="@mipmap/icon_integral" />
 
                         <TextView
                             style="@style/text_title"
                             android:layout_width="match_parent"
-                            android:layout_height="42dp"
+                            android:layout_height="@dimen/qb_px_42"
                             android:gravity="center_vertical"
                             android:text="积分记录" />
                     </LinearLayout>

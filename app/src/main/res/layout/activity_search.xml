@@ -7,21 +7,21 @@
 
     <ImageView
         android:id="@+id/ivBack"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:padding="12dp"
+        android:layout_width="@dimen/qb_px_50"
+        android:layout_height="@dimen/qb_px_50"
+        android:layout_marginTop="@dimen/qb_px_30"
+        android:padding="@dimen/qb_px_12"
 
         android:background="@drawable/ripple_circle_bg"
         android:src="@drawable/ic_arrow_left" />
 
     <RelativeLayout
         android:id="@+id/rlTop"
-        android:layout_width="40dp"
-        android:layout_height="32dp"
+        android:layout_width="@dimen/qb_px_40"
+        android:layout_height="@dimen/qb_px_32"
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginLeft="@dimen/qb_px_10"
+        android:layout_marginTop="@dimen/qb_px_38"
         android:layout_marginRight="@dimen/padding"
         android:background="@drawable/search_bg_radius"
         android:focusable="true"
@@ -29,35 +29,35 @@
 
         <ImageView
             android:id="@+id/imgSearch"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/qb_px_32"
+            android:layout_height="@dimen/qb_px_32"
             android:layout_centerVertical="true"
-            android:padding="3dp"
+            android:padding="@dimen/qb_px_3"
             android:src="@drawable/ic_search" />
 
         <EditText
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="@dimen/qb_px_5"
+            android:layout_marginRight="@dimen/qb_px_15"
+            android:layout_marginBottom="@dimen/qb_px_5"
             android:layout_toRightOf="@+id/imgSearch"
             android:background="@null"
             android:hint="请输入关键字进行搜索"
             android:imeOptions="actionSearch"
             android:inputType="text"
-            android:paddingRight="10dp"
+            android:paddingRight="@dimen/qb_px_10"
             android:textColor="@color/text_1"
-            android:textSize="15sp" />
+            android:textSize="@dimen/text_1" />
 
         <ImageView
             android:id="@+id/ivClear"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/qb_px_32"
+            android:layout_height="@dimen/qb_px_32"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            android:padding="7dp"
+            android:layout_marginRight="@dimen/qb_px_5"
+            android:padding="@dimen/qb_px_7"
             android:src="@mipmap/search_clear"
             android:visibility="gone" />
     </RelativeLayout>
@@ -66,52 +66,50 @@
         android:id="@+id/rlRecord"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="@dimen/qb_px_90"
         android:paddingLeft="@dimen/padding"
         android:paddingRight="@dimen/padding">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="@dimen/qb_px_9"
             android:text="历史搜索"
-            android:textColor="@color/text_1"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            style="@style/text_title" />
 
         <TextView
             android:id="@+id/tvClear"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/qb_px_40"
+            android:layout_height="@dimen/qb_px_40"
             android:layout_alignParentRight="true"
             android:background="@drawable/ripple_bg"
             android:gravity="center"
             android:text="清空"
-            android:textSize="15sp" />
+            android:textSize="@dimen/text_1" />
 
         <com.donkingliang.labels.LabelsView
             android:id="@+id/labelsView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvClear"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/qb_px_5"
             app:labelBackground="@drawable/tag_ripple_bg"
             app:labelTextColor="@color/text_2"
-            app:labelTextPaddingBottom="3dp"
-            app:labelTextPaddingLeft="10dp"
-            app:labelTextPaddingRight="10dp"
-            app:labelTextPaddingTop="3dp"
+            app:labelTextPaddingBottom="@dimen/qb_px_3"
+            app:labelTextPaddingLeft="@dimen/qb_px_10"
+            app:labelTextPaddingRight="@dimen/qb_px_10"
+            app:labelTextPaddingTop="@dimen/qb_px_3"
             app:labelTextSize="@dimen/text_2"
-            app:lineMargin="16dp"
+            app:lineMargin="@dimen/qb_px_16"
             app:selectType="NONE"
-            app:wordMargin="10dp" />
+            app:wordMargin="@dimen/qb_px_10" />
     </RelativeLayout>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/smartRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="@dimen/qb_px_90"
         android:visibility="gone"
         app:srlEnableAutoLoadMore="false"
         app:srlEnableRefresh="false">
@@ -128,6 +126,6 @@
         android:id="@+id/loadingTip"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="@dimen/qb_px_90"
         android:visibility="gone" />
 </RelativeLayout>
